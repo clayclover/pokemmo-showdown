@@ -9328,7 +9328,7 @@ export const Moves: {[moveid: string]: MoveData} = {
 	knockoff: {
 		num: 282,
 		accuracy: 100,
-		basePower: 65,
+		basePower: 20,
 		category: "Physical",
 		name: "Knock Off",
 		pp: 20,
