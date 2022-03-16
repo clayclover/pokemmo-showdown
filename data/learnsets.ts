@@ -15351,7 +15351,7 @@ export const Learnsets: {[speciesid: string]: LearnsetData} = {
 			watergun: ["7V"],
 			waterpulse: ["7T", "6T", "4M", "3M"],
 			wildcharge: ["8M", "7M", "6M", "5M"],
-			wish: ["3S0"],
+			wish: ["3S0", "8M"],
 			workup: ["8M", "7M", "5M"],
 			zapcannon: ["7V"],
 			zenheadbutt: ["8M", "7T", "6T", "5T", "4T"],
