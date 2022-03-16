@@ -727,4 +727,4 @@ exports.grouplist = [
 		symbol: '!',
 		punishgroup: 'MUTE',
 	},
-];C
+];
