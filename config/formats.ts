@@ -152,7 +152,7 @@ export const Formats: FormatList = [
 			`&bullet; <a href="https://www.smogon.com/forums/threads/3674058/">OU Viability Rankings</a>`,
 		],
 
-		mod: 'mmo',
+		mod: 'gen8',
 		ruleset: ['Standard', 'Dynamax Clause'],
 		banlist: [
 			'Uber', 'AG', 'Arena Trap', 'Moody', 'Power Construct', 'Sand Veil', 'Shadow Tag', 'Snow Cloak',
