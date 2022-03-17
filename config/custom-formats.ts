@@ -1,3 +1,7 @@
+export const Formats: FormatList = [
+
+	// Sw/Sh Singles
+	///////////////////////////////////////////////////////////////////
 {
 		section: "MMO Tiers",
 	},
