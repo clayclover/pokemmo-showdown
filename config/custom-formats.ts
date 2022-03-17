@@ -3,7 +3,7 @@ export const Formats: FormatList = [
 	///////////////////////////////////////////////////////////////////
 {
 		section: "MMO Tiers",
-	}
+	},
 	{
 		name: "[MMO] OU"
 		desc: `MMO OU. I don't know what kind of fancy description you were expecting here`,
