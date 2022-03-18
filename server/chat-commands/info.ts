@@ -573,7 +573,7 @@ export const commands: Chat.ChatCommands = {
 		const newTargets = dex.dataSearch(target);
 		const showDetails = (cmd.startsWith('dt') || cmd === 'details');
 		if (!newTargets || !newTargets.length) {
-			return this.errorReply(`No Pok\u00e9mon, item, move, ability or nature named '${target}' was found${Dex.gen > dex.gen ? ` in Gen ${dex.gen}` : ""}. (Check your spelling?)`);
+			return this.errorReply(`I've only done this to confirm if there's something wrong with how Clay updates the showdown server`);
 		}
 
 		for (const [i, newTarget] of newTargets.entries()) {
