@@ -32,6 +32,7 @@ export const Formats: FormatList = [
 			`don't expect anything here`,
 		],
 		mod: 'mmo',
+		forcedLevel: 50,
 		ruleset: ['Standard', 'Dynamax Clause'],
 		banlist: [
 			'Uber', 'AG', 'Arena Trap', 'Moody', 'Power Construct', 'Sand Veil', 'Shadow Tag', 'Snow Cloak',
@@ -45,6 +46,7 @@ export const Formats: FormatList = [
 			`don't expect anything here`,
 		],
 		mod: 'mmo',
+		forcedLevel: 50,
 		ruleset: ['[MMO] OU'],
 		banlist: ['OU', 'UUBL'],
 	},
@@ -55,6 +57,7 @@ export const Formats: FormatList = [
 			`don't expect anything here`,
 		],
 		mod: 'mmo',
+		forcedLevel: 50,
 		ruleset: ['[MMO] UU'],
 		banlist: ['UU', 'NUBL'],
 	},
@@ -65,6 +68,7 @@ export const Formats: FormatList = [
 			`don't expect anything here`,
 		],
 		mod: 'mmo',
+		forcedLevel: 50,
 		ruleset: ['[MMO] UU'],
 		banlist: ['UU', 'NUBL'],
 	},
@@ -75,6 +79,7 @@ export const Formats: FormatList = [
 			`don't expect anything here`,
 		],
 		mod: 'mmo',
+		forcedLevel: 50,
 		ruleset: ['Little Cup', 'Standard', 'Dynamax Clause'],
 		banlist: ['UU', 'NUBL'],
 	},
@@ -84,7 +89,7 @@ export const Formats: FormatList = [
 		threads: [
 			`For real though`,
 		],
-
+		forcedLevel: 50,
 		mod: 'mmo',
 		gameType: 'doubles',
 		ruleset: ['Standard Doubles', 'Dynamax Clause', 'Swagger Clause'],
