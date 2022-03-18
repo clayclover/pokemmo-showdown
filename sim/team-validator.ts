@@ -1372,7 +1372,7 @@ export class TeamValidator {
 					}
 					return `${species.name} is tagged ${tag.name}, which is ${banReason}.`;
 				}
-			} catch(e) {
+			} catch (e) {
 				continue;
 				return null;
 			}
