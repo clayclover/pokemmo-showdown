@@ -1344,32 +1344,37 @@ export class TeamValidator {
 		for (const ruleid of ruleTable.tagRules) {
 			if (ruleid.startsWith('*')) continue;
 			const tagid = ruleid.slice(12);
-			const tag = Tags[tagid];
-			if ((tag.speciesFilter || tag.genericFilter)!(tierSpecies)) {
-				const existenceTag = EXISTENCE_TAG.includes(tagid);
-				if (ruleid.startsWith('+')) {
-					// we want rules like +CAP to trump -Nonexistent, but most tags shouldn't
-					if (!existenceTag && nonexistentCheck) continue;
-					return null;
+			try{
+				const tag = Tags[tagid];
+				if ((tag.speciesFilter || tag.genericFilter)(tierSpecies)) {
+					const existenceTag = EXISTENCE_TAG.includes(tagid);
+					if (ruleid.startsWith('+')) {
+						// we want rules like +CAP to trump -Nonexistent, but most tags shouldn't
+						if (!existenceTag && nonexistentCheck) continue;
+						return null;
+					}
+					if (existenceTag) {
+						if (tierSpecies.isNonstandard === 'Past' || tierSpecies.isNonstandard === 'Future') {
+							return `${tierSpecies.name} does not exist in Gen ${dex.gen}.`;
+						}
+						if (tierSpecies.isNonstandard === 'LGPE') {
+							return `${tierSpecies.name} does not exist in Ultra Sun/Moon, only in Let's Go Pikachu/Eevee.`;
+						}
+						if (tierSpecies.isNonstandard === 'CAP') {
+							return `${tierSpecies.name} is a CAP and does not exist in this game.`;
+						}
+						if (tierSpecies.isNonstandard === 'Unobtainable') {
+							return `${tierSpecies.name} is not possible to obtain in this game.`;
+						}
+						if (tierSpecies.isNonstandard === 'Gigantamax') {
+							return `${tierSpecies.name} is a placeholder for a Gigantamax sprite, not a real Pokémon. (This message is likely to be a validator bug.)`;
+						}
+					}
+					return `${species.name} is tagged ${tag.name}, which is ${banReason}.`;
 				}
-				if (existenceTag) {
-					if (tierSpecies.isNonstandard === 'Past' || tierSpecies.isNonstandard === 'Future') {
-						return `${tierSpecies.name} does not exist in Gen ${dex.gen}.`;
-					}
-					if (tierSpecies.isNonstandard === 'LGPE') {
-						return `${tierSpecies.name} does not exist in Ultra Sun/Moon, only in Let's Go Pikachu/Eevee.`;
-					}
-					if (tierSpecies.isNonstandard === 'CAP') {
-						return `${tierSpecies.name} is a CAP and does not exist in this game.`;
-					}
-					if (tierSpecies.isNonstandard === 'Unobtainable') {
-						return `${tierSpecies.name} is not possible to obtain in this game.`;
-					}
-					if (tierSpecies.isNonstandard === 'Gigantamax') {
-						return `${tierSpecies.name} is a placeholder for a Gigantamax sprite, not a real Pokémon. (This message is likely to be a validator bug.)`;
-					}
-				}
-				return `${species.name} is tagged ${tag.name}, which is ${banReason}.`;
+			}catch(e){
+				continue;
+				return null;
 			}
 		}
 
