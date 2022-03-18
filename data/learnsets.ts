@@ -33620,7 +33620,7 @@ export const Learnsets: {[speciesid: string]: LearnsetData} = {
 	},
 	hariyama: {
 		learnset: {
-			armthrust: ["7L1", "6L1", "5L1", "4L1", "3L1"],
+			armthrust: ["8M", "7L1", "6L1", "5L1", "4L1", "3L1"],
 			attract: ["7M", "6M", "5M", "4M", "3M"],
 			bellydrum: ["7L26", "6L26", "5L27", "4L27", "3L40"],
 			bodyslam: ["3T"],
