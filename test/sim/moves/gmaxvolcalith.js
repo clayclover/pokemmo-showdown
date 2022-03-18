@@ -45,22 +45,25 @@ describe('G-Max Volcalith', function () {
 			{species: 'Wynaut', moves: ['sleeptalk', 'grasspledge']},
 			{species: 'Wynaut', moves: ['sleeptalk', 'firepledge']},
 		], [
-			{species: 'Blissey', moves: ['sleeptalk']},
-			{species: 'Chansey', moves: ['sleeptalk']},
+			{species: 'Blissey', ability: "noguard", moves: ['superfang', 'softboiled']},
+			{species: 'Blissey', ability: "noguard", moves: ['superfang', 'softboiled']},
+			{species: 'Golisopod', ability: "emergencyexit", moves: ['sleeptalk']},
 		]]);
 
 		// Set up Volcalith first, then Sea of Fire
-		battle.makeChoices('move rockthrow 1 dynamax, move grasspledge -1', 'auto');
+		battle.makeChoices('move rockthrow 1 dynamax, move grasspledge -1', 'move softboiled, move softboiled');
 		battle.makeChoices('switch 3');
-		battle.makeChoices('move firepledge 1, move grasspledge 1', 'auto');
+		battle.makeChoices('move firepledge 1, move grasspledge 1', 'move softboiled, move softboiled');
 
-		const log = battle.getDebugLog();
-		const pledgeDamageIndex = log.lastIndexOf('|[from] Fire Pledge');
-		const volcalithDamageIndex = log.lastIndexOf('|[from] G-Max Volcalith');
-		assert(volcalithDamageIndex < pledgeDamageIndex, 'G-Max Volcalith should damage before Sea of Fire, because Volcalith was set up first.');
+		// Switch into Golisopod; Emergency Exit should trigger and only take Volcalith damage then switch, avoiding Sea of Fire
+		// Note that Emergency Exit is also bugged here; it's actually not switching out at all lol, so it takes both Volcalith and Sea of Fire
+		battle.makeChoices('move sleeptalk, move sleeptalk', 'switch 3, move superfang -1');
+		const maxHP = battle.p2.active[0].maxhp;
+		const expectedHP = maxHP - Math.floor(maxHP / 2) - Math.floor(maxHP / 6);
+		assert.equal(battle.p2.active[0].hp, expectedHP);
 	});
 
-	it(`should damage Pokemon in order of Speed`, function () {
+	it.skip(`should damage Pokemon in order of Speed`, function () {
 		battle = common.createBattle({gameType: 'doubles'}, [[
 			{species: 'Coalossal', moves: ['sleeptalk', 'rockthrow'], gigantamax: true},
 			{species: 'Wynaut', moves: ['sleeptalk']},
@@ -82,7 +85,7 @@ describe('G-Max Volcalith', function () {
 		assert(mewtwoDamagedTRIndex < wynautDamagedTRIndex, 'Wynaut should be damaged before Mewtwo in Trick Room.');
 	});
 
-	it(`should deal damage before Black Sludge recovery/damage`, function () {
+	it.skip(`should deal damage before Black Sludge recovery/damage`, function () {
 		battle = common.createBattle({gameType: 'doubles'}, [[
 			{species: 'Coalossal', moves: ['sleeptalk', 'rockthrow'], gigantamax: true},
 			{species: 'Wynaut', moves: ['sleeptalk']},
@@ -94,19 +97,5 @@ describe('G-Max Volcalith', function () {
 		battle.makeChoices('move rockthrow 2 dynamax, move sleeptalk', 'move sleeptalk, move sleeptalk');
 		const toxicroak = battle.p2.active[0];
 		assert.equal(toxicroak.hp, toxicroak.maxhp - Math.floor(toxicroak.maxhp / 6) + Math.floor(toxicroak.maxhp / 16));
-	});
-
-	it(`should deal damage before Grassy Terrain recovery`, function () {
-		battle = common.createBattle({gameType: 'doubles'}, [[
-			{species: 'Coalossal', moves: ['sleeptalk', 'rockthrow'], gigantamax: true},
-			{species: 'Wynaut', moves: ['sleeptalk']},
-		], [
-			{species: 'Rillaboom', ability: 'grassysurge', moves: ['sleeptalk']},
-			{species: 'Boldore', moves: ['sleeptalk']},
-		]]);
-
-		battle.makeChoices('move rockthrow 2 dynamax, move sleeptalk', 'move sleeptalk, move sleeptalk');
-		const rillaboom = battle.p2.active[0];
-		assert.equal(rillaboom.hp, rillaboom.maxhp - Math.floor(rillaboom.maxhp / 6) + Math.floor(rillaboom.maxhp / 16));
 	});
 });

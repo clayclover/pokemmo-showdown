@@ -11,9 +11,7 @@
 
 'use strict';
 
-// support TypeScript
-require('ts-node').register({project: './tsconfig.json', files: true, transpileOnly: true, transpiler: 'ts-node/transpilers/swc-experimental'});
-const ModlogConverter = require(`${__dirname}/converter.ts`).ModlogConverter;
+const ModlogConverter = require(`${__dirname}/converter.js`).ModlogConverter;
 const path = require('path');
 
 function parseFlags() {
@@ -34,11 +32,6 @@ const textLogPath = flags['--logdir'];
 const outputLogPath = flags['--outputlogdir'];
 const from = flags['--from'];
 const to = flags['--to'];
-const newestAllowedTimestamp = parseInt(flags['--newest-allowed-timestamp']);
-
-if (newestAllowedTimestamp && isNaN(newestAllowedTimestamp)) {
-	throw new Error(`The newest allowed timestamp must be a number of milliseconds.`);
-}
 
 if (
 	!((databasePath || outputLogPath) && textLogPath && from && to) ||
@@ -49,4 +42,4 @@ if (
 }
 
 console.log(`Converting ${from === 'txt' ? `the text modlog files in ${textLogPath}` : `${databasePath}`} from ${from} to ${to}...`);
-ModlogConverter.convert(from, to, path.resolve(databasePath || ""), path.resolve(textLogPath), path.resolve(outputLogPath || ""), newestAllowedTimestamp);
+ModlogConverter.convert(from, to, path.resolve(databasePath || ""), path.resolve(textLogPath), path.resolve(outputLogPath || ""));

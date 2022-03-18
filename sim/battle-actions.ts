@@ -101,7 +101,7 @@ export class BattleActions {
 			// will definitely switch out at this point
 
 			oldActive.illusion = null;
-			this.battle.singleEvent('End', oldActive.getAbility(), oldActive.abilityState, oldActive);
+			this.battle.singleEvent('End', oldActive.getAbility(), oldActive.abilityData, oldActive);
 
 			// if a pokemon is forced out by Whirlwind/etc or Eject Button/Pack, it can't use its chosen move
 			this.battle.queue.cancelAction(oldActive);
@@ -141,7 +141,7 @@ export class BattleActions {
 
 		if (isDrag && this.battle.gen >= 5) {
 			// runSwitch happens immediately so that Mold Breaker can make hazards bypass Clear Body and Levitate
-			this.battle.singleEvent('PreStart', pokemon.getAbility(), pokemon.abilityState, pokemon);
+			this.battle.singleEvent('PreStart', pokemon.getAbility(), pokemon.abilityData, pokemon);
 			this.runSwitch(pokemon);
 		} else {
 			this.battle.queue.insertChoice({choice: 'runUnnerve', pokemon});
@@ -172,8 +172,8 @@ export class BattleActions {
 		if (!pokemon.hp) return false;
 		pokemon.isStarted = true;
 		if (!pokemon.fainted) {
-			this.battle.singleEvent('Start', pokemon.getAbility(), pokemon.abilityState, pokemon);
-			this.battle.singleEvent('Start', pokemon.getItem(), pokemon.itemState, pokemon);
+			this.battle.singleEvent('Start', pokemon.getAbility(), pokemon.abilityData, pokemon);
+			this.battle.singleEvent('Start', pokemon.getItem(), pokemon.itemData, pokemon);
 		}
 		if (this.battle.gen === 4) {
 			for (const foeActive of pokemon.foes()) {
@@ -276,7 +276,7 @@ export class BattleActions {
 
 		if (zMove) {
 			if (pokemon.illusion) {
-				this.battle.singleEvent('End', this.dex.abilities.get('Illusion'), pokemon.abilityState, pokemon);
+				this.battle.singleEvent('End', this.dex.abilities.get('Illusion'), pokemon.abilityData, pokemon);
 			}
 			this.battle.add('-zpower', pokemon);
 			pokemon.side.zMoveUsed = true;
@@ -313,8 +313,6 @@ export class BattleActions {
 			}
 		}
 		if (noLock && pokemon.volatiles['lockedmove']) delete pokemon.volatiles['lockedmove'];
-		this.battle.faintMessages();
-		this.battle.checkWin();
 	}
 	/**
 	 * useMove is the "inside" move caller. It handles effects of the
@@ -425,8 +423,7 @@ export class BattleActions {
 			target = targets[targets.length - 1]; // in case of redirection
 		}
 
-		const callerMoveForPressure = sourceEffect && (sourceEffect as ActiveMove).pp ? sourceEffect as ActiveMove : null;
-		if (!sourceEffect || callerMoveForPressure || sourceEffect.id === 'pursuit') {
+		if (!sourceEffect || sourceEffect.id === 'pursuit') {
 			let extraPP = 0;
 			for (const source of pressureTargets) {
 				const ppDrop = this.battle.runEvent('DeductPP', source, pokemon, move);
@@ -435,7 +432,7 @@ export class BattleActions {
 				}
 			}
 			if (extraPP > 0) {
-				pokemon.deductPP(callerMoveForPressure || moveOrMoveName, extraPP);
+				pokemon.deductPP(moveOrMoveName, extraPP);
 			}
 		}
 
@@ -481,11 +478,7 @@ export class BattleActions {
 			return false;
 		}
 
-		if (
-			!move.negateSecondary &&
-			!(move.hasSheerForce && pokemon.hasAbility('sheerforce')) &&
-			!move.isFutureMove
-		) {
+		if (!move.negateSecondary && !(move.hasSheerForce && pokemon.hasAbility('sheerforce'))) {
 			const originalHp = pokemon.hp;
 			this.battle.singleEvent('AfterMoveSecondarySelf', move, null, pokemon, target, move);
 			this.battle.runEvent('AfterMoveSecondarySelf', pokemon, target, move);
@@ -537,7 +530,7 @@ export class BattleActions {
 			[moveSteps[2], moveSteps[4]] = [moveSteps[4], moveSteps[2]];
 		}
 
-		if (notActive) this.battle.setActiveMove(move, pokemon, targets[0]);
+		if (!notActive) this.battle.setActiveMove(move, pokemon, targets[0]);
 
 		const hitResult = this.battle.singleEvent('Try', move, null, pokemon, targets[0], move) &&
 			this.battle.singleEvent('PrepareHit', move, {}, targets[0], pokemon, move) &&
@@ -550,7 +543,7 @@ export class BattleActions {
 			return hitResult === this.battle.NOT_FAIL;
 		}
 
-		let atLeastOneFailure = false;
+		let atLeastOneFailure!: boolean;
 		for (const step of moveSteps) {
 			const hitResults: (number | boolean | "" | undefined)[] | undefined = step.call(this, targets, pokemon, move);
 			if (!hitResults) continue;
@@ -824,7 +817,7 @@ export class BattleActions {
 		let hit: number;
 		for (hit = 1; hit <= targetHits; hit++) {
 			if (damage.includes(false)) break;
-			if (hit > 1 && pokemon.status === 'slp' && (!isSleepUsable || this.battle.gen === 4)) break;
+			if (hit > 1 && pokemon.status === 'slp' && !isSleepUsable) break;
 			if (targets.every(target => !target?.hp)) break;
 			move.hit = hit;
 			if (move.smartTarget && targets.length > 1) {
@@ -901,21 +894,15 @@ export class BattleActions {
 		// hit is 1 higher than the actual hit count
 		if (hit === 1) return damage.fill(false);
 		if (nullDamage) damage.fill(false);
-		this.battle.faintMessages(false, false, !pokemon.hp);
 		if (move.multihit && typeof move.smartTarget !== 'boolean') {
 			this.battle.add('-hitcount', targets[0], hit - 1);
 		}
 
 		if (move.recoil && move.totalDamage) {
-			const hpBeforeRecoil = pokemon.hp;
 			this.battle.damage(this.calcRecoilDamage(move.totalDamage, move), pokemon, pokemon, 'recoil');
-			if (pokemon.hp <= pokemon.maxhp / 2 && hpBeforeRecoil > pokemon.maxhp / 2) {
-				this.battle.runEvent('EmergencyExit', pokemon, pokemon);
-			}
 		}
 
 		if (move.struggleRecoil) {
-			const hpBeforeRecoil = pokemon.hp;
 			let recoilDamage;
 			if (this.dex.gen >= 5) {
 				recoilDamage = this.battle.clampIntRange(Math.round(pokemon.baseMaxhp / 4), 1);
@@ -923,9 +910,6 @@ export class BattleActions {
 				recoilDamage = this.battle.clampIntRange(this.battle.trunc(pokemon.maxhp / 4), 1);
 			}
 			this.battle.directDamage(recoilDamage, pokemon, pokemon, {id: 'strugglerecoil'} as Condition);
-			if (pokemon.hp <= pokemon.maxhp / 2 && hpBeforeRecoil > pokemon.maxhp / 2) {
-				this.battle.runEvent('EmergencyExit', pokemon, pokemon);
-			}
 		}
 
 		// smartTarget messes up targetsCopy, but smartTarget should in theory ensure that targets will never fail, anyway
@@ -1272,10 +1256,7 @@ export class BattleActions {
 				this.battle.runEvent('ModifySecondaries', target, source, moveData, moveData.secondaries.slice());
 			for (const secondary of secondaries) {
 				const secondaryRoll = this.battle.random(100);
-				// User stat boosts or target stat drops can possibly overflow if it goes beyond 256
-				const secondaryOverflow = (secondary.boosts || secondary.self);
-				if (typeof secondary.chance === 'undefined' ||
-					secondaryRoll < (secondaryOverflow ? secondary.chance % 256 : secondary.chance)) {
+				if (typeof secondary.chance === 'undefined' || secondaryRoll < secondary.chance) {
 					this.moveHit(target, source, move, secondary, true, isSelf);
 				}
 			}
@@ -1438,7 +1419,7 @@ export class BattleActions {
 				this.battle.heal(pokemon.maxhp, pokemon, pokemon, zPower);
 				break;
 			case 'healreplacement':
-				pokemon.side.addSlotCondition(pokemon, 'healreplacement', pokemon, move);
+				move.self = {slotCondition: 'healreplacement'};
 				break;
 			case 'clearnegativeboost':
 				const boosts: SparseBoostsTable = {};
@@ -1496,7 +1477,7 @@ export class BattleActions {
 	 * undefined = success, null = silent failure, false = loud failure
 	 */
 	 getDamage(
-		source: Pokemon, target: Pokemon, move: string | number | ActiveMove,
+		pokemon: Pokemon, target: Pokemon, move: string | number | ActiveMove,
 		suppressMessages = false
 	): number | undefined | null | false {
 		if (typeof move === 'string') move = this.dex.getActiveMove(move);
@@ -1519,24 +1500,25 @@ export class BattleActions {
 		}
 
 		if (move.ohko) return target.maxhp;
-		if (move.damageCallback) return move.damageCallback.call(this.battle, source, target);
+		if (move.damageCallback) return move.damageCallback.call(this.battle, pokemon, target);
 		if (move.damage === 'level') {
-			return source.level;
+			return pokemon.level;
 		} else if (move.damage) {
 			return move.damage;
 		}
 
 		const category = this.battle.getCategory(move);
+		const defensiveCategory = move.defensiveCategory || category;
 
 		let basePower: number | false | null = move.basePower;
 		if (move.basePowerCallback) {
-			basePower = move.basePowerCallback.call(this.battle, source, target, move);
+			basePower = move.basePowerCallback.call(this.battle, pokemon, target, move);
 		}
 		if (!basePower) return basePower === 0 ? undefined : basePower;
 		basePower = this.battle.clampIntRange(basePower, 1);
 
 		let critMult;
-		let critRatio = this.battle.runEvent('ModifyCritRatio', source, target, move, move.critRatio || 0);
+		let critRatio = this.battle.runEvent('ModifyCritRatio', pokemon, target, move, move.critRatio || 0);
 		if (this.battle.gen <= 5) {
 			critRatio = this.battle.clampIntRange(critRatio, 0, 5);
 			critMult = [0, 16, 8, 4, 3, 2];
@@ -1562,27 +1544,39 @@ export class BattleActions {
 		}
 
 		// happens after crit calculation
-		basePower = this.battle.runEvent('BasePower', source, target, move, basePower, true);
+		basePower = this.battle.runEvent('BasePower', pokemon, target, move, basePower, true);
 
 		if (!basePower) return 0;
 		basePower = this.battle.clampIntRange(basePower, 1);
-		// Hacked Max Moves have 0 base power, even if you Dynamax
-		if ((!source.volatiles['dynamax'] && move.isMax) || (move.isMax && this.dex.moves.get(move.baseMove).isMax)) {
-			basePower = 0;
+
+		const level = pokemon.level;
+
+		const attacker = pokemon;
+		const defender = target;
+		let attackStat: StatIDExceptHP = category === 'Physical' ? 'atk' : 'spa';
+		const defenseStat: StatIDExceptHP = defensiveCategory === 'Physical' ? 'def' : 'spd';
+		if (move.useSourceDefensiveAsOffensive) {
+			attackStat = defenseStat;
+			// Body press really wants to use the def stat,
+			// so it switches stats to compensate for Wonder Room.
+			// Of course, the game thus miscalculates the boosts...
+			if ('wonderroom' in this.battle.field.pseudoWeather) {
+				if (attackStat === 'def') {
+					attackStat = 'spd';
+				} else if (attackStat === 'spd') {
+					attackStat = 'def';
+				}
+				if (attacker.boosts['def'] || attacker.boosts['spd']) {
+					this.battle.hint("Body Press uses Sp. Def boosts when Wonder Room is active.");
+				}
+			}
 		}
 
-		const level = source.level;
-
-		const attacker = move.overrideOffensivePokemon === 'target' ? target : source;
-		const defender = move.overrideDefensivePokemon === 'source' ? source : target;
-
-		const isPhysical = move.category === 'Physical';
-		let attackStat: StatIDExceptHP = move.overrideOffensiveStat || (isPhysical ? 'atk' : 'spa');
-		const defenseStat: StatIDExceptHP = move.overrideDefensiveStat || (isPhysical ? 'def' : 'spd');
-
 		const statTable = {atk: 'Atk', def: 'Def', spa: 'SpA', spd: 'SpD', spe: 'Spe'};
+		let attack;
+		let defense;
 
-		let atkBoosts = attacker.boosts[attackStat];
+		let atkBoosts = move.useTargetOffensive ? defender.boosts[attackStat] : attacker.boosts[attackStat];
 		let defBoosts = defender.boosts[defenseStat];
 
 		let ignoreNegativeOffensive = !!move.ignoreNegativeOffensive;
@@ -1604,14 +1598,18 @@ export class BattleActions {
 			defBoosts = 0;
 		}
 
-		let attack = attacker.calculateStat(attackStat, atkBoosts);
-		let defense = defender.calculateStat(defenseStat, defBoosts);
+		if (move.useTargetOffensive) {
+			attack = defender.calculateStat(attackStat, atkBoosts);
+		} else {
+			attack = attacker.calculateStat(attackStat, atkBoosts);
+		}
 
 		attackStat = (category === 'Physical' ? 'atk' : 'spa');
+		defense = defender.calculateStat(defenseStat, defBoosts);
 
 		// Apply Stat Modifiers
-		attack = this.battle.runEvent('Modify' + statTable[attackStat], source, target, move, attack);
-		defense = this.battle.runEvent('Modify' + statTable[defenseStat], target, source, move, defense);
+		attack = this.battle.runEvent('Modify' + statTable[attackStat], attacker, defender, move, attack);
+		defense = this.battle.runEvent('Modify' + statTable[defenseStat], defender, attacker, move, defense);
 
 		if (this.battle.gen <= 4 && ['explosion', 'selfdestruct'].includes(move.id) && defenseStat === 'def') {
 			defense = this.battle.clampIntRange(Math.floor(defense / 2), 1);
@@ -1623,7 +1621,7 @@ export class BattleActions {
 		const baseDamage = tr(tr(tr(tr(2 * level / 5 + 2) * basePower * attack) / defense) / 50);
 
 		// Calculate damage modifiers separately (order differs between generations)
-		return this.modifyDamage(baseDamage, source, target, move, suppressMessages);
+		return this.modifyDamage(baseDamage, pokemon, target, move, suppressMessages);
 	}
 
 	modifyDamage(
@@ -1635,16 +1633,11 @@ export class BattleActions {
 
 		baseDamage += 2;
 
+		// multi-target modifier (doubles only)
 		if (move.spreadHit) {
-			// multi-target modifier (doubles only)
 			const spreadModifier = move.spreadModifier || (this.battle.gameType === 'freeforall' ? 0.5 : 0.75);
 			this.battle.debug('Spread modifier: ' + spreadModifier);
 			baseDamage = this.battle.modify(baseDamage, spreadModifier);
-		} else if (move.multihitType === 'parentalbond' && move.hit > 1) {
-			// Parental Bond modifier
-			const bondModifier = this.battle.gen > 6 ? 0.25 : 0.5;
-			this.battle.debug(`Parental Bond modifier: ${bondModifier}`);
-			baseDamage = this.battle.modify(baseDamage, bondModifier);
 		}
 
 		// weather modifier
@@ -1712,26 +1705,6 @@ export class BattleActions {
 		return tr(baseDamage, 16);
 	}
 
-	/**
-	 * Confusion damage is unique - most typical modifiers that get run when calculating
-	 * damage (e.g. Huge Power, Life Orb, critical hits) don't apply. It also uses a 16-bit
-	 * context for its damage, unlike the regular damage formula (though this only comes up
-	 * for base damage).
-	 */
-	getConfusionDamage(pokemon: Pokemon, basePower: number) {
-		const tr = this.battle.trunc;
-
-		const attack = pokemon.calculateStat('atk', pokemon.boosts['atk']);
-		const defense = pokemon.calculateStat('def', pokemon.boosts['def']);
-		const level = pokemon.level;
-		const baseDamage = tr(tr(tr(tr(2 * level / 5 + 2) * basePower * attack) / defense) / 50) + 2;
-
-		// Damage is 16-bit context in self-hit confusion damage
-		let damage = tr(baseDamage, 16);
-		damage = this.battle.randomizer(damage);
-		return Math.max(1, damage);
-	}
-
 	// #endregion
 
 	// #region MEGA EVOLUTION
@@ -1765,6 +1738,13 @@ export class BattleActions {
 	runMegaEvo(pokemon: Pokemon) {
 		const speciesid = pokemon.canMegaEvo || pokemon.canUltraBurst;
 		if (!speciesid) return false;
+
+		// Pokémon affected by Sky Drop cannot mega evolve. Enforce it here for now.
+		for (const foeActive of pokemon.foes()) {
+			if (foeActive.volatiles['skydrop']?.source === pokemon) {
+				return false;
+			}
+		}
 
 		pokemon.formeChange(speciesid, pokemon.getItem(), true);
 

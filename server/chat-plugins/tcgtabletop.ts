@@ -40,7 +40,7 @@ async function getCardDetails(site: string, id: string) {
 	return result.items[id];
 }
 
-export const commands: Chat.ChatCommands = {
+export const commands: ChatCommands = {
 	ygo: 'yugioh',
 	yugioh(target, room, user) {
 		this.checkBroadcast();

@@ -35,9 +35,7 @@ describe('Dragon Darts', function () {
 	});
 
 	it(`should hit the other foe twice if it misses against one`, function () {
-		// Seed will make Dragon Darts miss at +6 evasion
-		// (remember to manually update the seed if engine changes mean it doesn't)
-		battle = common.createBattle({gameType: 'doubles', seed: [1, 2, 3, 4]}, [[
+		battle = common.createBattle({gameType: 'doubles'}, [[
 			{species: "Ninjask", item: 'blunderpolicy', moves: ['dragondarts']},
 			{species: "Mew", ability: 'stamina', moves: ['splash']},
 		], [
@@ -45,6 +43,8 @@ describe('Dragon Darts', function () {
 			{species: "Shaymin", ability: 'stamina', moves: ['splash']},
 		]]);
 
+		// default seed will make Dragon Darts miss at +6 evasion
+		// remember to manually set the seed if an engine change means it doesn't
 		battle.p2.active[0].boostBy({evasion: 6});
 
 		battle.makeChoices();

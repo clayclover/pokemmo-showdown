@@ -1,4 +1,4 @@
-import {PokemonEventMethods} from './dex-conditions';
+import {EventMethods} from './dex-conditions';
 import {BasicEffect, toID} from './dex-data';
 
 interface AbilityEventMethods {
@@ -8,21 +8,21 @@ interface AbilityEventMethods {
 	onStart?: (this: Battle, target: Pokemon) => void;
 }
 
-export interface AbilityData extends Partial<Ability>, AbilityEventMethods, PokemonEventMethods {
+export interface AbilityData extends Partial<Ability>, AbilityEventMethods, EventMethods {
 	name: string;
 }
 
 export type ModdedAbilityData = AbilityData | Partial<AbilityData> & {inherit: true};
 
 export class Ability extends BasicEffect implements Readonly<BasicEffect> {
-	declare readonly effectType: 'Ability';
+	readonly effectType: 'Ability';
 
 	/** Rating from -1 Detrimental to +5 Essential; see `data/abilities.ts` for details. */
 	readonly rating: number;
 	readonly suppressWeather: boolean;
-	declare readonly condition?: ConditionData;
-	declare readonly isPermanent?: boolean;
-	declare readonly isBreakable?: boolean;
+	readonly condition?: Partial<ConditionData>;
+	readonly isPermanent?: boolean;
+	readonly isUnbreakable?: boolean;
 
 	constructor(data: AnyObject) {
 		super(data);
@@ -83,10 +83,10 @@ export class DexAbilities {
 			if (ability.gen > this.dex.gen) {
 				(ability as any).isNonstandard = 'Future';
 			}
-			if (this.dex.currentMod === 'gen7letsgo' && ability.id !== 'noability') {
+			if (this.dex.currentMod === 'letsgo' && ability.id !== 'noability') {
 				(ability as any).isNonstandard = 'Past';
 			}
-			if ((this.dex.currentMod === 'gen7letsgo' || this.dex.gen <= 2) && ability.id === 'noability') {
+			if ((this.dex.currentMod === 'letsgo' || this.dex.gen <= 2) && ability.id === 'noability') {
 				(ability as any).isNonstandard = null;
 			}
 		} else {

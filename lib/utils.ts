@@ -43,8 +43,8 @@ export function escapeRegex(str: string) {
 /**
  * Escapes HTML in a string.
 */
-export function escapeHTML(str: string | number) {
-	if (str === null || str === undefined) return '';
+export function escapeHTML(str: string) {
+	if (!str) return '';
 	return ('' + str)
 		.replace(/&/g, '&amp;')
 		.replace(/</g, '&lt;')
@@ -117,7 +117,7 @@ export function visualize(value: any, depth = 0): string {
 					stringValue !== `[object ${constructor}]`) {
 				return `${constructor}(${stringValue})`;
 			}
-		} catch {}
+		} catch (e) {}
 	}
 	let buf = '';
 	for (const key in value) {
@@ -163,7 +163,7 @@ export function compare(a: Comparable, b: Comparable): number {
 		}
 		return 0;
 	}
-	if ('reverse' in a) {
+	if (a.reverse) {
 		return compare((b as {reverse: string}).reverse, a.reverse);
 	}
 	throw new Error(`Passed value ${a} is not comparable`);
@@ -172,16 +172,13 @@ export function compare(a: Comparable, b: Comparable): number {
 /**
  * Sorts an array according to the callback's output on its elements.
  *
- * The callback's output is compared according to `PSUtils.compare`
- * (numbers low to high, strings A-Z, booleans true-first, arrays in order).
+ * The callback's output is compared according to `PSUtils.compare` (in
+ * particular, it supports arrays so you can sort by multiple things).
  */
 export function sortBy<T>(array: T[], callback: (a: T) => Comparable): T[];
 /**
- * Sorts an array according to `PSUtils.compare`
- * (numbers low to high, strings A-Z, booleans true-first, arrays in order).
- *
- * Note that array.sort() only works on strings, not numbers, so you'll need
- * this to sort numbers.
+* Sorts an array according to `PSUtils.compare`. (Correctly sorts numbers,
+ * unlike `array.sort`)
  */
 export function sortBy<T extends Comparable>(array: T[]): T[];
 export function sortBy<T>(array: T[], callback?: (a: T) => Comparable) {
@@ -365,37 +362,12 @@ export function waitUntil(time: number): Promise<void> {
 	});
 }
 
-/** Like parseInt, but returns NaN if the int isn't already in normalized form */
-export function parseExactInt(str: string): number {
-	if (!/^-?(0|[1-9][0-9]*)$/.test(str)) return NaN;
-	return parseInt(str);
-}
-
-/** formats an array into a series of question marks and adds the elements to an arguments array */
-export function formatSQLArray(arr: unknown[], args?: unknown[]) {
-	args?.push(...arr);
-	return [...'?'.repeat(arr.length)].join(', ');
-}
-
-export class Multiset<T> extends Map<T, number> {
-	add(key: T) {
-		this.set(key, (this.get(key) ?? 0) + 1);
-		return this;
-	}
-	remove(key: T) {
-		const newValue = (this.get(key) ?? 0) - 1;
-		if (newValue <= 0) return this.delete(key);
-		this.set(key, newValue);
-		return true;
-	}
-}
-
 // backwards compatibility
 export const Utils = {
-	parseExactInt, waitUntil, html, escapeHTML,
+	waitUntil, html, escapeHTML,
 	compare, sortBy, levenshtein,
 	shuffle, deepClone, clearRequireCache,
 	randomElement, forceWrap, splitFirst,
 	stripHTML, visualize, getString,
-	escapeRegex, formatSQLArray, Multiset,
+	escapeRegex,
 };

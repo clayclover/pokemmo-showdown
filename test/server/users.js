@@ -122,7 +122,7 @@ describe('Users features', function () {
 					});
 				}
 			});
-			describe('#ban (network) (slow)', function () {
+			describe('#ban', function () {
 				afterEach(function () {
 					for (const ip in Users.bannedIps) {
 						delete Users.bannedIps[ip];

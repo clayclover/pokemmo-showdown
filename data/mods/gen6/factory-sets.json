@@ -136,7 +136,8 @@
           "ability": "Fairy Aura",
           "evs": {"hp": 184, "atk": 0, "def": 28, "spa": 252, "spd": 0, "spe": 44},
           "nature": "Modest",
-          "moves": [["Geomancy"], ["Moonblast"], ["Hidden Power Ground"], ["Thunder"]]
+          "moves": [["Geomancy"], ["Moonblast"], ["Hidden Power Ground"], ["Thunder"]],
+          "ivs": {"spa": 30, "spd": 30}
         }
       ]
     },
@@ -439,7 +440,8 @@
           "ability": "Levitate",
           "evs": {"hp": 0, "atk": 0, "def": 4, "spa": 252, "spd": 0, "spe": 252},
           "nature": "Timid",
-          "moves": [["Draco Meteor"], ["Psyshock"], ["Defog"], ["Hidden Power Fire"]]
+          "moves": [["Draco Meteor"], ["Psyshock"], ["Defog"], ["Hidden Power Fire"]],
+          "ivs": {"atk": 30, "spa": 30, "spe": 30}
         },
         {
           "species": "Latios",
@@ -455,7 +457,8 @@
           "ability": "Levitate",
           "evs": {"hp": 0, "atk": 0, "def": 4, "spa": 252, "spd": 0, "spe": 252},
           "nature": "Timid",
-          "moves": [["Draco Meteor"], ["Psyshock"], ["Calm Mind"], ["Hidden Power Fire"]]
+          "moves": [["Draco Meteor"], ["Psyshock"], ["Calm Mind"], ["Hidden Power Fire"]],
+          "ivs": {"atk": 30, "spa": 30, "spe": 30}
         }
       ]
     },
@@ -926,7 +929,8 @@
           "ability": "Speed Boost",
           "evs": {"hp": 0, "atk": 252, "def": 4, "spa": 0, "spd": 0, "spe": 252},
           "nature": "Naive",
-          "moves": [["Low Kick"], ["Flare Blitz"], ["Protect"], ["Hidden Power Ice"]]
+          "moves": [["Low Kick"], ["Flare Blitz"], ["Protect"], ["Hidden Power Ice"]],
+          "ivs": {"atk": 30, "def": 30}
         },
         {
           "species": "Blaziken",
@@ -934,7 +938,8 @@
           "ability": "Speed Boost",
           "evs": {"hp": 0, "atk": 252, "def": 4, "spa": 0, "spd": 0, "spe": 252},
           "nature": "Naive",
-          "moves": [["Low Kick"], ["Flare Blitz"], ["Protect"], ["Hidden Power Ice"]]
+          "moves": [["Low Kick"], ["Flare Blitz"], ["Protect"], ["Hidden Power Ice"]],
+          "ivs": {"atk": 30, "def": 30}
         },
         {
           "species": "Blaziken",
@@ -1296,7 +1301,8 @@
           "ability": "Sheer Force",
           "evs": {"hp": 0, "atk": 4, "def": 0, "spa": 252, "spd": 0, "spe": 252},
           "nature": "Timid",
-          "moves": [["Knock Off"], ["Earth Power"], ["Rock Slide"], ["Hidden Power Ice"]]
+          "moves": [["Knock Off"], ["Earth Power"], ["Rock Slide"], ["Hidden Power Ice"]],
+          "ivs": {"atk": 30, "def": 30}
         }
       ]
     }
@@ -1321,7 +1327,8 @@
           "ability": "Clear Body",
           "evs": {"hp": 0, "atk": 0, "def": 4, "spa": 252, "spd": 0, "spe": 252},
           "nature": "Timid",
-          "moves": [["Calm Mind"], ["Moonblast"], ["Earth Power"], ["Hidden Power Fire"]]
+          "moves": [["Calm Mind"], ["Moonblast"], ["Earth Power"], ["Hidden Power Fire"]],
+          "ivs": {"atk": 30, "spa": 30, "spe": 30}
         },
         {
           "species": "Diancie",
@@ -1595,7 +1602,8 @@
           "ability": "Volt Absorb",
           "evs": {"hp": 4, "atk": 0, "def": 0, "spa": 252, "spd": 0, "spe": 252},
           "nature": "Timid",
-          "moves": [["Nasty Plot"], ["Thunderbolt"], ["Hidden Power Ice"], ["Focus Blast"]]
+          "moves": [["Nasty Plot"], ["Thunderbolt"], ["Hidden Power Ice"], ["Focus Blast"]],
+          "ivs": {"atk": 30, "def": 30}
         },
         {
           "species": "Thundurus-Therian",
@@ -1603,7 +1611,8 @@
           "ability": "Volt Absorb",
           "evs": {"hp": 0, "atk": 4, "def": 0, "spa": 252, "spd": 0, "spe": 252},
           "nature": "Timid",
-          "moves": [["Thunderbolt"], ["Hidden Power Ice"], ["Focus Blast"], ["U-turn"]]
+          "moves": [["Thunderbolt"], ["Hidden Power Ice"], ["Focus Blast"], ["U-turn"]],
+          "ivs": {"atk": 30, "def": 30}
         },
         {
           "species": "Thundurus-Therian",
@@ -1611,7 +1620,8 @@
           "ability": "Volt Absorb",
           "evs": {"hp": 128, "atk": 0, "def": 0, "spa": 252, "spd": 0, "spe": 128},
           "nature": "Modest",
-          "moves": [["Agility"], ["Nasty Plot"], ["Thunderbolt"], ["Hidden Power Ice"]]
+          "moves": [["Agility"], ["Nasty Plot"], ["Thunderbolt"], ["Hidden Power Ice"]],
+          "ivs": {"atk": 30, "def": 30}
         }
       ]
     },
@@ -1785,7 +1795,8 @@
           "ability": "Magic Guard",
           "evs": {"hp": 0, "atk": 0, "def": 0, "spa": 252, "spd": 4, "spe": 252},
           "nature": "Timid",
-          "moves": [["Psychic"], ["Shadow Ball"], ["Hidden Power Ice"], ["Thunder Wave"]]
+          "moves": [["Psychic"], ["Shadow Ball"], ["Hidden Power Ice"], ["Thunder Wave"]],
+          "ivs": {"atk": 30, "def": 30}
         },
         {
           "species": "Alakazam",
@@ -1801,7 +1812,8 @@
           "ability": "Magic Guard",
           "evs": {"hp": 0, "atk": 0, "def": 0, "spa": 252, "spd": 4, "spe": 252},
           "nature": "Timid",
-          "moves": [["Psychic"], ["Shadow Ball"], ["Focus Blast"], ["Hidden Power Ice"]]
+          "moves": [["Psychic"], ["Shadow Ball"], ["Focus Blast"], ["Hidden Power Ice"]],
+          "ivs": {"atk": 30, "def": 30}
         },
         {
           "species": "Alakazam",
@@ -1845,7 +1857,8 @@
           "ability": "Chlorophyll",
           "evs": {"hp": 232, "atk": 0, "def": 0, "spa": 252, "spd": 4, "spe": 20},
           "nature": "Modest",
-          "moves": [["Giga Drain"], ["Sludge Bomb"], ["Hidden Power Fire"], ["Synthesis"]]
+          "moves": [["Giga Drain"], ["Sludge Bomb"], ["Hidden Power Fire"], ["Synthesis"]],
+          "ivs": {"atk": 30, "spa": 30, "spe": 30}
         }
       ]
     },
@@ -1895,7 +1908,8 @@
           "ability": "Defiant",
           "evs": {"hp": 0, "atk": 76, "def": 0, "spa": 180, "spd": 0, "spe": 252},
           "nature": "Naive",
-          "moves": [["Thunderbolt"], ["Knock Off"], ["Superpower"], ["Hidden Power Ice"]]
+          "moves": [["Thunderbolt"], ["Knock Off"], ["Superpower"], ["Hidden Power Ice"]],
+          "ivs": {"atk": 30, "def": 30}
         },
         {
           "species": "Thundurus",
@@ -1903,7 +1917,8 @@
           "ability": "Prankster",
           "evs": {"hp": 0, "atk": 0, "def": 4, "spa": 252, "spd": 0, "spe": 252},
           "nature": "Timid",
-          "moves": [["Nasty Plot"], ["Thunderbolt"], ["Hidden Power Ice"], ["Focus Blast"]]
+          "moves": [["Nasty Plot"], ["Thunderbolt"], ["Hidden Power Ice"], ["Focus Blast"]],
+          "ivs": {"atk": 30, "def": 30}
         },
         {
           "species": "Thundurus",
@@ -1911,7 +1926,8 @@
           "ability": "Prankster",
           "evs": {"hp": 0, "atk": 0, "def": 4, "spa": 252, "spd": 0, "spe": 252},
           "nature": "Timid",
-          "moves": [["Thunder Wave"], ["Thunderbolt"], ["Hidden Power Ice"], ["Focus Blast"]]
+          "moves": [["Thunder Wave"], ["Thunderbolt"], ["Hidden Power Ice"], ["Focus Blast"]],
+          "ivs": {"atk": 30, "def": 30}
         }
       ]
     },
@@ -1932,7 +1948,8 @@
           "ability": "Justified",
           "evs": {"hp": 0, "atk": 252, "def": 0, "spa": 4, "spd": 0, "spe": 252},
           "nature": "Naive",
-          "moves": [["Close Combat"], ["Stone Edge"], ["Swords Dance"], ["Hidden Power Ice"]]
+          "moves": [["Close Combat"], ["Stone Edge"], ["Swords Dance"], ["Hidden Power Ice"]],
+          "ivs": {"atk": 30, "def": 30}
         },
         {
           "species": "Terrakion",
@@ -2012,7 +2029,8 @@
           "ability": "Pixilate",
           "evs": {"hp": 244, "atk": 0, "def": 0, "spa": 252, "spd": 0, "spe": 12},
           "nature": "Modest",
-          "moves": [["Hyper Voice"], ["Psyshock"], ["Shadow Ball"], ["Hidden Power Ground"]]
+          "moves": [["Hyper Voice"], ["Psyshock"], ["Shadow Ball"], ["Hidden Power Ground"]],
+          "ivs": {"atk": 0, "def": 30, "spd": 30, "spe": 30}
         }
       ]
     },
@@ -2213,7 +2231,8 @@
           "ability": "Lightning Rod",
           "evs": {"hp": 0, "atk": 0, "def": 4, "spa": 252, "spd": 0, "spe": 252},
           "nature": "Timid",
-          "moves": [["Thunderbolt"], ["Volt Switch"], ["Overheat"], ["Hidden Power Ice"]]
+          "moves": [["Thunderbolt"], ["Volt Switch"], ["Overheat"], ["Hidden Power Ice"]],
+          "ivs": {"atk": 30, "def": 30}
         },
         {
           "species": "Manectric",
@@ -2221,7 +2240,8 @@
           "ability": "Lightning Rod",
           "evs": {"hp": 0, "atk": 0, "def": 4, "spa": 252, "spd": 0, "spe": 252},
           "nature": "Timid",
-          "moves": [["Thunderbolt"], ["Volt Switch"], ["Flamethrower"], ["Hidden Power Ice"]]
+          "moves": [["Thunderbolt"], ["Volt Switch"], ["Flamethrower"], ["Hidden Power Ice"]],
+          "ivs": {"atk": 30, "def": 30}
         }
       ]
     },
@@ -2268,7 +2288,8 @@
           "ability": "Magnet Pull",
           "evs": {"hp": 0, "atk": 0, "def": 4, "spa": 252, "spd": 0, "spe": 252},
           "nature": "Timid",
-          "moves": [["Volt Switch"], ["Hidden Power Fire"], ["Flash Cannon"], ["Thunderbolt"]]
+          "moves": [["Volt Switch"], ["Hidden Power Fire"], ["Flash Cannon"], ["Thunderbolt"]],
+          "ivs": {"atk": 30, "spa": 30, "spe": 30}
         },
         {
           "species": "Magnezone",
@@ -2276,7 +2297,8 @@
           "ability": "Magnet Pull",
           "evs": {"hp": 172, "atk": 0, "def": 0, "spa": 252, "spd": 0, "spe": 84},
           "nature": "Modest",
-          "moves": [["Volt Switch"], ["Hidden Power Fire"], ["Flash Cannon"], ["Thunderbolt"]]
+          "moves": [["Volt Switch"], ["Hidden Power Fire"], ["Flash Cannon"], ["Thunderbolt"]],
+          "ivs": {"atk": 30, "spa": 30, "spe": 30}
         }
       ]
     },
@@ -2347,7 +2369,8 @@
           "ability": "Levitate",
           "evs": {"hp": 0, "atk": 0, "def": 0, "spa": 252, "spd": 4, "spe": 252},
           "nature": "Timid",
-          "moves": [["Draco Meteor"], ["Psyshock"], ["Hidden Power Fire"], ["Defog"]]
+          "moves": [["Draco Meteor"], ["Psyshock"], ["Hidden Power Fire"], ["Defog"]],
+          "ivs": {"atk": 30, "spa": 30, "spe": 30}
         },
         {
           "species": "Latios",
@@ -2364,7 +2387,8 @@
           "ability": "Levitate",
           "evs": {"hp": 0, "atk": 4, "def": 0, "spa": 252, "spd": 0, "spe": 252},
           "nature": "Hasty",
-          "moves": [["Psyshock"], ["Draco Meteor"], ["Earthquake"], ["Hidden Power Fire"]]
+          "moves": [["Psyshock"], ["Draco Meteor"], ["Earthquake"], ["Hidden Power Fire"]],
+          "ivs": {"atk": 30, "spa": 30, "spe": 30}
         }
       ]
     },
@@ -2500,7 +2524,8 @@
           "ability": "Justified",
           "evs": {"hp": 0, "atk": 0, "def": 0, "spa": 252, "spd": 4, "spe": 252},
           "nature": "Timid",
-          "moves": [["Hydro Pump"], ["Secret Sword"], ["Scald"], ["Hidden Power Electric"]]
+          "moves": [["Hydro Pump"], ["Secret Sword"], ["Scald"], ["Hidden Power Electric"]],
+          "ivs": {"spa": 30}
         },
         {
           "species": "Keldeo",
@@ -3132,7 +3157,8 @@
           "ability": "Contrary",
           "evs": {"hp": 0, "atk": 0, "def": 0, "spa": 252, "spd": 4, "spe": 252},
           "nature": "Timid",
-          "moves": [["Leaf Storm"], ["Dragon Pulse"], ["Hidden Power Fire"], ["Glare"]]
+          "moves": [["Leaf Storm"], ["Dragon Pulse"], ["Hidden Power Fire"], ["Glare"]],
+          "ivs": {"atk": 30, "spa": 30, "spe": 30}
         },
         {
           "species": "Serperior",
@@ -3140,7 +3166,8 @@
           "ability": "Contrary",
           "evs": {"hp": 0, "atk": 0, "def": 0, "spa": 252, "spd": 4, "spe": 252},
           "nature": "Timid",
-          "moves": [["Leaf Storm"], ["Dragon Pulse"], ["Hidden Power Fire"], ["Taunt"]]
+          "moves": [["Leaf Storm"], ["Dragon Pulse"], ["Hidden Power Fire"], ["Taunt"]],
+          "ivs": {"atk": 30, "spa": 30, "spe": 30}
         },
         {
           "species": "Serperior",
@@ -3148,7 +3175,8 @@
           "ability": "Contrary",
           "evs": {"hp": 0, "atk": 0, "def": 0, "spa": 252, "spd": 4, "spe": 252},
           "nature": "Timid",
-          "moves": [["Leaf Storm"], ["Dragon Pulse"], ["Hidden Power Ground"], ["Substitute"]]
+          "moves": [["Leaf Storm"], ["Dragon Pulse"], ["Hidden Power Ground"], ["Substitute"]],
+          "ivs": {"spa": 30, "spd": 30}
         },
         {
           "species": "Serperior",
@@ -3156,7 +3184,8 @@
           "ability": "Contrary",
           "evs": {"hp": 0, "atk": 0, "def": 0, "spa": 252, "spd": 4, "spe": 252},
           "nature": "Timid",
-          "moves": [["Leaf Storm"], ["Dragon Pulse"], ["Hidden Power Fire"], ["Giga Drain"]]
+          "moves": [["Leaf Storm"], ["Dragon Pulse"], ["Hidden Power Fire"], ["Giga Drain"]],
+          "ivs": {"atk": 30, "spa": 30, "spe": 30}
         }
       ]
     },
@@ -3190,7 +3219,8 @@
           "ability": "Pressure",
           "evs": {"hp": 0, "atk": 0, "def": 4, "spa": 252, "spd": 0, "spe": 252},
           "nature": "Timid",
-          "moves": [["Substitute"], ["Calm Mind"], ["Thunderbolt"], ["Hidden Power Ice"]]
+          "moves": [["Substitute"], ["Calm Mind"], ["Thunderbolt"], ["Hidden Power Ice"]],
+          "ivs": {"atk": 30, "def": 30}
         },
         {
           "species": "Raikou",
@@ -3198,7 +3228,8 @@
           "ability": "Pressure",
           "evs": {"hp": 4, "atk": 0, "def": 0, "spa": 252, "spd": 0, "spe": 252},
           "nature": "Timid",
-          "moves": [["Volt Switch"], ["Thunderbolt"], ["Shadow Ball"], ["Hidden Power Ice"]]
+          "moves": [["Volt Switch"], ["Thunderbolt"], ["Shadow Ball"], ["Hidden Power Ice"]],
+          "ivs": {"atk": 30, "def": 30}
         },
         {
           "species": "Raikou",
@@ -3206,7 +3237,8 @@
           "ability": "Pressure",
           "evs": {"hp": 4, "atk": 0, "def": 0, "spa": 252, "spd": 0, "spe": 252},
           "nature": "Timid",
-          "moves": [["Volt Switch"], ["Thunderbolt"], ["Shadow Ball"], ["Hidden Power Ice"]]
+          "moves": [["Volt Switch"], ["Thunderbolt"], ["Shadow Ball"], ["Hidden Power Ice"]],
+          "ivs": {"atk": 30, "def": 30}
         }
       ]
     }
@@ -3434,7 +3466,8 @@
           "ability": "Pressure",
           "evs": {"hp": 0, "atk": 0, "def": 4, "spa": 252, "spd": 0, "spe": 252},
           "nature": "Timid",
-          "moves": [["Calm Mind"], ["Hydro Pump"], ["Ice Beam"], ["Hidden Power Grass"]]
+          "moves": [["Calm Mind"], ["Hydro Pump"], ["Ice Beam"], ["Hidden Power Grass"]],
+          "ivs": {"atk": 30, "spa": 30}
         }
       ]
     },
@@ -4065,7 +4098,8 @@
           "ability": "Magic Bounce",
           "evs": {"hp": 0, "atk": 0, "def": 0, "spa": 252, "spd": 4, "spe": 252},
           "nature": "Timid",
-          "moves": [["Trick"], ["Psyshock"], ["Shadow Ball"], ["Hidden Power Fighting"]]
+          "moves": [["Trick"], ["Psyshock"], ["Shadow Ball"], ["Hidden Power Fighting"]],
+          "ivs": {"def": 30, "spa": 30, "spd": 30, "spe": 30}
         }
       ]
     },
@@ -4232,7 +4266,8 @@
           "ability": "Dry Skin",
           "evs": {"hp": 0, "atk": 0, "def": 4, "spa": 252, "spd": 0, "spe": 252},
           "nature": "Timid",
-          "moves": [["Volt Switch"], ["Thunderbolt"], ["Grass Knot"], ["Hidden Power Ice"]]
+          "moves": [["Volt Switch"], ["Thunderbolt"], ["Grass Knot"], ["Hidden Power Ice"]],
+          "ivs": {"atk": 30, "def": 30}
         },
         {
           "species": "Heliolisk",
@@ -4240,7 +4275,8 @@
           "ability": "Dry Skin",
           "evs": {"hp": 0, "atk": 0, "def": 4, "spa": 252, "spd": 0, "spe": 252},
           "nature": "Timid",
-          "moves": [["Volt Switch"], ["Thunderbolt"], ["Grass Knot"], ["Hidden Power Ice"]]
+          "moves": [["Volt Switch"], ["Thunderbolt"], ["Grass Knot"], ["Hidden Power Ice"]],
+          "ivs": {"atk": 30, "def": 30}
         }
       ]
     },
@@ -4395,7 +4431,8 @@
           "ability": "Competitive",
           "evs": {"hp": 0, "atk": 0, "def": 0, "spa": 252, "spd": 4, "spe": 252},
           "nature": "Timid",
-          "moves": [["Recover"], ["Hydro Pump"], ["Ice Beam"], ["Hidden Power Grass"]]
+          "moves": [["Recover"], ["Hydro Pump"], ["Ice Beam"], ["Hidden Power Grass"]],
+          "ivs": {"atk": 30, "spa": 30}
         },
         {
           "species": "Milotic",
@@ -4458,7 +4495,8 @@
           "ability": "Adaptability",
           "evs": {"hp": 0, "atk": 0, "def": 0, "spa": 252, "spd": 4, "spe": 252},
           "nature": "Timid",
-          "moves": [["Nasty Plot"], ["Tri Attack"], ["Dark Pulse"], ["Hidden Power Fighting"]]
+          "moves": [["Nasty Plot"], ["Tri Attack"], ["Dark Pulse"], ["Hidden Power Fighting"]],
+          "ivs": {"def": 30, "spa": 30, "spd": 30, "spe": 30}
         },
         {
           "species": "Porygon-Z",
@@ -4512,7 +4550,8 @@
           "ability": "Levitate",
           "evs": {"hp": 0, "atk": 0, "def": 0, "spa": 252, "spd": 4, "spe": 252},
           "nature": "Timid",
-          "moves": [["Trick"], ["Overheat"], ["Volt Switch"], ["Hidden Power Grass"]]
+          "moves": [["Trick"], ["Overheat"], ["Volt Switch"], ["Hidden Power Grass"]],
+          "ivs": {"atk": 30, "spa": 30}
         },
         {
           "species": "Rotom-Heat",
@@ -4520,7 +4559,8 @@
           "ability": "Levitate",
           "evs": {"hp": 0, "atk": 0, "def": 0, "spa": 252, "spd": 4, "spe": 252},
           "nature": "Timid",
-          "moves": [["Trick"], ["Overheat"], ["Volt Switch"], ["Hidden Power Grass"]]
+          "moves": [["Trick"], ["Overheat"], ["Volt Switch"], ["Hidden Power Grass"]],
+          "ivs": {"atk": 30, "spa": 30}
         },
         {
           "species": "Rotom-Heat",
@@ -4967,7 +5007,8 @@
           "ability": "Justified",
           "evs": {"hp": 0, "atk": 0, "def": 0, "spa": 252, "spd": 0, "spe": 252},
           "nature": "Modest",
-          "moves": [["Calm Mind"], ["Focus Blast"], ["Flash Cannon"], ["Hidden Power Ghost"]]
+          "moves": [["Calm Mind"], ["Focus Blast"], ["Flash Cannon"], ["Hidden Power Ghost"]],
+          "ivs": {"def": 30, "spd": 30}
         },
         {
           "species": "Cobalion",
@@ -4996,7 +5037,8 @@
           "ability": "Adaptability",
           "evs": {"hp": 200, "atk": 0, "def": 0, "spa": 252, "spd": 0, "spe": 56},
           "nature": "Modest",
-          "moves": [["Draco Meteor"], ["Sludge Wave"], ["Hidden Power Fire"], ["Focus Blast"]]
+          "moves": [["Draco Meteor"], ["Sludge Wave"], ["Hidden Power Fire"], ["Focus Blast"]],
+          "ivs": {"atk": 30, "spa": 30, "spe": 30}
         },
         {
           "species": "Dragalge",
@@ -5064,7 +5106,8 @@
           "ability": "Prankster",
           "evs": {"hp": 0, "atk": 0, "def": 4, "spa": 252, "spd": 0, "spe": 252},
           "nature": "Timid",
-          "moves": [["Encore"], ["Giga Drain"], ["Moonblast"], ["Hidden Power Fire"]]
+          "moves": [["Encore"], ["Giga Drain"], ["Moonblast"], ["Hidden Power Fire"]],
+          "ivs": {"atk": 30, "spa": 30, "spe": 30}
         },
         {
           "species": "Whimsicott",
@@ -5081,7 +5124,8 @@
           "ability": "Prankster",
           "evs": {"hp": 0, "atk": 0, "def": 4, "spa": 252, "spd": 0, "spe": 252},
           "nature": "Timid",
-          "moves": [["Moonblast"], ["Giga Drain"], ["Hidden Power Fire"], ["Encore"]]
+          "moves": [["Moonblast"], ["Giga Drain"], ["Hidden Power Fire"], ["Encore"]],
+          "ivs": {"atk": 30, "spa": 30, "spe": 30}
         },
         {
           "species": "Whimsicott",
@@ -5141,7 +5185,8 @@
           "ability": "Overgrow",
           "evs": {"hp": 0, "atk": 0, "def": 0, "spa": 252, "spd": 4, "spe": 252},
           "nature": "Timid",
-          "moves": [["Substitute"], ["Giga Drain"], ["Dragon Pulse"], ["Hidden Power Fire"]]
+          "moves": [["Substitute"], ["Giga Drain"], ["Dragon Pulse"], ["Hidden Power Fire"]],
+          "ivs": {"atk": 30, "spa": 30, "spe": 30}
         },
         {
           "species": "Sceptile",
@@ -5149,7 +5194,8 @@
           "ability": "Overgrow",
           "evs": {"hp": 0, "atk": 0, "def": 0, "spa": 252, "spd": 4, "spe": 252},
           "nature": "Timid",
-          "moves": [["Leaf Storm"], ["Giga Drain"], ["Dragon Pulse"], ["Hidden Power Fire"]]
+          "moves": [["Leaf Storm"], ["Giga Drain"], ["Dragon Pulse"], ["Hidden Power Fire"]],
+          "ivs": {"atk": 30, "spa": 30, "spe": 30}
         },
         {
           "species": "Sceptile",
@@ -5181,7 +5227,8 @@
           "ability": "Overgrow",
           "evs": {"hp": 0, "atk": 0, "def": 0, "spa": 252, "spd": 4, "spe": 252},
           "nature": "Timid",
-          "moves": [["Dragon Pulse"], ["Giga Drain"], ["Focus Blast"], ["Hidden Power Fire"]]
+          "moves": [["Dragon Pulse"], ["Giga Drain"], ["Focus Blast"], ["Hidden Power Fire"]],
+          "ivs": {"atk": 30, "spa": 30, "spe": 30}
         }
       ]
     },
@@ -5384,7 +5431,8 @@
           "ability": "Overgrow",
           "evs": {"hp": 0, "atk": 0, "def": 0, "spa": 252, "spd": 4, "spe": 252},
           "nature": "Timid",
-          "moves": [["Leaf Storm"], ["Sludge Bomb"], ["Synthesis"], ["Hidden Power Fire"]]
+          "moves": [["Leaf Storm"], ["Sludge Bomb"], ["Synthesis"], ["Hidden Power Fire"]],
+          "ivs": {"atk": 30, "spa": 30, "spe": 30}
         },
         {
           "species": "Venusaur",
@@ -5392,7 +5440,8 @@
           "ability": "Overgrow",
           "evs": {"hp": 252, "atk": 0, "def": 0, "spa": 92, "spd": 0, "spe": 164},
           "nature": "Modest",
-          "moves": [["Giga Drain"], ["Sludge Bomb"], ["Synthesis"], ["Hidden Power Fire"]]
+          "moves": [["Giga Drain"], ["Sludge Bomb"], ["Synthesis"], ["Hidden Power Fire"]],
+          "ivs": {"atk": 30, "spa": 30, "spe": 30}
         }
       ]
     },
@@ -5435,7 +5484,8 @@
           "ability": "Lightning Rod",
           "evs": {"hp": 0, "atk": 0, "def": 4, "spa": 252, "spd": 0, "spe": 252},
           "nature": "Timid",
-          "moves": [["Volt Switch"], ["Thunderbolt"], ["Flamethrower", "Overheat"], ["Hidden Power Ice"]]
+          "moves": [["Volt Switch"], ["Thunderbolt"], ["Flamethrower", "Overheat"], ["Hidden Power Ice"]],
+          "ivs": {"atk": 30, "def": 30}
         },
         {
           "species": "Manectric",
@@ -5443,7 +5493,8 @@
           "ability": "Lightning Rod",
           "evs": {"hp": 0, "atk": 0, "def": 4, "spa": 252, "spd": 0, "spe": 252},
           "nature": "Timid",
-          "moves": [["Volt Switch"], ["Thunderbolt"], ["Hidden Power Ice"], ["Overheat", "Switcheroo"]]
+          "moves": [["Volt Switch"], ["Thunderbolt"], ["Hidden Power Ice"], ["Overheat", "Switcheroo"]],
+          "ivs": {"atk": 30, "def": 30}
         }
       ]
     },
@@ -5563,7 +5614,8 @@
           "ability": "Blaze",
           "evs": {"hp": 0, "atk": 0, "def": 4, "spa": 252, "spd": 0, "spe": 252},
           "nature": "Timid",
-          "moves": [["Fire Blast"], ["Psychic"], ["Grass Knot"], ["Hidden Power Water"]]
+          "moves": [["Fire Blast"], ["Psychic"], ["Grass Knot"], ["Hidden Power Water"]],
+          "ivs": {"atk": 30, "def": 30, "spa": 30}
         },
         {
           "species": "Delphox",
@@ -5579,7 +5631,8 @@
           "ability": "Blaze",
           "evs": {"hp": 0, "atk": 0, "def": 4, "spa": 252, "spd": 0, "spe": 252},
           "nature": "Timid",
-          "moves": [["Calm Mind"], ["Fire Blast"], ["Psychic"], ["Hidden Power Water"]]
+          "moves": [["Calm Mind"], ["Fire Blast"], ["Psychic"], ["Hidden Power Water"]],
+          "ivs": {"atk": 30, "def": 30, "spa": 30}
         },
         {
           "species": "Delphox",
@@ -5712,7 +5765,8 @@
           "ability": "Swift Swim",
           "evs": {"hp": 0, "atk": 0, "def": 4, "spa": 252, "spd": 0, "spe": 252},
           "nature": "Modest",
-          "moves": [["Hydro Pump"], ["Ice Beam"], ["Scald"], ["Hidden Power Grass"]]
+          "moves": [["Hydro Pump"], ["Ice Beam"], ["Scald"], ["Hidden Power Grass"]],
+          "ivs": {"atk": 30, "spa": 30}
         }
       ]
     },
@@ -5725,7 +5779,8 @@
           "ability": "Magnet Pull",
           "evs": {"hp": 4, "atk": 0, "def": 0, "spa": 252, "spd": 0, "spe": 252},
           "nature": "Modest",
-          "moves": [["Magnet Rise"], ["Thunderbolt"], ["Flash Cannon"], ["Hidden Power Water"]]
+          "moves": [["Magnet Rise"], ["Thunderbolt"], ["Flash Cannon"], ["Hidden Power Water"]],
+          "ivs": {"atk": 30, "def": 30, "spa": 30}
         },
         {
           "species": "Magneton",
@@ -5733,7 +5788,8 @@
           "ability": "Analytic",
           "evs": {"hp": 4, "atk": 0, "def": 0, "spa": 252, "spd": 0, "spe": 252},
           "nature": "Modest",
-          "moves": [["Volt Switch"], ["Thunderbolt"], ["Flash Cannon"], ["Hidden Power Grass"]]
+          "moves": [["Volt Switch"], ["Thunderbolt"], ["Flash Cannon"], ["Hidden Power Grass"]],
+          "ivs": {"atk": 30, "spa": 30}
         },
         {
           "species": "Magneton",
@@ -5741,7 +5797,8 @@
           "ability": "Analytic",
           "evs": {"hp": 0, "atk": 0, "def": 4, "spa": 252, "spd": 0, "spe": 252},
           "nature": "Modest",
-          "moves": [["Thunderbolt"], ["Volt Switch"], ["Flash Cannon"], ["Hidden Power Grass"]]
+          "moves": [["Thunderbolt"], ["Volt Switch"], ["Flash Cannon"], ["Hidden Power Grass"]],
+          "ivs": {"atk": 30, "spa": 30}
         }
       ]
     },
@@ -5754,7 +5811,8 @@
           "ability": "Volt Absorb",
           "evs": {"hp": 0, "atk": 0, "def": 4, "spa": 252, "spd": 0, "spe": 252},
           "nature": "Timid",
-          "moves": [["Thunderbolt"], ["Shadow Ball"], ["Hidden Power Ice"], ["Volt Switch"]]
+          "moves": [["Thunderbolt"], ["Shadow Ball"], ["Hidden Power Ice"], ["Volt Switch"]],
+          "ivs": {"atk": 30, "def": 30}
         },
         {
           "species": "Jolteon",
@@ -5762,7 +5820,8 @@
           "ability": "Volt Absorb",
           "evs": {"hp": 0, "atk": 0, "def": 4, "spa": 252, "spd": 0, "spe": 252},
           "nature": "Timid",
-          "moves": [["Thunderbolt"], ["Shadow Ball"], ["Hidden Power Water"], ["Volt Switch"]]
+          "moves": [["Thunderbolt"], ["Shadow Ball"], ["Hidden Power Water"], ["Volt Switch"]],
+          "ivs": {"atk": 30, "def": 30, "spa": 30}
         },
         {
           "species": "Jolteon",
@@ -5770,7 +5829,8 @@
           "ability": "Volt Absorb",
           "evs": {"hp": 0, "atk": 0, "def": 4, "spa": 252, "spd": 0, "spe": 252},
           "nature": "Timid",
-          "moves": [["Thunderbolt"], ["Shadow Ball"], ["Hidden Power Grass"], ["Volt Switch"]]
+          "moves": [["Thunderbolt"], ["Shadow Ball"], ["Hidden Power Grass"], ["Volt Switch"]],
+          "ivs": {"atk": 30, "spa": 30}
         },
         {
           "species": "Jolteon",
@@ -5778,7 +5838,8 @@
           "ability": "Volt Absorb",
           "evs": {"hp": 0, "atk": 0, "def": 4, "spa": 252, "spd": 0, "spe": 252},
           "nature": "Timid",
-          "moves": [["Thunderbolt"], ["Shadow Ball"], ["Hidden Power Ice"], ["Volt Switch"]]
+          "moves": [["Thunderbolt"], ["Shadow Ball"], ["Hidden Power Ice"], ["Volt Switch"]],
+          "ivs": {"atk": 30, "def": 30}
         },
         {
           "species": "Jolteon",
@@ -5786,7 +5847,8 @@
           "ability": "Volt Absorb",
           "evs": {"hp": 0, "atk": 0, "def": 4, "spa": 252, "spd": 0, "spe": 252},
           "nature": "Timid",
-          "moves": [["Thunderbolt"], ["Shadow Ball"], ["Hidden Power Water"], ["Volt Switch"]]
+          "moves": [["Thunderbolt"], ["Shadow Ball"], ["Hidden Power Water"], ["Volt Switch"]],
+          "ivs": {"atk": 30, "def": 30, "spa": 30}
         },
         {
           "species": "Jolteon",
@@ -5794,7 +5856,8 @@
           "ability": "Volt Absorb",
           "evs": {"hp": 0, "atk": 0, "def": 4, "spa": 252, "spd": 0, "spe": 252},
           "nature": "Timid",
-          "moves": [["Thunderbolt"], ["Shadow Ball"], ["Hidden Power Grass"], ["Volt Switch"]]
+          "moves": [["Thunderbolt"], ["Shadow Ball"], ["Hidden Power Grass"], ["Volt Switch"]],
+          "ivs": {"atk": 30, "spa": 30}
         },
         {
           "species": "Jolteon",
@@ -5802,7 +5865,8 @@
           "ability": "Volt Absorb",
           "evs": {"hp": 0, "atk": 0, "def": 4, "spa": 252, "spd": 0, "spe": 252},
           "nature": "Timid",
-          "moves": [["Thunderbolt"], ["Shadow Ball"], ["Hidden Power Ice"], ["Volt Switch"]]
+          "moves": [["Thunderbolt"], ["Shadow Ball"], ["Hidden Power Ice"], ["Volt Switch"]],
+          "ivs": {"atk": 30, "def": 30}
         },
         {
           "species": "Jolteon",
@@ -5810,7 +5874,8 @@
           "ability": "Volt Absorb",
           "evs": {"hp": 0, "atk": 0, "def": 4, "spa": 252, "spd": 0, "spe": 252},
           "nature": "Timid",
-          "moves": [["Thunderbolt"], ["Shadow Ball"], ["Hidden Power Water"], ["Volt Switch"]]
+          "moves": [["Thunderbolt"], ["Shadow Ball"], ["Hidden Power Water"], ["Volt Switch"]],
+          "ivs": {"atk": 30, "def": 30, "spa": 30}
         },
         {
           "species": "Jolteon",
@@ -5818,7 +5883,8 @@
           "ability": "Volt Absorb",
           "evs": {"hp": 0, "atk": 0, "def": 4, "spa": 252, "spd": 0, "spe": 252},
           "nature": "Timid",
-          "moves": [["Thunderbolt"], ["Shadow Ball"], ["Hidden Power Grass"], ["Volt Switch"]]
+          "moves": [["Thunderbolt"], ["Shadow Ball"], ["Hidden Power Grass"], ["Volt Switch"]],
+          "ivs": {"atk": 30, "spa": 30}
         }
       ]
     },
@@ -5915,7 +5981,8 @@
           "ability": "Sticky Hold",
           "evs": {"hp": 0, "atk": 0, "def": 4, "spa": 252, "spd": 0, "spe": 252},
           "nature": "Timid",
-          "moves": [["Bug Buzz"], ["Focus Blast"], ["Spikes"], ["Hidden Power Ice"]]
+          "moves": [["Bug Buzz"], ["Focus Blast"], ["Spikes"], ["Hidden Power Ice"]],
+          "ivs": {"atk": 30, "def": 30}
         }
       ]
     },
@@ -5988,7 +6055,8 @@
           "ability": "Solid Rock",
           "evs": {"hp": 4, "atk": 0, "def": 0, "spa": 252, "spd": 0, "spe": 252},
           "nature": "Modest",
-          "moves": [["Fire Blast", "Flamethrower"], ["Earth Power"], ["Hidden Power Ice"], ["Toxic"]]
+          "moves": [["Fire Blast", "Flamethrower"], ["Earth Power"], ["Hidden Power Ice"], ["Toxic"]],
+          "ivs": {"atk": 30, "def": 30}
         }
       ]
     },
@@ -6009,7 +6077,8 @@
           "ability": "Levitate",
           "evs": {"hp": 252, "atk": 0, "def": 4, "spa": 0, "spd": 252, "spe": 0},
           "nature": "Sassy",
-          "moves": [["Hidden Power Fire"], ["Gyro Ball"], ["Earthquake"], ["Toxic"]]
+          "moves": [["Hidden Power Fire"], ["Gyro Ball"], ["Earthquake"], ["Toxic"]],
+          "ivs": {"atk": 30, "spa": 30, "spe": 30}
         },
         {
           "species": "Bronzong",
@@ -6597,7 +6666,8 @@
           "ability": "Justified",
           "evs": {"hp": 0, "atk": 0, "def": 0, "spa": 252, "spd": 4, "spe": 252},
           "nature": "Timid",
-          "moves": [["Giga Drain"], ["Focus Blast"], ["Hidden Power Ice"], ["Calm Mind"]]
+          "moves": [["Giga Drain"], ["Focus Blast"], ["Hidden Power Ice"], ["Calm Mind"]],
+          "ivs": {"atk": 30, "def": 30}
         },
         {
           "species": "Virizion",
@@ -6853,7 +6923,8 @@
           "ability": "Keen Eye",
           "evs": {"hp": 0, "atk": 0, "def": 4, "spa": 252, "spd": 0, "spe": 252},
           "nature": "Timid",
-          "moves": [["Boomburst"], ["Chatter"], ["U-turn"], ["Hidden Power Grass"]]
+          "moves": [["Boomburst"], ["Chatter"], ["U-turn"], ["Hidden Power Grass"]],
+          "ivs": {"atk": 30, "spa": 30}
         },
         {
           "species": "Chatot",
@@ -6861,7 +6932,8 @@
           "ability": "Keen Eye",
           "evs": {"hp": 0, "atk": 0, "def": 4, "spa": 252, "spd": 0, "spe": 252},
           "nature": "Timid",
-          "moves": [["Boomburst"], ["Chatter"], ["U-turn"], ["Hidden Power Grass"]]
+          "moves": [["Boomburst"], ["Chatter"], ["U-turn"], ["Hidden Power Grass"]],
+          "ivs": {"atk": 30, "spa": 30}
         },
         {
           "species": "Chatot",
@@ -6911,7 +6983,8 @@
           "ability": "Analytic",
           "evs": {"hp": 248, "atk": 0, "def": 8, "spa": 252, "spd": 0, "spe": 0},
           "nature": "Quiet",
-          "moves": [["Trick Room"], ["Psychic"], ["Thunderbolt"], ["Hidden Power Fighting"]]
+          "moves": [["Trick Room"], ["Psychic"], ["Thunderbolt"], ["Hidden Power Fighting"]],
+          "ivs": {"def": 30, "spa": 30, "spd": 30, "spe": 30}
         },
         {
           "species": "Beheeyem",
@@ -6919,7 +6992,8 @@
           "ability": "Analytic",
           "evs": {"hp": 132, "atk": 0, "def": 0, "spa": 252, "spd": 0, "spe": 124},
           "nature": "Modest",
-          "moves": [["Psychic", "Psyshock"], ["Signal Beam"], ["Hidden Power Ground"], ["Trick", "Thunderbolt"]]
+          "moves": [["Psychic", "Psyshock"], ["Signal Beam"], ["Hidden Power Ground"], ["Trick", "Thunderbolt"]],
+          "ivs": {"spa": 30, "spd": 30}
         }
       ]
     },
@@ -6996,7 +7070,8 @@
           "ability": "Pressure",
           "evs": {"hp": 0, "atk": 0, "def": 0, "spa": 252, "spd": 4, "spe": 252},
           "nature": "Timid",
-          "moves": [["Hidden Power Fire"], ["Roost"], ["Hurricane"], ["Freeze-Dry"]]
+          "moves": [["Hidden Power Fire"], ["Roost"], ["Hurricane"], ["Freeze-Dry"]],
+          "ivs": {"atk": 30, "spa": 30, "spe": 30}
         },
         {
           "species": "Articuno",
@@ -7109,7 +7184,8 @@
           "ability": "Effect Spore",
           "evs": {"hp": 112, "atk": 0, "def": 0, "spa": 252, "spd": 0, "spe": 144},
           "nature": "Modest",
-          "moves": [["Giga Drain"], ["Sludge Bomb"], ["Hidden Power Fire"], ["Synthesis"]]
+          "moves": [["Giga Drain"], ["Sludge Bomb"], ["Hidden Power Fire"], ["Synthesis"]],
+          "ivs": {"atk": 30, "spa": 30, "spe": 30}
         },
         {
           "species": "Vileplume",
@@ -7117,7 +7193,8 @@
           "ability": "Effect Spore",
           "evs": {"hp": 112, "atk": 0, "def": 0, "spa": 252, "spd": 0, "spe": 144},
           "nature": "Modest",
-          "moves": [["Giga Drain"], ["Sludge Bomb"], ["Hidden Power Ground"], ["Synthesis"]]
+          "moves": [["Giga Drain"], ["Sludge Bomb"], ["Hidden Power Ground"], ["Synthesis"]],
+          "ivs": {"spa": 30, "spd": 30}
         }
       ]
     },
@@ -7138,7 +7215,8 @@
           "ability": "Scrappy",
           "evs": {"hp": 0, "atk": 0, "def": 4, "spa": 252, "spd": 0, "spe": 252},
           "nature": "Timid",
-          "moves": [["Boomburst"], ["U-turn"], ["Heat Wave"], ["Hidden Power Grass"]]
+          "moves": [["Boomburst"], ["U-turn"], ["Heat Wave"], ["Hidden Power Grass"]],
+          "ivs": {"atk": 30, "spa": 30}
         },
         {
           "species": "Swellow",
@@ -7209,7 +7287,8 @@
           "ability": "Levitate",
           "evs": {"hp": 0, "atk": 0, "def": 0, "spa": 252, "spd": 4, "spe": 252},
           "nature": "Timid",
-          "moves": [["Volt Switch"], ["Air Slash"], ["Hidden Power Water"], ["Will-O-Wisp"]]
+          "moves": [["Volt Switch"], ["Air Slash"], ["Hidden Power Water"], ["Will-O-Wisp"]],
+          "ivs": {"atk": 30, "def": 30, "spa": 30}
         },
         {
           "species": "Rotom-Fan",
@@ -7217,7 +7296,8 @@
           "ability": "Levitate",
           "evs": {"hp": 0, "atk": 0, "def": 0, "spa": 252, "spd": 4, "spe": 252},
           "nature": "Timid",
-          "moves": [["Volt Switch"], ["Air Slash"], ["Hidden Power Grass"], ["Will-O-Wisp"]]
+          "moves": [["Volt Switch"], ["Air Slash"], ["Hidden Power Grass"], ["Will-O-Wisp"]],
+          "ivs": {"atk": 30, "spa": 30}
         }
       ]
     },
@@ -7301,7 +7381,8 @@
           "ability": "Unnerve",
           "evs": {"hp": 0, "atk": 0, "def": 4, "spa": 252, "spd": 0, "spe": 252},
           "nature": "Timid",
-          "moves": [["Fire Blast"], ["Hyper Voice"], ["Hidden Power Grass"], ["Will-O-Wisp"]]
+          "moves": [["Fire Blast"], ["Hyper Voice"], ["Hidden Power Grass"], ["Will-O-Wisp"]],
+          "ivs": {"atk": 30, "spa": 30}
         },
         {
           "species": "Pyroar",
@@ -7309,7 +7390,8 @@
           "ability": "Unnerve",
           "evs": {"hp": 0, "atk": 0, "def": 4, "spa": 252, "spd": 0, "spe": 252},
           "nature": "Timid",
-          "moves": [["Fire Blast"], ["Hyper Voice"], ["Hidden Power Grass"], ["Flamethrower", "Overheat"]]
+          "moves": [["Fire Blast"], ["Hyper Voice"], ["Hidden Power Grass"], ["Flamethrower", "Overheat"]],
+          "ivs": {"atk": 30, "spa": 30}
         }
       ]
     },
@@ -7464,7 +7546,8 @@
           "ability": "Levitate",
           "evs": {"hp": 0, "atk": 0, "def": 0, "spa": 252, "spd": 4, "spe": 252},
           "nature": "Modest",
-          "moves": [["Psychic", "Psyshock"], ["Signal Beam", "Ice Beam"], ["Hidden Power Ground"], ["Healing Wish", "Calm Mind"]]
+          "moves": [["Psychic", "Psyshock"], ["Signal Beam", "Ice Beam"], ["Hidden Power Ground"], ["Healing Wish", "Calm Mind"]],
+          "ivs": {"spa": 30, "spd": 30}
         },
         {
           "species": "Mesprit",
@@ -7543,7 +7626,8 @@
           "ability": "Vital Spirit",
           "evs": {"hp": 64, "atk": 0, "def": 0, "spa": 252, "spd": 0, "spe": 192},
           "nature": "Modest",
-          "moves": [["Fire Blast"], ["Thunderbolt"], ["Hidden Power Grass"], ["Flame Charge", "Earthquake"]]
+          "moves": [["Fire Blast"], ["Thunderbolt"], ["Hidden Power Grass"], ["Flame Charge", "Earthquake"]],
+          "ivs": {"atk": 30, "spa": 30}
         },
         {
           "species": "Magmortar",
@@ -7559,7 +7643,8 @@
           "ability": "Vital Spirit",
           "evs": {"hp": 0, "atk": 4, "def": 0, "spa": 252, "spd": 0, "spe": 252},
           "nature": "Mild",
-          "moves": [["Fire Blast"], ["Thunderbolt"], ["Earthquake"], ["Hidden Power Grass"]]
+          "moves": [["Fire Blast"], ["Thunderbolt"], ["Earthquake"], ["Hidden Power Grass"]],
+          "ivs": {"atk": 30, "spa": 30}
         }
       ]
     },
@@ -7585,7 +7670,8 @@
           "ability": "Own Tempo",
           "evs": {"hp": 4, "atk": 0, "def": 0, "spa": 252, "spd": 0, "spe": 252},
           "nature": "Timid",
-          "moves": [["Quiver Dance"], ["Sleep Powder"], ["Giga Drain"], ["Hidden Power Fire"]]
+          "moves": [["Quiver Dance"], ["Sleep Powder"], ["Giga Drain"], ["Hidden Power Fire"]],
+          "ivs": {"atk": 30, "spa": 30, "spe": 30}
         },
         {
           "species": "Lilligant",
@@ -7593,7 +7679,8 @@
           "ability": "Own Tempo",
           "evs": {"hp": 4, "atk": 0, "def": 0, "spa": 252, "spd": 0, "spe": 252},
           "nature": "Timid",
-          "moves": [["Quiver Dance"], ["Sleep Powder"], ["Giga Drain"], ["Hidden Power Ice"]]
+          "moves": [["Quiver Dance"], ["Sleep Powder"], ["Giga Drain"], ["Hidden Power Ice"]],
+          "ivs": {"atk": 30, "def": 30}
         },
         {
           "species": "Lilligant",
@@ -7601,7 +7688,8 @@
           "ability": "Own Tempo",
           "evs": {"hp": 0, "atk": 0, "def": 4, "spa": 252, "spd": 0, "spe": 252},
           "nature": "Timid",
-          "moves": [["Sleep Powder"], ["Leaf Storm"], ["Hidden Power Rock"], ["Healing Wish"]]
+          "moves": [["Sleep Powder"], ["Leaf Storm"], ["Hidden Power Rock"], ["Healing Wish"]],
+          "ivs": {"def": 30, "spd": 30, "spe": 30}
         }
       ]
     },
@@ -7635,7 +7723,8 @@
           "ability": "Volt Absorb",
           "evs": {"hp": 0, "atk": 0, "def": 0, "spa": 252, "spd": 72, "spe": 184},
           "nature": "Modest",
-          "moves": [["Hydro Pump", "Scald"], ["Volt Switch"], ["Ice Beam", "Signal Beam"], ["Hidden Power Fire"]]
+          "moves": [["Hydro Pump", "Scald"], ["Volt Switch"], ["Ice Beam", "Signal Beam"], ["Hidden Power Fire"]],
+          "ivs": {"atk": 30, "spa": 30, "spe": 30}
         },
         {
           "species": "Lanturn",
@@ -7643,7 +7732,8 @@
           "ability": "Volt Absorb",
           "evs": {"hp": 0, "atk": 0, "def": 0, "spa": 252, "spd": 72, "spe": 184},
           "nature": "Modest",
-          "moves": [["Hydro Pump", "Scald"], ["Volt Switch"], ["Ice Beam", "Signal Beam"], ["Hidden Power Grass"]]
+          "moves": [["Hydro Pump", "Scald"], ["Volt Switch"], ["Ice Beam", "Signal Beam"], ["Hidden Power Grass"]],
+          "ivs": {"atk": 30, "spa": 30}
         },
         {
           "species": "Lanturn",
@@ -7659,7 +7749,8 @@
           "ability": "Volt Absorb",
           "evs": {"hp": 0, "atk": 0, "def": 0, "spa": 252, "spd": 144, "spe": 112},
           "nature": "Modest",
-          "moves": [["Scald"], ["Volt Switch"], ["Ice Beam"], ["Hidden Power Fire"]]
+          "moves": [["Scald"], ["Volt Switch"], ["Ice Beam"], ["Hidden Power Fire"]],
+          "ivs": {"atk": 30, "spa": 30, "spe": 30}
         }
       ]
     },
@@ -7842,7 +7933,8 @@
           "ability": "Chlorophyll",
           "evs": {"hp": 4, "atk": 0, "def": 0, "spa": 252, "spd": 0, "spe": 252},
           "nature": "Modest",
-          "moves": [["Giga Drain"], ["Psychic"], ["Hidden Power Fire"], ["Sleep Powder"]]
+          "moves": [["Giga Drain"], ["Psychic"], ["Hidden Power Fire"], ["Sleep Powder"]],
+          "ivs": {"atk": 30, "spa": 30, "spe": 30}
         },
         {
           "species": "Exeggutor",
@@ -7850,7 +7942,8 @@
           "ability": "Chlorophyll",
           "evs": {"hp": 0, "atk": 0, "def": 4, "spa": 252, "spd": 0, "spe": 252},
           "nature": "Modest",
-          "moves": [["Psychic"], ["Leaf Storm"], ["Giga Drain"], ["Hidden Power Fire"]]
+          "moves": [["Psychic"], ["Leaf Storm"], ["Giga Drain"], ["Hidden Power Fire"]],
+          "ivs": {"atk": 30, "spa": 30, "spe": 30}
         },
         {
           "species": "Exeggutor",
@@ -7871,7 +7964,8 @@
           "ability": "Motor Drive",
           "evs": {"hp": 0, "atk": 252, "def": 0, "spa": 4, "spd": 0, "spe": 252},
           "nature": "Naive",
-          "moves": [["Wild Charge"], ["Earthquake"], ["Ice Punch"], ["Hidden Power Grass"]]
+          "moves": [["Wild Charge"], ["Earthquake"], ["Ice Punch"], ["Hidden Power Grass"]],
+          "ivs": {"atk": 30, "spa": 30}
         }
       ]
     },
@@ -7892,7 +7986,8 @@
           "ability": "Levitate",
           "evs": {"hp": 0, "atk": 0, "def": 4, "spa": 252, "spd": 0, "spe": 252},
           "nature": "Timid",
-          "moves": [["Rapid Spin"], ["Freeze-Dry"], ["Hidden Power Ground"], ["Recover"]]
+          "moves": [["Rapid Spin"], ["Freeze-Dry"], ["Hidden Power Ground"], ["Recover"]],
+          "ivs": {"spa": 30, "spd": 30}
         }
       ]
     },
@@ -8142,7 +8237,8 @@
           "ability": "Regenerator",
           "evs": {"hp": 236, "atk": 0, "def": 48, "spa": 224, "spd": 0, "spe": 0},
           "nature": "Modest",
-          "moves": [["Leaf Storm"], ["Giga Drain", "Ancient Power"], ["Sleep Powder"], ["Hidden Power Fire"]]
+          "moves": [["Leaf Storm"], ["Giga Drain", "Ancient Power"], ["Sleep Powder"], ["Hidden Power Fire"]],
+          "ivs": {"atk": 30, "spa": 30, "spe": 30}
         },
         {
           "species": "Tangela",
@@ -8150,7 +8246,8 @@
           "ability": "Regenerator",
           "evs": {"hp": 252, "atk": 0, "def": 252, "spa": 4, "spd": 0, "spe": 0},
           "nature": "Bold",
-          "moves": [["Giga Drain"], ["Hidden Power Fire"], ["Sleep Powder"], ["Leech Seed"]]
+          "moves": [["Giga Drain"], ["Hidden Power Fire"], ["Sleep Powder"], ["Leech Seed"]],
+          "ivs": {"atk": 30, "spa": 30, "spe": 30}
         }
       ]
     },
@@ -8247,7 +8344,8 @@
           "ability": "Blaze",
           "evs": {"hp": 0, "atk": 0, "def": 4, "spa": 252, "spd": 0, "spe": 252},
           "nature": "Timid",
-          "moves": [["Fire Blast"], ["Air Slash"], ["Hidden Power Grass"], ["Roost"]]
+          "moves": [["Fire Blast"], ["Air Slash"], ["Hidden Power Grass"], ["Roost"]],
+          "ivs": {"atk": 30, "spa": 30}
         },
         {
           "species": "Charizard",
@@ -8330,7 +8428,8 @@
           "ability": "Aftermath",
           "evs": {"hp": 0, "atk": 0, "def": 0, "spa": 252, "spd": 4, "spe": 252},
           "nature": "Modest",
-          "moves": [["Dark Pulse"], ["Fire Blast"], ["Hidden Power Grass"], ["Defog"]]
+          "moves": [["Dark Pulse"], ["Fire Blast"], ["Hidden Power Grass"], ["Defog"]],
+          "ivs": {"atk": 30, "spa": 30}
         }
       ]
     },
@@ -8343,7 +8442,8 @@
           "ability": "Swift Swim",
           "evs": {"hp": 0, "atk": 0, "def": 4, "spa": 252, "spd": 0, "spe": 252},
           "nature": "Timid",
-          "moves": [["Shell Smash"], ["Hydro Pump"], ["Ice Beam"], ["Hidden Power Electric"]]
+          "moves": [["Shell Smash"], ["Hydro Pump"], ["Ice Beam"], ["Hidden Power Electric"]],
+          "ivs": {"spa": 30}
         },
         {
           "species": "Omastar",
@@ -8359,7 +8459,8 @@
           "ability": "Shell Armor",
           "evs": {"hp": 252, "atk": 0, "def": 252, "spa": 0, "spd": 4, "spe": 0},
           "nature": "Bold",
-          "moves": [["Spikes"], ["Stealth Rock"], ["Scald"], ["Hidden Power Electric"]]
+          "moves": [["Spikes"], ["Stealth Rock"], ["Scald"], ["Hidden Power Electric"]],
+          "ivs": {"spa": 30}
         },
         {
           "species": "Omastar",
@@ -8467,7 +8568,8 @@
           "ability": "Solid Rock",
           "evs": {"hp": 140, "atk": 0, "def": 0, "spa": 252, "spd": 0, "spe": 116},
           "nature": "Modest",
-          "moves": [["Fire Blast"], ["Earth Power"], ["Lava Plume"], ["Hidden Power Electric"]]
+          "moves": [["Fire Blast"], ["Earth Power"], ["Lava Plume"], ["Hidden Power Electric"]],
+          "ivs": {"spa": 30}
         }
       ]
     },
@@ -8493,7 +8595,8 @@
           "ability": "Lightning Rod",
           "evs": {"hp": 0, "atk": 0, "def": 0, "spa": 252, "spd": 4, "spe": 252},
           "nature": "Timid",
-          "moves": [["Thunderbolt"], ["Volt Switch"], ["Hidden Power Grass"], ["Overheat"]]
+          "moves": [["Thunderbolt"], ["Volt Switch"], ["Hidden Power Grass"], ["Overheat"]],
+          "ivs": {"atk": 30, "spa": 30}
         }
       ]
     },
@@ -8576,7 +8679,8 @@
           "ability": "Static",
           "evs": {"hp": 0, "atk": 0, "def": 0, "spa": 252, "spd": 4, "spe": 252},
           "nature": "Timid",
-          "moves": [["Agility"], ["Thunderbolt"], ["Focus Blast"], ["Hidden Power Ice"]]
+          "moves": [["Agility"], ["Thunderbolt"], ["Focus Blast"], ["Hidden Power Ice"]],
+          "ivs": {"atk": 30, "def": 30}
         }
       ]
     },
@@ -8589,7 +8693,8 @@
           "ability": "Levitate",
           "evs": {"hp": 0, "atk": 0, "def": 0, "spa": 252, "spd": 4, "spe": 252},
           "nature": "Timid",
-          "moves": [["Freeze-Dry"], ["Hidden Power Fighting"], ["Recover"], ["Rapid Spin"]]
+          "moves": [["Freeze-Dry"], ["Hidden Power Fighting"], ["Recover"], ["Rapid Spin"]],
+          "ivs": {"def": 30, "spa": 30, "spd": 30, "spe": 30}
         },
         {
           "species": "Cryogonal",
@@ -8597,7 +8702,8 @@
           "ability": "Levitate",
           "evs": {"hp": 248, "atk": 0, "def": 156, "spa": 0, "spd": 104, "spe": 0},
           "nature": "Calm",
-          "moves": [["Freeze-Dry"], ["Rapid Spin"], ["Recover"], ["Hidden Power Fighting"]]
+          "moves": [["Freeze-Dry"], ["Rapid Spin"], ["Recover"], ["Hidden Power Fighting"]],
+          "ivs": {"def": 30, "spa": 30, "spd": 30, "spe": 30}
         }
       ]
     },
@@ -8652,7 +8758,8 @@
           "ability": "Natural Cure",
           "evs": {"hp": 116, "atk": 0, "def": 0, "spa": 252, "spd": 0, "spe": 140},
           "nature": "Modest",
-          "moves": [["Draco Meteor"], ["Roost"], ["Fire Blast"], ["Hidden Power Fighting"]]
+          "moves": [["Draco Meteor"], ["Roost"], ["Fire Blast"], ["Hidden Power Fighting"]],
+          "ivs": {"def": 30, "spa": 30, "spd": 30, "spe": 30}
         }
       ]
     },
@@ -8709,7 +8816,8 @@
           "ability": "Swift Swim",
           "evs": {"hp": 0, "atk": 0, "def": 0, "spa": 252, "spd": 4, "spe": 252},
           "nature": "Modest",
-          "moves": [["Shell Smash"], ["Hydro Pump"], ["Ice Beam"], ["Hidden Power Electric"]]
+          "moves": [["Shell Smash"], ["Hydro Pump"], ["Ice Beam"], ["Hidden Power Electric"]],
+          "ivs": {"spa": 30}
         }
       ]
     },
@@ -8764,7 +8872,8 @@
           "ability": "Natural Cure",
           "evs": {"hp": 36, "atk": 0, "def": 0, "spa": 252, "spd": 0, "spe": 220},
           "nature": "Modest",
-          "moves": [["Giga Drain"], ["Sludge Bomb"], ["Hidden Power Fighting"], ["Sleep Powder"]]
+          "moves": [["Giga Drain"], ["Sludge Bomb"], ["Hidden Power Fighting"], ["Sleep Powder"]],
+          "ivs": {"def": 30, "spa": 30, "spd": 30, "spe": 30}
         },
         {
           "species": "Roselia",
@@ -8772,7 +8881,8 @@
           "ability": "Natural Cure",
           "evs": {"hp": 36, "atk": 0, "def": 0, "spa": 252, "spd": 0, "spe": 220},
           "nature": "Modest",
-          "moves": [["Giga Drain"], ["Sludge Bomb"], ["Hidden Power Fighting"], ["Spikes"]]
+          "moves": [["Giga Drain"], ["Sludge Bomb"], ["Hidden Power Fighting"], ["Spikes"]],
+          "ivs": {"def": 30, "spa": 30, "spd": 30, "spe": 30}
         },
         {
           "species": "Roselia",
@@ -8780,7 +8890,8 @@
           "ability": "Natural Cure",
           "evs": {"hp": 36, "atk": 0, "def": 0, "spa": 252, "spd": 0, "spe": 220},
           "nature": "Modest",
-          "moves": [["Giga Drain"], ["Sludge Bomb"], ["Hidden Power Fighting"], ["Toxic Spikes"]]
+          "moves": [["Giga Drain"], ["Sludge Bomb"], ["Hidden Power Fighting"], ["Toxic Spikes"]],
+          "ivs": {"def": 30, "spa": 30, "spd": 30, "spe": 30}
         }
       ]
     },
@@ -8793,7 +8904,8 @@
           "ability": "Water Veil",
           "evs": {"hp": 0, "atk": 4, "def": 0, "spa": 252, "spd": 0, "spe": 252},
           "nature": "Timid",
-          "moves": [["Hydro Pump"], ["Ice Beam"], ["Hidden Power Electric"], ["Surf", "Switcheroo"]]
+          "moves": [["Hydro Pump"], ["Ice Beam"], ["Hidden Power Electric"], ["Surf", "Switcheroo"]],
+          "ivs": {"spa": 30}
         },
         {
           "species": "Floatzel",
@@ -8810,7 +8922,8 @@
           "ability": "Water Veil",
           "evs": {"hp": 0, "atk": 4, "def": 0, "spa": 252, "spd": 0, "spe": 252},
           "nature": "Naive",
-          "moves": [["Hydro Pump"], ["Ice Beam"], ["Ice Punch"], ["Hidden Power Electric"]]
+          "moves": [["Hydro Pump"], ["Ice Beam"], ["Ice Punch"], ["Hidden Power Electric"]],
+          "ivs": {"spa": 30}
         },
         {
           "species": "Floatzel",
@@ -8818,7 +8931,8 @@
           "ability": "Water Veil",
           "evs": {"hp": 0, "atk": 4, "def": 0, "spa": 252, "spd": 0, "spe": 252},
           "nature": "Modest",
-          "moves": [["Hydro Pump"], ["Ice Beam"], ["Hidden Power Electric"], ["Surf", "Switcheroo"]]
+          "moves": [["Hydro Pump"], ["Ice Beam"], ["Hidden Power Electric"], ["Surf", "Switcheroo"]],
+          "ivs": {"spa": 30}
         }
       ]
     },
@@ -8868,7 +8982,8 @@
           "ability": "Sap Sipper",
           "evs": {"hp": 0, "atk": 0, "def": 0, "spa": 252, "spd": 4, "spe": 252},
           "nature": "Timid",
-          "moves": [["Volt Switch"], ["Thunderbolt"], ["Overheat"], ["Hidden Power Ice"]]
+          "moves": [["Volt Switch"], ["Thunderbolt"], ["Overheat"], ["Hidden Power Ice"]],
+          "ivs": {"atk": 30, "def": 30}
         },
         {
           "species": "Zebstrika",
@@ -8876,7 +8991,8 @@
           "ability": "Lightning Rod",
           "evs": {"hp": 0, "atk": 0, "def": 0, "spa": 252, "spd": 4, "spe": 252},
           "nature": "Timid",
-          "moves": [["Volt Switch"], ["Thunderbolt"], ["Overheat"], ["Hidden Power Ice"]]
+          "moves": [["Volt Switch"], ["Thunderbolt"], ["Overheat"], ["Hidden Power Ice"]],
+          "ivs": {"atk": 30, "def": 30}
         }
       ]
     },
@@ -9049,7 +9165,8 @@
           "ability": "Static",
           "evs": {"hp": 252, "atk": 0, "def": 252, "spa": 0, "spd": 4, "spe": 0},
           "nature": "Bold",
-          "moves": [["Stealth Rock"], ["Discharge"], ["Earth Power"], ["Hidden Power Bug"]]
+          "moves": [["Stealth Rock"], ["Discharge"], ["Earth Power"], ["Hidden Power Bug"]],
+          "ivs": {"atk": 30, "def": 30, "spd": 30}
         },
         {
           "species": "Stunfisk",
@@ -9065,7 +9182,8 @@
           "ability": "Static",
           "evs": {"hp": 252, "atk": 0, "def": 252, "spa": 0, "spd": 4, "spe": 0},
           "nature": "Bold",
-          "moves": [["Stealth Rock"], ["Discharge"], ["Earth Power"], ["Hidden Power Bug"]]
+          "moves": [["Stealth Rock"], ["Discharge"], ["Earth Power"], ["Hidden Power Bug"]],
+          "ivs": {"atk": 30, "def": 30, "spd": 30}
         },
         {
           "species": "Stunfisk",
@@ -9081,7 +9199,8 @@
           "ability": "Static",
           "evs": {"hp": 252, "atk": 0, "def": 4, "spa": 0, "spd": 252, "spe": 0},
           "nature": "Bold",
-          "moves": [["Stealth Rock"], ["Discharge"], ["Earth Power"], ["Hidden Power Bug"]]
+          "moves": [["Stealth Rock"], ["Discharge"], ["Earth Power"], ["Hidden Power Bug"]],
+          "ivs": {"atk": 30, "def": 30, "spd": 30}
         }
       ]
     },
@@ -9115,7 +9234,8 @@
           "ability": "Regenerator",
           "evs": {"hp": 252, "atk": 0, "def": 252, "spa": 0, "spd": 4, "spe": 0},
           "nature": "Bold",
-          "moves": [["Giga Drain"], ["Synthesis"], ["Hidden Power Fire"], ["Sleep Powder", "Knock Off"]]
+          "moves": [["Giga Drain"], ["Synthesis"], ["Hidden Power Fire"], ["Sleep Powder", "Knock Off"]],
+          "ivs": {"atk": 30, "spa": 30, "spe": 30}
         },
         {
           "species": "Tangela",
@@ -9123,7 +9243,8 @@
           "ability": "Regenerator",
           "evs": {"hp": 252, "atk": 0, "def": 0, "spa": 252, "spd": 4, "spe": 0},
           "nature": "Modest",
-          "moves": [["Leaf Storm"], ["Giga Drain"], ["Hidden Power Fire"], ["Sleep Powder"]]
+          "moves": [["Leaf Storm"], ["Giga Drain"], ["Hidden Power Fire"], ["Sleep Powder"]],
+          "ivs": {"atk": 30, "spa": 30, "spe": 30}
         }
       ]
     },
@@ -9144,7 +9265,8 @@
           "ability": "Torrent",
           "evs": {"hp": 0, "atk": 4, "def": 0, "spa": 252, "spd": 0, "spe": 252},
           "nature": "Hasty",
-          "moves": [["Hydro Pump"], ["Ice Beam"], ["Hidden Power Electric"], ["Knock Off", "Low Kick", "Nasty Plot"]]
+          "moves": [["Hydro Pump"], ["Ice Beam"], ["Hidden Power Electric"], ["Knock Off", "Low Kick", "Nasty Plot"]],
+          "ivs": {"spa": 30}
         },
         {
           "species": "Simipour",
@@ -9181,7 +9303,8 @@
           "ability": "Magic Guard",
           "evs": {"hp": 0, "atk": 0, "def": 0, "spa": 252, "spd": 4, "spe": 252},
           "nature": "Timid",
-          "moves": [["Psychic"], ["Hidden Power Fighting"], ["Thunder Wave"], ["Encore"]]
+          "moves": [["Psychic"], ["Hidden Power Fighting"], ["Thunder Wave"], ["Encore"]],
+          "ivs": {"def": 30, "spa": 30, "spd": 30, "spe": 30}
         },
         {
           "species": "Kadabra",
@@ -9197,7 +9320,8 @@
           "ability": "Magic Guard",
           "evs": {"hp": 0, "atk": 0, "def": 0, "spa": 252, "spd": 4, "spe": 252},
           "nature": "Timid",
-          "moves": [["Psychic"], ["Hidden Power Fighting"], ["Shadow Ball"], ["Substitute", "Encore"]]
+          "moves": [["Psychic"], ["Hidden Power Fighting"], ["Shadow Ball"], ["Substitute", "Encore"]],
+          "ivs": {"def": 30, "spa": 30, "spd": 30, "spe": 30}
         }
       ]
     },
@@ -9209,6 +9333,7 @@
           "item": "Life Orb",
           "ability": "Lightning Rod",
           "evs": {"hp": 0, "atk": 0, "def": 0, "spa": 252, "spd": 4, "spe": 252},
+          "ivs": {"atk": 30, "def": 30},
           "nature": "Timid",
           "moves": [["Nasty Plot"], ["Thunderbolt"], ["Hidden Power Ice"], ["Focus Blast"]]
         },
@@ -9226,6 +9351,7 @@
           "item": "Life Orb",
           "ability": "Lightning Rod",
           "evs": {"hp": 0, "atk": 0, "def": 0, "spa": 252, "spd": 4, "spe": 252},
+          "ivs": {"atk": 30, "def": 30},
           "nature": "Timid",
           "moves": [["Thunderbolt"], ["Volt Switch"], ["Focus Blast"], ["Hidden Power Ice"]]
         },
@@ -9252,6 +9378,7 @@
           "item": "Choice Scarf",
           "ability": "Lightning Rod",
           "evs": {"hp": 0, "atk": 0, "def": 0, "spa": 252, "spd": 4, "spe": 252},
+          "ivs": {"atk": 30, "def": 30},
           "nature": "Modest",
           "moves": [["Thunderbolt"], ["Volt Switch"], ["Hidden Power Ice"], ["Focus Blast"]]
         }
@@ -9350,7 +9477,8 @@
           "ability": "Levitate",
           "evs": {"hp": 0, "atk": 0, "def": 0, "spa": 252, "spd": 4, "spe": 252},
           "nature": "Timid",
-          "moves": [["Thunderbolt"], ["Volt Switch"], ["Blizzard"], ["Hidden Power Ice"]]
+          "moves": [["Thunderbolt"], ["Volt Switch"], ["Blizzard"], ["Hidden Power Ice"]],
+          "ivs": {"atk": 30, "def": 30}
         },
         {
           "species": "Rotom-Frost",
@@ -9392,6 +9520,7 @@
           "item": "Choice Scarf",
           "ability": "Keen Eye",
           "evs": {"hp": 0, "atk": 0, "def": 0, "spa": 252, "spd": 4, "spe": 252},
+          "ivs": {"def": 30, "spa": 30, "spd": 30, "spe": 30},
           "nature": "Modest",
           "moves": [["Boomburst"], ["Heat Wave"], ["Hidden Power Fighting"], ["U-turn"]]
         },
@@ -9400,6 +9529,7 @@
           "item": "Choice Scarf",
           "ability": "Keen Eye",
           "evs": {"hp": 0, "atk": 0, "def": 0, "spa": 252, "spd": 4, "spe": 252},
+          "ivs": {"def": 30, "spa": 30, "spd": 30, "spe": 30},
           "nature": "Timid",
           "moves": [["Boomburst"], ["Heat Wave"], ["Hidden Power Fighting"], ["U-turn"]]
         },
@@ -9408,6 +9538,7 @@
           "item": "Choice Specs",
           "ability": "Keen Eye",
           "evs": {"hp": 0, "atk": 0, "def": 0, "spa": 252, "spd": 4, "spe": 252},
+          "ivs": {"def": 30, "spa": 30, "spd": 30, "spe": 30},
           "nature": "Modest",
           "moves": [["Boomburst"], ["Heat Wave"], ["Hidden Power Fighting"], ["U-turn"]]
         }
@@ -9611,7 +9742,8 @@
           "ability": "Flash Fire",
           "evs": {"hp": 0, "atk": 0, "def": 4, "spa": 252, "spd": 0, "spe": 252},
           "nature": "Timid",
-          "moves": [["Nasty Plot"], ["Fire Blast"], ["Energy Ball"], ["Hidden Power Ground"]]
+          "moves": [["Nasty Plot"], ["Fire Blast"], ["Energy Ball"], ["Hidden Power Ground"]],
+          "ivs": {"spa": 30, "spd": 30}
         }
       ]
     },
@@ -9632,7 +9764,8 @@
           "ability": "Pressure",
           "evs": {"hp": 36, "atk": 0, "def": 0, "spa": 252, "spd": 0, "spe": 220},
           "nature": "Modest",
-          "moves": [["Agility"], ["Ice Beam", "Freeze-Dry"], ["Hurricane"], ["Hidden Power Fighting"]]
+          "moves": [["Agility"], ["Ice Beam", "Freeze-Dry"], ["Hurricane"], ["Hidden Power Fighting"]],
+          "ivs": {"def": 30, "spa": 30, "spd": 30, "spe": 30}
         },
         {
           "species": "Articuno",
@@ -9781,6 +9914,7 @@
           "item": "Leftovers",
           "ability": "Water Absorb",
           "evs": {"hp": 248, "atk": 0, "def": 0, "spa": 252, "spd": 8, "spe": 0},
+          "ivs": {"spa": 30},
           "nature": "Modest",
           "moves": [["Scald"], ["Ice Beam"], ["Hidden Power Electric"], ["Encore", "Toxic"]]
         },
@@ -9909,6 +10043,7 @@
           "item": "Life Orb",
           "ability": "Adaptability",
           "evs": {"hp": 0, "atk": 252, "def": 0, "spa": 4, "spd": 0, "spe": 252},
+          "ivs": {"spa": 30},
           "nature": "Naive",
           "moves": [["Waterfall"], ["Aqua Jet"], ["Ice Beam"], ["Hidden Power Electric"]]
         }
@@ -10205,7 +10340,8 @@
           "ability": "Prankster",
           "evs": {"hp": 0, "atk": 252, "def": 0, "spa": 4, "spd": 0, "spe": 252},
           "nature": "Naive",
-          "moves": [["Brave Bird"], ["Sucker Punch"], ["Hidden Power Fighting"], ["Thunder Wave", "Pursuit"]]
+          "moves": [["Brave Bird"], ["Sucker Punch"], ["Hidden Power Fighting"], ["Thunder Wave", "Pursuit"]],
+          "ivs": {"def": 30, "spa": 30, "spd": 30, "spe": 30}
         }
       ]
     },
@@ -10265,7 +10401,8 @@
           "ability": "Soundproof",
           "evs": {"hp": 0, "atk": 0, "def": 0, "spa": 252, "spd": 4, "spe": 252},
           "nature": "Modest",
-          "moves": [["Thunderbolt"], ["Volt Switch"], ["Signal Beam"], ["Hidden Power Ice"]]
+          "moves": [["Thunderbolt"], ["Volt Switch"], ["Signal Beam"], ["Hidden Power Ice"]],
+          "ivs": {"atk": 30, "def": 30}
         }
       ]
     },

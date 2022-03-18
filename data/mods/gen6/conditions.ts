@@ -8,12 +8,9 @@ export const Conditions: {[k: string]: ModdedConditionData} = {
 	par: {
 		inherit: true,
 		onModifySpe(spe, pokemon) {
-			// Paralysis occurs after all other Speed modifiers, so evaluate all modifiers up to this point first
-			spe = this.finalModify(spe);
 			if (!pokemon.hasAbility('quickfeet')) {
-				spe = Math.floor(spe * 25 / 100);
+				return this.chainModify(0.25);
 			}
-			return spe;
 		},
 	},
 	confusion: {
@@ -28,7 +25,7 @@ export const Conditions: {[k: string]: ModdedConditionData} = {
 			if (this.randomChance(1, 2)) {
 				return;
 			}
-			const damage = this.actions.getConfusionDamage(pokemon, 40);
+			const damage = this.actions.getDamage(pokemon, pokemon, 40);
 			if (typeof damage !== 'number') throw new Error("Confusion damage not dealt");
 			this.damage(damage, pokemon, pokemon, {
 				id: 'confused',

@@ -1,5 +1,5 @@
-# Custom avatars directory
+# Avatars directory
 
-You can give your users custom avatars. Your server *must* be registered, or this won't work.
+You can specify custom avatars for users in `config/config.js` using the `customavatars` option. After doing so, place your custom avatar files in this directory.
 
-Put avatar files (80x80 PNG files) here, and then use the `/addavatar` command to give users access to them.
+Your server must be registered in order to use custom avatars.

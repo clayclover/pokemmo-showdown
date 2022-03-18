@@ -5,12 +5,12 @@ const assert = require('./../assert');
 describe('Mod loader', function () {
 	it('should work fine in any order', function () {
 		{
-			const Dex = require('./../../sim/dex').Dex;
+			const Dex = require('./../../.sim-dist/dex').Dex;
 			assert.equal(Dex.mod('gen2').species.getLearnset('nidoking').bubblebeam.join(','), '1M');
 			assert.equal(Dex.mod('gen2').moves.get('crunch').secondaries[0].boosts.def, undefined);
 		}
 		{
-			const Dex = require('./../../sim/dex').Dex;
+			const Dex = require('./../../.sim-dist/dex').Dex;
 			Dex.mod('gen2').species.getLearnset('nidoking');
 			Dex.mod('gen4').moves.get('crunch');
 			assert.equal(Dex.mod('gen2').species.getLearnset('nidoking').bubblebeam.join(','), '1M');
@@ -61,9 +61,9 @@ describe('Dex#getItem', function () {
 		assert(!Dex.forGen(5).items.get('Rock Gem').isNonstandard);
 		assert(!Dex.forGen(5).items.get('Normal Gem').isNonstandard);
 
-		assert.equal(Dex.forGen(6).items.get('Rock Gem').isNonstandard, 'Unobtainable');
+		assert(Dex.forGen(6).items.get('Rock Gem').isNonstandard === 'Unobtainable');
 		assert(!Dex.forGen(6).items.get('Normal Gem').isNonstandard);
 
-		assert.equal(Dex.forGen(8).items.get('Rock Gem').isNonstandard, 'Past');
+		assert(Dex.forGen(8).items.get('Rock Gem').isNonstandard === 'Past');
 	});
 });

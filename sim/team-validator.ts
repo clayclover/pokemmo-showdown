@@ -10,8 +10,6 @@
 import {Dex, toID} from './dex';
 import {Utils} from '../lib';
 import {Tags} from '../data/tags';
-import {Teams} from './teams';
-import {PRNG} from './prng';
 
 /**
  * Describes a possible way to get a pokemon. Is not exhaustive!
@@ -201,7 +199,8 @@ export class TeamValidator {
 		this.gen = this.dex.gen;
 		this.ruleTable = this.dex.formats.getRuleTable(this.format);
 
-		this.minSourceGen = this.ruleTable.minSourceGen;
+		this.minSourceGen = this.ruleTable.minSourceGen ?
+			this.ruleTable.minSourceGen[0] : 1;
 
 		this.toID = toID;
 	}
@@ -238,16 +237,6 @@ export class TeamValidator {
 					`If you're not using a custom client, please report this as a bug. If you are, remember to use \`/utm null\` before starting a game in this format.`,
 				];
 			}
-			const testTeamSeed = PRNG.generateSeed();
-			try {
-				const testTeamGenerator = Teams.getGenerator(format, testTeamSeed);
-				testTeamGenerator.getTeam(options); // Throws error if generation fails
-			} catch (e) {
-				return [
-					`${format.name}'s team generator (${format.team}) failed using these rules and seed (${testTeamSeed}):-`,
-					`${e}`,
-				];
-			}
 			return null;
 		}
 		if (!team) {
@@ -260,18 +249,22 @@ export class TeamValidator {
 			throw new Error(`Invalid team data`);
 		}
 
-		if (team.length < ruleTable.minTeamSize) {
-			problems.push(`You must bring at least ${ruleTable.minTeamSize} Pok\u00E9mon (your team has ${team.length}).`);
-		}
-		if (team.length > ruleTable.maxTeamSize) {
-			return [`You may only bring up to ${ruleTable.maxTeamSize} Pok\u00E9mon (your team has ${team.length}).`];
-		}
+		let [minSize, maxSize] = format.teamLength && format.teamLength.validate || [1, 6];
+		if (format.gameType === 'doubles' && minSize < 2) minSize = 2;
+		if (['triples', 'rotation'].includes(format.gameType as 'triples') && minSize < 3) minSize = 3;
+
+		if (team.length < minSize) problems.push(`You must bring at least ${minSize} Pok\u00E9mon.`);
+		if (team.length > maxSize) return [`You may only bring up to ${maxSize} Pok\u00E9mon.`];
 
 		// A limit is imposed here to prevent too much engine strain or
 		// too much layout deformation - to be exact, this is the limit
 		// allowed in Custom Game.
 		if (team.length > 24) {
 			problems.push(`Your team has more than than 24 Pok\u00E9mon, which the simulator can't handle.`);
+			return problems;
+		}
+		if (ruleTable.isBanned('nonexistent') && team.length > 6) {
+			problems.push(`Your team has more than than 6 Pok\u00E9mon.`);
 			return problems;
 		}
 
@@ -352,24 +345,6 @@ export class TeamValidator {
 		return problems;
 	}
 
-	getEventOnlyData(species: Species, noRecurse?: boolean): {species: Species, eventData: EventInfo[]} | null {
-		const dex = this.dex;
-		const learnset = dex.species.getLearnsetData(species.id);
-		if (!learnset?.eventOnly) {
-			if (noRecurse) return null;
-			return this.getEventOnlyData(dex.species.get(species.prevo), true);
-		}
-
-		if (!learnset.eventData && species.forme) {
-			return this.getEventOnlyData(dex.species.get(species.baseSpecies), true);
-		}
-		if (!learnset.eventData) {
-			throw new Error(`Event-only species ${species.name} has no eventData table`);
-		}
-
-		return {species, eventData: learnset.eventData};
-	}
-
 	validateSet(set: PokemonSet, teamHas: AnyObject): string[] | null {
 		const format = this.format;
 		const dex = this.dex;
@@ -405,35 +380,39 @@ export class TeamValidator {
 		set.nature = nature.name;
 		if (!Array.isArray(set.moves)) set.moves = [];
 
+		const maxLevel = format.maxLevel || 100;
+		const maxForcedLevel = format.maxForcedLevel || maxLevel;
+		let forcedLevel: number | null = null;
+		if (!set.level) {
+			set.level = (format.defaultLevel || maxLevel);
+		}
+		if (format.forcedLevel) {
+			forcedLevel = format.forcedLevel;
+		} else if (set.level >= maxForcedLevel) {
+			forcedLevel = maxForcedLevel;
+		}
+		if (set.level > maxLevel || set.level === forcedLevel || set.level === maxForcedLevel) {
+			// Note that we're temporarily setting level 50 pokemon in VGC to level 100
+			// This allows e.g. level 50 Hydreigon even though it doesn't evolve until level 64.
+			// Leveling up can't make an obtainable pokemon unobtainable, so this is safe.
+			// Just remember to set the level back to forcedLevel at the end of the file.
+			set.level = maxLevel;
+		}
+		if ((set.level > 100 || set.level < 1) && ruleTable.isBanned('nonexistent')) {
+			problems.push((set.name || set.species) + ' is higher than level 100.');
+		}
+
 		set.name = set.name || species.baseSpecies;
 		let name = set.species;
 		if (set.species !== set.name && species.baseSpecies !== set.name) {
 			name = `${set.name} (${set.species})`;
 		}
 
-		if (!set.level) set.level = ruleTable.defaultLevel;
-
-		let adjustLevel = ruleTable.adjustLevel;
-		if (ruleTable.adjustLevelDown && set.level >= ruleTable.adjustLevelDown) {
-			adjustLevel = ruleTable.adjustLevelDown;
-		}
-		if (set.level === adjustLevel || (set.level === 100 && ruleTable.maxLevel < 100)) {
-			// Note that we're temporarily setting level 50 pokemon in VGC to level 100
-			// This allows e.g. level 50 Hydreigon even though it doesn't evolve until level 64.
-			// Leveling up can't make an obtainable pokemon unobtainable, so this is safe.
-			// Just remember to set the level back to adjustLevel at the end of validation.
-			set.level = ruleTable.maxLevel;
-		}
-		if (set.level < ruleTable.minLevel) {
-			problems.push(`${name} (level ${set.level}) is below the minimum level of ${ruleTable.minLevel}${ruleTable.blame('minlevel')}`);
-		}
-		if (set.level > ruleTable.maxLevel) {
-			problems.push(`${name} (level ${set.level}) is above the maximum level of ${ruleTable.maxLevel}${ruleTable.blame('maxlevel')}`);
-		}
-
 		const setHas: {[k: string]: true} = {};
 
-		if (!set.evs) set.evs = TeamValidator.fillStats(null, ruleTable.evLimit === null ? 252 : 0);
+		const allowEVs = dex.currentMod !== 'letsgo';
+		const capEVs = dex.gen > 2 && (ruleTable.has('obtainablemisc') || dex.gen === 6);
+		if (!set.evs) set.evs = TeamValidator.fillStats(null, allowEVs && !capEVs ? 252 : 0);
 		if (!set.ivs) set.ivs = TeamValidator.fillStats(null, 31);
 
 		if (ruleTable.has('obtainableformes')) {
@@ -536,10 +515,7 @@ export class TeamValidator {
 		problem = this.checkItem(set, item, setHas);
 		if (problem) problems.push(problem);
 		if (ruleTable.has('obtainablemisc')) {
-			if (dex.gen === 4 && item.id === 'griseousorb' && species.num !== 487) {
-				problems.push(`${set.name} cannot hold the Griseous Orb.`, `(In Gen 4, only Giratina could hold the Griseous Orb).`);
-			}
-			if (dex.gen <= 1) {
+			if (dex.gen <= 1 || ruleTable.has('allowavs')) {
 				if (item.id) {
 					// no items allowed
 					set.item = '';
@@ -549,7 +525,7 @@ export class TeamValidator {
 
 		if (!set.ability) set.ability = 'No Ability';
 		if (ruleTable.has('obtainableabilities')) {
-			if (dex.gen <= 2 || dex.currentMod === 'gen7letsgo') {
+			if (dex.gen <= 2 || dex.currentMod === 'letsgo') {
 				set.ability = 'No Ability';
 			} else {
 				if (!ability.name || ability.name === 'No Ability') {
@@ -605,11 +581,18 @@ export class TeamValidator {
 			set.moves = set.moves.filter(val => val);
 		}
 		if (!set.moves?.length) {
-			problems.push(`${name} has no moves (it must have at least one to be usable).`);
+			problems.push(`${name} has no moves.`);
 			set.moves = [];
 		}
-		if (set.moves.length > ruleTable.maxMoveCount) {
-			problems.push(`${name} has ${set.moves.length} moves, which is more than the limit of ${ruleTable.maxMoveCount}.`);
+		// A limit is imposed here to prevent too much engine strain or
+		// too much layout deformation - to be exact, this is the limit
+		// allowed in Custom Game.
+		if (set.moves.length > 24) {
+			problems.push(`${name} has more than 24 moves, which the simulator can't handle.`);
+			return problems;
+		}
+		if (ruleTable.isBanned('nonexistent') && set.moves.length > 4) {
+			problems.push(`${name} has more than 4 moves.`);
 			return problems;
 		}
 
@@ -631,7 +614,6 @@ export class TeamValidator {
 		}
 
 		const learnsetSpecies = dex.species.getLearnsetData(outOfBattleSpecies.id);
-		let eventOnlyData;
 
 		if (!setSources.sourcesBefore && setSources.sources.length) {
 			let legal = false;
@@ -663,8 +645,13 @@ export class TeamValidator {
 					if (eventProblems) problems.push(...eventProblems);
 				}
 			}
-		} else if (ruleTable.has('obtainablemisc') && (eventOnlyData = this.getEventOnlyData(outOfBattleSpecies))) {
-			const {species: eventSpecies, eventData} = eventOnlyData;
+		} else if (ruleTable.has('obtainablemisc') && learnsetSpecies.eventOnly) {
+			const eventSpecies = !learnsetSpecies.eventData &&
+			outOfBattleSpecies.baseSpecies !== outOfBattleSpecies.name ?
+				dex.species.get(outOfBattleSpecies.baseSpecies) : outOfBattleSpecies;
+			const eventData = learnsetSpecies.eventData ||
+				dex.species.getLearnsetData(eventSpecies.id).eventData;
+			if (!eventData) throw new Error(`Event-only species ${species.name} has no eventData table`);
 			let legal = false;
 			for (const event of eventData) {
 				if (this.validateEvent(set, event, eventSpecies)) continue;
@@ -694,30 +681,10 @@ export class TeamValidator {
 				if (eventProblems) problems.push(...eventProblems);
 			}
 		}
-
-		let isFromRBYEncounter = false;
-		if (this.gen === 1 && !this.ruleTable.has('allowtradeback')) {
-			let lowestEncounterLevel;
-			for (const encounter of learnsetSpecies.encounters || []) {
-				if (encounter.generation !== 1) continue;
-				if (!encounter.level) continue;
-				if (lowestEncounterLevel && encounter.level > lowestEncounterLevel) continue;
-
-				lowestEncounterLevel = encounter.level;
-			}
-
-			if (lowestEncounterLevel) {
-				if (set.level < lowestEncounterLevel) {
-					problems.push(`${name} is not obtainable at levels below ${lowestEncounterLevel} in Gen 1.`);
-				}
-				isFromRBYEncounter = true;
-			}
-		}
-		if (!isFromRBYEncounter && ruleTable.has('obtainablemisc') && set.level < (species.evoLevel || 0)) {
+		if (ruleTable.has('obtainablemisc') && set.level < (species.evoLevel || 0)) {
 			// FIXME: Event pokemon given at a level under what it normally can be attained at gives a false positive
 			problems.push(`${name} must be at least level ${species.evoLevel} to be evolved.`);
 		}
-
 		if (ruleTable.has('obtainablemoves') && species.id === 'keldeo' && set.moves.includes('secretsword') &&
 			this.minSourceGen > 5 && dex.gen <= 7) {
 			problems.push(`${name} has Secret Sword, which is only compatible with Keldeo-Ordinary obtained from Gen 5.`);
@@ -789,7 +756,7 @@ export class TeamValidator {
 		}
 
 		if (!problems.length) {
-			if (adjustLevel) set.level = adjustLevel;
+			if (forcedLevel) set.level = forcedLevel;
 			return null;
 		}
 
@@ -800,11 +767,12 @@ export class TeamValidator {
 		const ruleTable = this.ruleTable;
 		const dex = this.dex;
 
+		const allowEVs = dex.currentMod !== 'letsgo';
 		const allowAVs = ruleTable.has('allowavs');
-		const evLimit = ruleTable.evLimit;
-		const canBottleCap = dex.gen >= 7 && (set.level >= 100 || !ruleTable.has('obtainablemisc'));
+		const capEVs = dex.gen > 2 && (ruleTable.has('obtainablemisc') || dex.gen === 6);
+		const canBottleCap = dex.gen >= 7 && (set.level === 100 || !ruleTable.has('obtainablemisc'));
 
-		if (!set.evs) set.evs = TeamValidator.fillStats(null, evLimit === null ? 252 : 0);
+		if (!set.evs) set.evs = TeamValidator.fillStats(null, allowEVs && !capEVs ? 252 : 0);
 		if (!set.ivs) set.ivs = TeamValidator.fillStats(null, 31);
 
 		const problems = [];
@@ -932,7 +900,7 @@ export class TeamValidator {
 			}
 		}
 
-		if (dex.currentMod === 'gen7letsgo') { // AVs
+		if (dex.currentMod === 'letsgo') { // AVs
 			for (const stat in set.evs) {
 				if (set.evs[stat as 'hp'] > 0 && !allowAVs) {
 					problems.push(`${name} has Awakening Values but this format doesn't allow them.`);
@@ -960,25 +928,22 @@ export class TeamValidator {
 
 		let totalEV = 0;
 		for (const stat in set.evs) totalEV += set.evs[stat as 'hp'];
+
 		if (!this.format.debug) {
-			if (set.level > 1 && evLimit !== 0 && totalEV === 0) {
+			if (set.level > 1 && (allowEVs || allowAVs) && totalEV === 0) {
 				problems.push(`${name} has exactly 0 EVs - did you forget to EV it? (If this was intentional, add exactly 1 to one of your EVs, which won't change its stats but will tell us that it wasn't a mistake).`);
-			} else if (![508, 510].includes(evLimit!) && [508, 510].includes(totalEV)) {
-				problems.push(`${name} has exactly ${totalEV} EVs, but this format does not restrict you to 510 EVs (If this was intentional, add exactly 1 to one of your EVs, which won't change its stats but will tell us that it wasn't a mistake).`);
+			} else if (allowEVs && !capEVs && [508, 510].includes(totalEV)) {
+				problems.push(`${name} has exactly 510 EVs, but this format does not restrict you to 510 EVs: you can max out every EV (If this was intentional, add exactly 1 to one of your EVs, which won't change its stats but will tell us that it wasn't a mistake).`);
 			}
 			// Check for level import errors from user in VGC -> DOU, etc.
-			// Note that in VGC etc (Adjust Level Down = 50), `set.level` will be 100 here for validation purposes
-			if (set.level === 50 && ruleTable.maxLevel !== 50 && !ruleTable.maxTotalLevel && evLimit !== 0 && totalEV % 4 === 0) {
-				problems.push(`${name} is level 50, but this format allows level ${ruleTable.maxLevel} Pokémon. (If this was intentional, add exactly 1 to one of your EVs, which won't change its stats but will tell us that it wasn't a mistake).`);
+			// Note that in VGC etc (maxForcedLevel: 50), `set.level` will be 100 here for validation purposes
+			if (set.level === 50 && this.format.maxLevel !== 50 && allowEVs && totalEV % 4 === 0) {
+				problems.push(`${name} is level 50, but this format allows level 100 Pokémon. (If this was intentional, add exactly 1 to one of your EVs, which won't change its stats but will tell us that it wasn't a mistake).`);
 			}
 		}
 
-		if (evLimit !== null && totalEV > evLimit) {
-			if (!evLimit) {
-				problems.push(`${name} has EVs, which is not allowed by this format.`);
-			} else {
-				problems.push(`${name} has ${totalEV} total EVs, which is more than this format's limit of ${evLimit}.`);
-			}
+		if (allowEVs && capEVs && totalEV > 510) {
+			problems.push(`${name} has more than 510 total EVs.`);
 		}
 
 		return problems;
@@ -1037,13 +1002,11 @@ export class TeamValidator {
 		} else if (source === '7V') {
 			const isMew = species.id === 'mew';
 			const isCelebi = species.id === 'celebi';
-			const g7speciesName = (species.gen > 2 && species.prevo) ? species.prevo : species.id;
-			const isHidden = !!this.dex.mod('gen7').species.get(g7speciesName).abilities['H'];
 			eventData = {
 				generation: 2,
-				level: isMew ? 5 : isCelebi ? 30 : 3, // Level 1/2 Pokémon can't be obtained by transfer from RBY/GSC
+				level: isMew ? 5 : isCelebi ? 30 : undefined,
 				perfectIVs: isMew || isCelebi ? 5 : 3,
-				isHidden,
+				isHidden: !!this.dex.mod('gen7').species.get(species.id).abilities['H'],
 				shiny: isMew ? undefined : 1,
 				pokeball: 'pokeball',
 				from: 'Gen 1-2 Virtual Console transfer',
@@ -1324,12 +1287,6 @@ export class TeamValidator {
 			}
 		}
 
-		let isGmax = false;
-		if (tierSpecies.canGigantamax && set.gigantamax) {
-			setHas['pokemon:' + tierSpecies.id + 'gmax'] = true;
-			isGmax = true;
-		}
-
 		const tier = tierSpecies.tier === '(PU)' ? 'ZU' : tierSpecies.tier === '(NU)' ? 'PU' : tierSpecies.tier;
 		const tierTag = 'pokemontag:' + toID(tier);
 		setHas[tierTag] = true;
@@ -1364,13 +1321,6 @@ export class TeamValidator {
 			}
 		}
 
-		if (isGmax) {
-			banReason = ruleTable.check('pokemon:' + tierSpecies.id + 'gmax');
-			if (banReason) {
-				return `Gigantamaxing ${species.name} is ${banReason}.`;
-			}
-		}
-
 		banReason = ruleTable.check('basepokemon:' + toID(species.baseSpecies));
 		if (banReason) {
 			return `${species.name} is ${banReason}.`;
@@ -1387,7 +1337,7 @@ export class TeamValidator {
 		// We can't return here because the `-nonexistent` rule is a bit
 		// complicated in terms of what trumps it. We don't want e.g.
 		// +Mythical to unban Shaymin in Gen 1, for instance.
-		let nonexistentCheck = Tags.nonexistent.genericFilter!(tierSpecies) && ruleTable.check('nonexistent');
+		const nonexistentCheck = Tags.nonexistent.genericFilter!(tierSpecies) && ruleTable.check('nonexistent');
 
 		const EXISTENCE_TAG = ['past', 'future', 'lgpe', 'unobtainable', 'cap', 'custom', 'nonexistent'];
 
@@ -1403,31 +1353,28 @@ export class TeamValidator {
 					return null;
 				}
 				if (existenceTag) {
-					// for a nicer error message
-					nonexistentCheck = 'banned';
-					break;
+					if (tierSpecies.isNonstandard === 'Past' || tierSpecies.isNonstandard === 'Future') {
+						return `${tierSpecies.name} does not exist in Gen ${dex.gen}.`;
+					}
+					if (tierSpecies.isNonstandard === 'LGPE') {
+						return `${tierSpecies.name} does not exist in Ultra Sun/Moon, only in Let's Go Pikachu/Eevee.`;
+					}
+					if (tierSpecies.isNonstandard === 'CAP') {
+						return `${tierSpecies.name} is a CAP and does not exist in this game.`;
+					}
+					if (tierSpecies.isNonstandard === 'Unobtainable') {
+						return `${tierSpecies.name} is not possible to obtain in this game.`;
+					}
+					if (tierSpecies.isNonstandard === 'Gigantamax') {
+						return `${tierSpecies.name} is a placeholder for a Gigantamax sprite, not a real Pokémon. (This message is likely to be a validator bug.)`;
+					}
 				}
-				return `${species.name} is tagged ${tag.name}, which is ${ruleTable.check(ruleid.slice(1)) || "banned"}.`;
+				return `${species.name} is tagged ${tag.name}, which is ${banReason}.`;
 			}
 		}
 
 		if (nonexistentCheck) {
-			if (tierSpecies.isNonstandard === 'Past' || tierSpecies.isNonstandard === 'Future') {
-				return `${tierSpecies.name} does not exist in Gen ${dex.gen}.`;
-			}
-			if (tierSpecies.isNonstandard === 'LGPE') {
-				return `${tierSpecies.name} does not exist in this game, only in Let's Go Pikachu/Eevee.`;
-			}
-			if (tierSpecies.isNonstandard === 'CAP') {
-				return `${tierSpecies.name} is a CAP and does not exist in this game.`;
-			}
-			if (tierSpecies.isNonstandard === 'Unobtainable') {
-				return `${tierSpecies.name} is not possible to obtain in this game.`;
-			}
-			if (tierSpecies.isNonstandard === 'Gigantamax') {
-				return `${tierSpecies.name} is a placeholder for a Gigantamax sprite, not a real Pokémon. (This message is likely to be a validator bug.)`;
-			}
-			return `${tierSpecies.name} does not exist in this game.`;
+			return `Despite being whitelisted by a tag, ${tierSpecies.name} does not exist in this game.`;
 		}
 		if (nonexistentCheck === '') return null;
 
@@ -1454,16 +1401,11 @@ export class TeamValidator {
 
 		setHas['item:' + item.id] = true;
 
-		let banReason = ruleTable.check('item:' + (item.id || 'noitem'));
+		let banReason = ruleTable.check('item:' + item.id);
 		if (banReason) {
-			if (!item.id) {
-				return `${set.name} not holding an item is ${banReason}.`;
-			}
 			return `${set.name}'s item ${item.name} is ${banReason}.`;
 		}
 		if (banReason === '') return null;
-
-		if (!item.id) return null;
 
 		banReason = ruleTable.check('pokemontag:allitems');
 		if (banReason) {
@@ -1547,19 +1489,6 @@ export class TeamValidator {
 		const ruleTable = this.ruleTable;
 
 		setHas['ability:' + ability.id] = true;
-
-		if (this.format.id === 'gen8pokebilities') {
-			const species = dex.species.get(set.species);
-			const unSeenAbilities = Object.keys(species.abilities)
-				.filter(key => key !== 'S' && (key !== 'H' || !species.unreleasedHidden))
-				.map(key => species.abilities[key as "0" | "1" | "H" | "S"]);
-
-			if (ability.id !== this.toID(species.abilities['S'])) {
-				for (const abilityName of unSeenAbilities) {
-					setHas['ability:' + toID(abilityName)] = true;
-				}
-			}
-		}
 
 		let banReason = ruleTable.check('ability:' + ability.id);
 		if (banReason) {
@@ -1662,7 +1591,7 @@ export class TeamValidator {
 			problems.push(`This format is in gen ${dex.gen} and ${name} is from gen ${eventData.generation}${etc}.`);
 		}
 
-		if (eventData.japan && dex.currentMod !== 'gen1jpn') {
+		if (eventData.japan) {
 			if (fastReturn) return true;
 			problems.push(`${name} has moves from Japan-only events, but this format simulates International Yellow/Crystal which can't trade with Japanese games.`);
 		}
@@ -1919,10 +1848,6 @@ export class TeamValidator {
 		 * (This is everything except in Gen 1 Tradeback)
 		 */
 		const noFutureGen = !ruleTable.has('allowtradeback');
-		/**
-		 * The format allows Sketch to copy moves in Gen 8
-		 */
-		const canSketchGen8Moves = ruleTable.has('sketchgen8moves') || this.dex.currentMod === 'gen8bdsp';
 
 		let tradebackEligible = false;
 		while (species?.name && !alreadyChecked[species.id]) {
@@ -1960,7 +1885,7 @@ export class TeamValidator {
 			} else if (learnset['sketch']) {
 				if (move.noSketch || move.isZ || move.isMax) {
 					cantLearnReason = `can't be Sketched.`;
-				} else if (move.gen > 7 && !canSketchGen8Moves) {
+				} else if (move.gen > 7 && !ruleTable.has('standardnatdex')) {
 					cantLearnReason = `can't be Sketched because it's a Gen 8 move and Sketch isn't available in Gen 8.`;
 				} else {
 					if (!sources) sketch = true;
@@ -2023,7 +1948,7 @@ export class TeamValidator {
 						if (dex.gen >= 5 && learnedGen <= 4 && [
 							'cut', 'fly', 'surf', 'strength', 'rocksmash', 'waterfall', 'rockclimb',
 						].includes(moveid)) {
-							cantLearnReason = `can't be transferred from Gen 4 to 5 because it's an HM move.`;
+							cantLearnReason = `can't be transferred from Gen 3 to 4 because it's an HM move.`;
 							continue;
 						}
 						// Defog and Whirlpool can't be transferred together
@@ -2157,14 +2082,8 @@ export class TeamValidator {
 			if (cantLearnReason) return `'s move ${move.name} ${cantLearnReason}`;
 			return ` can't learn ${move.name}.`;
 		}
-		const backupSources = setSources.sources;
-		const backupSourcesBefore = setSources.sourcesBefore;
 		setSources.intersectWith(moveSources);
 		if (!setSources.size()) {
-			// pretend this pokemon didn't have this move:
-			// prevents a crash if OMs override `checkCanLearn` to keep validating after an error
-			setSources.sources = backupSources;
-			setSources.sourcesBefore = backupSourcesBefore;
 			return `'s moves ${(setSources.restrictiveMoves || []).join(', ')} are incompatible.`;
 		}
 

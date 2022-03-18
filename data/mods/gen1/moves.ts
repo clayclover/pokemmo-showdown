@@ -41,53 +41,53 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 				return this.random(3, 4);
 			},
 			onStart(pokemon) {
-				this.effectState.totalDamage = 0;
-				this.effectState.lastDamage = 0;
+				this.effectData.totalDamage = 0;
+				this.effectData.lastDamage = 0;
 				this.add('-start', pokemon, 'Bide');
 			},
 			onHit(target, source, move) {
 				if (source && source !== target && move.category !== 'Physical' && move.category !== 'Special') {
-					const damage = this.effectState.totalDamage;
-					this.effectState.totalDamage += damage;
-					this.effectState.lastDamage = damage;
-					this.effectState.sourceSlot = source.getSlot();
+					const damage = this.effectData.totalDamage;
+					this.effectData.totalDamage += damage;
+					this.effectData.lastDamage = damage;
+					this.effectData.sourceSlot = source.getSlot();
 				}
 			},
 			onDamage(damage, target, source, move) {
 				if (!source || source.isAlly(target)) return;
 				if (!move || move.effectType !== 'Move') return;
-				if (!damage && this.effectState.lastDamage > 0) {
-					damage = this.effectState.totalDamage;
+				if (!damage && this.effectData.lastDamage > 0) {
+					damage = this.effectData.totalDamage;
 				}
-				this.effectState.totalDamage += damage;
-				this.effectState.lastDamage = damage;
-				this.effectState.sourceSlot = source.getSlot();
+				this.effectData.totalDamage += damage;
+				this.effectData.lastDamage = damage;
+				this.effectData.sourceSlot = source.getSlot();
 			},
 			onAfterSetStatus(status, pokemon) {
 				// Sleep, freeze, and partial trap will just pause duration.
 				if (pokemon.volatiles['flinch']) {
-					this.effectState.duration++;
+					this.effectData.duration++;
 				} else if (pokemon.volatiles['partiallytrapped']) {
-					this.effectState.duration++;
+					this.effectData.duration++;
 				} else {
 					switch (status.id) {
 					case 'slp':
 					case 'frz':
-						this.effectState.duration++;
+						this.effectData.duration++;
 						break;
 					}
 				}
 			},
 			onBeforeMove(pokemon, t, move) {
-				if (this.effectState.duration === 1) {
+				if (this.effectData.duration === 1) {
 					this.add('-end', pokemon, 'Bide');
-					if (!this.effectState.totalDamage) {
-						this.debug("Bide failed because no damage was taken");
+					if (!this.effectData.totalDamage) {
+						this.debug("Bide failed due to 0 damage taken");
 						this.add('-fail', pokemon);
 						return false;
 					}
-					const target = this.getAtSlot(this.effectState.sourceSlot);
-					this.actions.moveHit(target, pokemon, move, {damage: this.effectState.totalDamage * 2} as ActiveMove);
+					const target = this.getAtSlot(this.effectData.sourceSlot);
+					this.actions.moveHit(target, pokemon, move, {damage: this.effectData.totalDamage * 2} as ActiveMove);
 					pokemon.removeVolatile('bide');
 					return false;
 				}
@@ -279,12 +279,12 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 			},
 			onStart(pokemon) {
 				if (!this.queue.willMove(pokemon)) {
-					this.effectState.duration++;
+					this.effectData.duration++;
 				}
 				const moves = pokemon.moves;
 				const move = this.dex.moves.get(this.sample(moves));
 				this.add('-start', pokemon, 'Disable', move.name);
-				this.effectState.move = move.id;
+				this.effectData.move = move.id;
 				return;
 			},
 			onResidualOrder: 14,
@@ -292,14 +292,14 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 				this.add('-end', pokemon, 'Disable');
 			},
 			onBeforeMove(attacker, defender, move) {
-				if (move.id === this.effectState.move) {
+				if (move.id === this.effectData.move) {
 					this.add('cant', attacker, 'Disable', move);
 					return false;
 				}
 			},
 			onDisableMove(pokemon) {
 				for (const moveSlot of pokemon.moveSlots) {
-					if (moveSlot.id === this.effectState.move) {
+					if (moveSlot.id === this.effectData.move) {
 						pokemon.disableMove(moveSlot.id);
 					}
 				}
@@ -401,13 +401,13 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 	haze: {
 		inherit: true,
 		onHit(target, source) {
-			this.add('-activate', target, 'move: Haze');
-			this.add('-clearallboost', '[silent]');
+			this.add('-clearallboost');
 			for (const pokemon of this.getAllActive()) {
 				pokemon.clearBoosts();
 
 				if (pokemon !== source) {
-					pokemon.cureStatus(true);
+					// Clears the status from the opponent
+					pokemon.setStatus('');
 				}
 				if (pokemon.status === 'tox') {
 					pokemon.setStatus('psn');
@@ -417,7 +417,7 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 						pokemon.volatiles[id].counter = 0;
 					} else {
 						pokemon.removeVolatile(id);
-						this.add('-end', pokemon, id, '[silent]');
+						this.add('-end', pokemon, id);
 					}
 				}
 			}
@@ -538,28 +538,6 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 			this.actions.useMove(foe.lastMove.id, pokemon);
 		},
 	},
-	mist: {
-		inherit: true,
-		condition: {
-			onStart(pokemon) {
-				this.add('-start', pokemon, 'Mist');
-			},
-			onBoost(boost, target, source, effect) {
-				if (effect.effectType === 'Move' && effect.category !== 'Status') return;
-				if (source && target !== source) {
-					let showMsg = false;
-					let i: BoostID;
-					for (i in boost) {
-						if (boost[i]! < 0) {
-							delete boost[i];
-							showMsg = true;
-						}
-					}
-					if (showMsg) this.add('-activate', target, 'move: Mist');
-				}
-			},
-		},
-	},
 	nightshade: {
 		inherit: true,
 		ignoreImmunity: true,
@@ -603,7 +581,7 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 			// Rage lock
 			duration: 255,
 			onStart(target, source, effect) {
-				this.effectState.move = 'rage';
+				this.effectData.move = 'rage';
 			},
 			onLockMove: 'rage',
 			onTryHit(target, source, move) {
@@ -676,8 +654,8 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 				return false;
 			}
 			if (!target.setStatus('slp', source, move)) return false;
-			target.statusState.time = 2;
-			target.statusState.startTime = 2;
+			target.statusData.time = 2;
+			target.statusData.startTime = 2;
 			this.heal(target.maxhp); // Aesthetic only as the healing happens after you fall asleep in-game
 		},
 	},
@@ -786,7 +764,7 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 		condition: {
 			onStart(target) {
 				this.add('-start', target, 'Substitute');
-				this.effectState.hp = Math.floor(target.maxhp / 4) + 1;
+				this.effectData.hp = Math.floor(target.maxhp / 4) + 1;
 				delete target.volatiles['partiallytrapped'];
 			},
 			onTryHitPriority: -1,

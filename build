@@ -11,8 +11,7 @@ try {
 
 var child_process = require('child_process');
 var fs = require('fs');
-var decl = ['--decl', 'decl'].includes(process.argv[2]);
-var force = decl || ['--force', 'force', '--full', 'full'].includes(process.argv[2]);
+var force = ['--force', 'force', '--full', 'full'].includes(process.argv[2]);
 
 process.chdir(__dirname);
 
@@ -29,16 +28,16 @@ try {
 	) {
 		throw new Error("Sucrase version too old");
 	}
+	require('./tools/build-utils').transpile(force);
 } catch (e) {
 	console.log('Installing dependencies...');
-	shell('npm install' + (decl ? '' : ' --production'));
-	force = true;
+	shell('npm install --production');
+	// for some reason, sucrase won't be requirable until a tick has passed
+	// see https://stackoverflow.com/questions/53270058/node-cant-find-certain-modules-after-synchronous-install
+	setImmediate(() => {
+		require('./tools/build-utils').transpile(true);
+	});
 }
-// for some reason, sucrase won't be requirable until a tick has passed
-// see https://stackoverflow.com/questions/53270058/node-cant-find-certain-modules-after-synchronous-install
-setImmediate(() => {
-	require('./tools/build-utils').transpile(force, decl);
-});
 
 // Make sure config.js exists. If not, copy it over synchronously from
 // config-example.js, since it's needed before we can start the server

@@ -8,6 +8,13 @@ export const Scripts: ModdedBattleScriptsData = {
 			const speciesid = pokemon.canMegaEvo || pokemon.canUltraBurst;
 			if (!speciesid) return false;
 
+			// Pokémon affected by Sky Drop cannot mega evolve. Enforce it here for now.
+			for (const foeActive of pokemon.foes()) {
+				if (foeActive.volatiles['skydrop']?.source === pokemon) {
+					return false;
+				}
+			}
+
 			pokemon.formeChange(speciesid, pokemon.getItem(), true);
 			if (pokemon.canMegaEvo) {
 				pokemon.canMegaEvo = null;
@@ -176,7 +183,7 @@ export const Scripts: ModdedBattleScriptsData = {
 
 			if (zMove) {
 				if (pokemon.illusion) {
-					this.battle.singleEvent('End', this.dex.abilities.get('Illusion'), pokemon.abilityState, pokemon);
+					this.battle.singleEvent('End', this.dex.abilities.get('Illusion'), pokemon.abilityData, pokemon);
 				}
 				this.battle.add('-zpower', pokemon);
 				// In SSB Z-Moves are limited to 1 per pokemon.
@@ -388,7 +395,7 @@ export const Scripts: ModdedBattleScriptsData = {
 				const originalHp = pokemon.hp;
 				this.battle.singleEvent('AfterMoveSecondarySelf', move, null, pokemon, target, move);
 				this.battle.runEvent('AfterMoveSecondarySelf', pokemon, target, move);
-				if (pokemon !== target && move.category !== 'Status') {
+				if (pokemon && pokemon !== target && move && move.category !== 'Status') {
 					if (pokemon.hp <= pokemon.maxhp / 2 && originalHp > pokemon.maxhp / 2) {
 						this.battle.runEvent('EmergencyExit', pokemon, pokemon);
 					}
@@ -577,7 +584,7 @@ export const Scripts: ModdedBattleScriptsData = {
 		},
 
 		// For Spandan's custom move and Brandon's ability
-		getDamage(source, target, move, suppressMessages = false) {
+		getDamage(pokemon, target, move, suppressMessages = false) {
 			if (typeof move === 'string') move = this.dex.getActiveMove(move);
 
 			if (typeof move === 'number') {
@@ -598,24 +605,25 @@ export const Scripts: ModdedBattleScriptsData = {
 			}
 
 			if (move.ohko) return target.maxhp;
-			if (move.damageCallback) return move.damageCallback.call(this.battle, source, target);
+			if (move.damageCallback) return move.damageCallback.call(this.battle, pokemon, target);
 			if (move.damage === 'level') {
-				return source.level;
+				return pokemon.level;
 			} else if (move.damage) {
 				return move.damage;
 			}
 
 			const category = this.battle.getCategory(move);
+			const defensiveCategory = move.defensiveCategory || category;
 
 			let basePower: number | false | null = move.basePower;
 			if (move.basePowerCallback) {
-				basePower = move.basePowerCallback.call(this.battle, source, target, move);
+				basePower = move.basePowerCallback.call(this.battle, pokemon, target, move);
 			}
 			if (!basePower) return basePower === 0 ? undefined : basePower;
 			basePower = this.battle.clampIntRange(basePower, 1);
 
 			let critMult;
-			let critRatio = this.battle.runEvent('ModifyCritRatio', source, target, move, move.critRatio || 0);
+			let critRatio = this.battle.runEvent('ModifyCritRatio', pokemon, target, move, move.critRatio || 0);
 			if (this.battle.gen <= 5) {
 				critRatio = this.battle.clampIntRange(critRatio, 0, 5);
 				critMult = [0, 16, 8, 4, 3, 2];
@@ -641,23 +649,47 @@ export const Scripts: ModdedBattleScriptsData = {
 			}
 
 			// happens after crit calculation
-			basePower = this.battle.runEvent('BasePower', source, target, move, basePower, true);
+			basePower = this.battle.runEvent('BasePower', pokemon, target, move, basePower, true);
 
 			if (!basePower) return 0;
 			basePower = this.battle.clampIntRange(basePower, 1);
 
-			const level = source.level;
+			const level = pokemon.level;
 
-			const attacker = move.overrideOffensivePokemon === 'target' ? target : source;
-			const defender = move.overrideDefensivePokemon === 'source' ? source : target;
-
-			const isPhysical = move.category === 'Physical';
-			let attackStat: StatIDExceptHP = move.overrideOffensiveStat || (isPhysical ? 'atk' : 'spa');
-			const defenseStat: StatIDExceptHP = move.overrideDefensiveStat || (isPhysical ? 'def' : 'spd');
+			const attacker = pokemon;
+			const defender = target;
+			let attackStat: StatIDExceptHP = category === 'Physical' ? 'atk' : 'spa';
+			const defenseStat: StatIDExceptHP = defensiveCategory === 'Physical' ? 'def' : 'spd';
+			if (this.battle.field.isTerrain('baneterrain')) {
+				if (attacker.getStat('atk') > attacker.getStat('spa')) {
+					attackStat = 'spa';
+				} else {
+					attackStat = 'atk';
+				}
+			}
+			if (move.useSourceDefensiveAsOffensive) {
+				attackStat = defenseStat;
+				// Body press really wants to use the def stat,
+				// so it switches stats to compensate for Wonder Room.
+				// Of course, the game thus miscalculates the boosts...
+				if ('wonderroom' in this.battle.field.pseudoWeather) {
+					if (attackStat === 'def') {
+						attackStat = 'spd';
+					} else if (attackStat === 'spd') {
+						attackStat = 'def';
+					}
+					if (attacker.boosts['def'] || attacker.boosts['spd']) {
+						this.battle.hint("Body Press uses Sp. Def boosts when Wonder Room is active.");
+					}
+				}
+			}
 
 			const statTable = {atk: 'Atk', def: 'Def', spa: 'SpA', spd: 'SpD', spe: 'Spe'};
+			let attack;
+			let defense;
 
-			let atkBoosts = attacker.boosts[attackStat];
+			let atkBoosts = move.useTargetOffensive ? defender.boosts[attackStat] : attacker.boosts[attackStat];
+			if (move.id === 'imtoxicyoureslippinunder') atkBoosts = defender.boosts['spd'];
 			let defBoosts = defender.boosts[defenseStat];
 
 			let ignoreNegativeOffensive = !!move.ignoreNegativeOffensive;
@@ -679,14 +711,20 @@ export const Scripts: ModdedBattleScriptsData = {
 				defBoosts = 0;
 			}
 
-			let attack = attacker.calculateStat(attackStat, atkBoosts);
-			let defense = defender.calculateStat(defenseStat, defBoosts);
+			if (move.useTargetOffensive) {
+				attack = defender.calculateStat(attackStat, atkBoosts);
+			} else if (move.id === 'imtoxicyoureslippinunder') {
+				attack = defender.calculateStat("spd", atkBoosts);
+			} else {
+				attack = attacker.calculateStat(attackStat, atkBoosts);
+			}
 
 			attackStat = (category === 'Physical' ? 'atk' : 'spa');
+			defense = defender.calculateStat(defenseStat, defBoosts);
 
 			// Apply Stat Modifiers
-			attack = this.battle.runEvent('Modify' + statTable[attackStat], source, target, move, attack);
-			defense = this.battle.runEvent('Modify' + statTable[defenseStat], target, source, move, defense);
+			attack = this.battle.runEvent('Modify' + statTable[attackStat], attacker, defender, move, attack);
+			defense = this.battle.runEvent('Modify' + statTable[defenseStat], defender, attacker, move, defense);
 
 			if (this.battle.gen <= 4 && ['explosion', 'selfdestruct'].includes(move.id) && defenseStat === 'def') {
 				defense = this.battle.clampIntRange(Math.floor(defense / 2), 1);
@@ -698,7 +736,7 @@ export const Scripts: ModdedBattleScriptsData = {
 			const baseDamage = tr(tr(tr(tr(2 * level / 5 + 2) * basePower * attack) / defense) / 50);
 
 			// Calculate damage modifiers separately (order differs between generations)
-			return this.modifyDamage(baseDamage, source, target, move, suppressMessages);
+			return this.modifyDamage(baseDamage, pokemon, target, move, suppressMessages);
 		},
 
 		runMoveEffects(damage, targets, pokemon, move, moveData, isSecondary, isSelf) {
@@ -837,7 +875,7 @@ export const Scripts: ModdedBattleScriptsData = {
 			if (item === 'ironball') return true;
 			// If a Fire/Flying type uses Burn Up and Roost, it becomes ???/Flying-type, but it's still grounded.
 			if (!negateImmunity && this.hasType('Flying') && !('roost' in this.volatiles)) return false;
-			if (this.hasAbility('levitate') && !this.battle.suppressingAbility()) return null;
+			if (this.hasAbility('levitate') && !this.battle.suppressingAttackEvents()) return null;
 			if ('magnetrise' in this.volatiles) return false;
 			if ('telekinesis' in this.volatiles) return false;
 			return item !== 'airballoon';
@@ -874,7 +912,7 @@ export const Scripts: ModdedBattleScriptsData = {
 				}
 			}
 			const prevStatus = this.status;
-			const prevStatusState = this.statusState;
+			const prevStatusData = this.statusData;
 			if (status.id) {
 				const result: boolean = this.battle.runEvent('SetStatus', this, source, sourceEffect, status);
 				if (!result) {
@@ -884,18 +922,18 @@ export const Scripts: ModdedBattleScriptsData = {
 			}
 
 			this.status = status.id;
-			this.statusState = {id: status.id, target: this};
-			if (source) this.statusState.source = source;
-			if (status.duration) this.statusState.duration = status.duration;
+			this.statusData = {id: status.id, target: this};
+			if (source) this.statusData.source = source;
+			if (status.duration) this.statusData.duration = status.duration;
 			if (status.durationCallback) {
-				this.statusState.duration = status.durationCallback.call(this.battle, this, source, sourceEffect);
+				this.statusData.duration = status.durationCallback.call(this.battle, this, source, sourceEffect);
 			}
 
-			if (status.id && !this.battle.singleEvent('Start', status, this.statusState, this, source, sourceEffect)) {
+			if (status.id && !this.battle.singleEvent('Start', status, this.statusData, this, source, sourceEffect)) {
 				this.battle.debug('status start [' + status.id + '] interrupted');
 				// cancel the setstatus
 				this.status = prevStatus;
-				this.statusState = prevStatusState;
+				this.statusData = prevStatusData;
 				return false;
 			}
 			if (status.id && !this.battle.runEvent('AfterSetStatus', this, source, sourceEffect, status)) {

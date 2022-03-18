@@ -5,9 +5,7 @@ export const Scripts: ModdedBattleScriptsData = {
 			for (const pokemon of this.battle.getAllActive()) {
 				const innates = Object.keys(pokemon.volatiles).filter(x => x.startsWith('ability:'));
 				if (pokemon && !pokemon.ignoringAbility() &&
-					(pokemon.getAbility().suppressWeather || innates.some(x => (
-						this.battle.dex.abilities.get(x.replace('ability:', '')).suppressWeather
-					)))) {
+					(pokemon.getAbility().suppressWeather || innates.some(x => this.battle.dex.abilities.get(x).suppressWeather))) {
 					return true;
 				}
 			}
@@ -28,7 +26,7 @@ export const Scripts: ModdedBattleScriptsData = {
 				// can't use hasAbility because it would lead to infinite recursion
 				if (
 					(pokemon.ability === ('neutralizinggas' as ID) || pokemon.m.abils?.includes('ability:neutralizinggas')) &&
-					!pokemon.volatiles['gastroacid'] && !pokemon.abilityState.ending
+					!pokemon.volatiles['gastroacid'] && !pokemon.abilityData.ending
 				) {
 					neutralizinggas = true;
 					break;

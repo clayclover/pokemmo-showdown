@@ -1,30 +1,20 @@
 /**
- * Simulator
+ * Simulator process
  * Pokemon Showdown - http://pokemonshowdown.com/
  *
- * Here's where all the simulator APIs get exported for general use.
- * `require('pokemon-showdown')` imports from here.
+ * This file is where the battle simulation itself happens.
+ *
+ * The most important part of the simulation happens in runEvent -
+ * see that function's definition for details.
  *
  * @license MIT
  */
 
-// battle simulation
-
 export {Battle} from './battle';
 export {BattleStream, getPlayerStreams} from './battle-stream';
+export {Dex} from './dex';
+export {Teams} from './teams';
 export {Pokemon} from './pokemon';
 export {PRNG} from './prng';
 export {Side} from './side';
-
-// dex API
-
-export {Dex, toID} from './dex';
-
-// teams API
-
-export {Teams} from './teams';
 export {TeamValidator} from './team-validator';
-
-// misc libraries
-
-export * from '../lib';

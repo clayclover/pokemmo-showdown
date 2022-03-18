@@ -1,6 +1,6 @@
 import {Utils} from '../../lib';
 
-type Operator = '^' | 'negative' | '%' | '/' | '*' | '+' | '-' | '(';
+type Operator = '^' | '%' | '/' | '*' | '+' | '-';
 interface Operators {
 	precedence: number;
 	associativity: "Left" | "Right";
@@ -8,10 +8,6 @@ interface Operators {
 
 const OPERATORS: {[k in Operator]: Operators} = {
 	"^": {
-		precedence: 5,
-		associativity: "Right",
-	},
-	"negative": {
 		precedence: 4,
 		associativity: "Right",
 	},
@@ -35,10 +31,6 @@ const OPERATORS: {[k in Operator]: Operators} = {
 		precedence: 2,
 		associativity: "Left",
 	},
-	"(": {
-		precedence: 1,
-		associativity: "Right",
-	},
 };
 
 const BASE_PREFIXES: {[base: number]: string} = {
@@ -51,7 +43,7 @@ const BASE_PREFIXES: {[base: number]: string} = {
 function parseMathematicalExpression(infix: string) {
 	// Shunting-yard Algorithm -- https://en.wikipedia.org/wiki/Shunting-yard_algorithm
 	const outputQueue: string[] = [];
-	const operatorStack: Operator[] = [];
+	const operatorStack: string[] = [];
 	infix = infix.replace(/\s+/g, "");
 	const infixArray = infix.split(/([+\-*/%^()])/).filter(token => token);
 	let isExprExpected = true;
@@ -61,18 +53,20 @@ function parseMathematicalExpression(infix: string) {
 		} else if ("^%*/+-".includes(token)) {
 			if (isExprExpected) throw new SyntaxError(`Got "${token}" where an expression should be`);
 			const op = OPERATORS[token as Operator];
-			let prevToken = operatorStack[operatorStack.length - 1] || '(';
-			let prevOp = OPERATORS[prevToken];
-			while (op.associativity === "Left" ? op.precedence <= prevOp.precedence : op.precedence < prevOp.precedence) {
+			let prevToken = operatorStack[operatorStack.length - 1];
+			let prevOp = OPERATORS[prevToken as Operator];
+			while ("^%*/+-".includes(prevToken) && (
+				op.associativity === "Left" ? op.precedence <= prevOp.precedence : op.precedence < prevOp.precedence
+			)) {
 				outputQueue.push(operatorStack.pop()!);
-				prevToken = operatorStack[operatorStack.length - 1] || '(';
-				prevOp = OPERATORS[prevToken];
+				prevToken = operatorStack[operatorStack.length - 1];
+				prevOp = OPERATORS[prevToken as Operator];
 			}
-			operatorStack.push(token as Operator);
+			operatorStack.push(token);
 			isExprExpected = true;
 		} else if (token === "(") {
 			if (!isExprExpected) throw new SyntaxError(`Got "(" where an operator should be`);
-			operatorStack.push(token as Operator);
+			operatorStack.push(token);
 			isExprExpected = true;
 		} else if (token === ")") {
 			if (isExprExpected) throw new SyntaxError(`Got ")" where an expression should be`);
@@ -156,7 +150,7 @@ function solveRPN(rpn: string[]): [number, number] {
 	return [resultStack.pop()!, base];
 }
 
-export const commands: Chat.ChatCommands = {
+export const commands: ChatCommands = {
 	math: "calculate",
 	calculate(target, room, user) {
 		if (!target) return this.parse('/help calculate');
@@ -191,7 +185,7 @@ export const commands: Chat.ChatCommands = {
 				resultStr = `<strong>${result}</strong>`;
 			}
 			this.sendReplyBox(`${expression}<br />= ${resultStr}`);
-		} catch (e: any) {
+		} catch (e) {
 			this.sendReplyBox(
 				Utils.html`${expression}<br />= <span class="message-error"><strong>Invalid input:</strong> ${e.message}</span>`
 			);

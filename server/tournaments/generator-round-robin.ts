@@ -4,7 +4,6 @@ interface Match {
 	result?: string;
 }
 
-import {Utils} from '../../lib/utils';
 import type {TournamentPlayer} from './index';
 
 export class RoundRobin {
@@ -173,7 +172,9 @@ export class RoundRobin {
 	getResults() {
 		if (!this.isTournamentEnded()) return 'TournamentNotEnded';
 
-		const sortedScores = Utils.sortBy([...this.players], p => -p.score);
+		const sortedScores = this.players.slice().sort(
+			(p1, p2) => p2.score - p1.score
+		);
 
 		const results: TournamentPlayer[][] = [];
 		let currentScore = sortedScores[0].score;

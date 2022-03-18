@@ -36,7 +36,7 @@ export class MultiRandomRunner {
 	private readonly format: string | undefined;
 	private readonly cycle: boolean;
 	private readonly all: boolean;
-	private readonly isAsync: boolean;
+	private readonly async: boolean;
 
 	private formatIndex: number;
 	private numGames: number;
@@ -54,7 +54,7 @@ export class MultiRandomRunner {
 		this.cycle = !!options.cycle;
 		this.all = !!options.all;
 
-		this.isAsync = !!options.async;
+		this.async = !!options.async;
 
 		this.formatIndex = 0;
 		this.numGames = 0;
@@ -67,7 +67,7 @@ export class MultiRandomRunner {
 		let failures = 0;
 		while ((format = this.getNextFormat())) {
 			if (this.all && lastFormat && format !== lastFormat) {
-				if (this.isAsync) await Promise.all(games);
+				if (this.async) await Promise.all(games);
 				games = [];
 			}
 
@@ -81,12 +81,12 @@ export class MultiRandomRunner {
 				);
 			});
 
-			if (!this.isAsync) await game;
+			if (!this.async) await game;
 			games.push(game);
 			lastFormat = format;
 		}
 
-		if (this.isAsync) await Promise.all(games);
+		if (this.async) await Promise.all(games);
 		return failures;
 	}
 

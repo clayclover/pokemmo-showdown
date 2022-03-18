@@ -16,13 +16,13 @@ function saveSuspectTests() {
 	FS(SUSPECTS_FILE).writeUpdate(() => JSON.stringify(suspectTests));
 }
 
-function checkPermissions(context: Chat.CommandContext) {
+function checkPermissions(context: CommandContext) {
 	const user = context.user;
 	if (WHITELIST.includes(user.id)) return true;
 	context.checkCan('gdeclare');
 }
 
-export const commands: Chat.ChatCommands = {
+export const commands: ChatCommands = {
 	suspect: 'suspects',
 	suspects: {
 		''(target, room, user) {

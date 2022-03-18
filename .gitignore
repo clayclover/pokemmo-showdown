@@ -66,5 +66,3 @@ local_settings.py
 .svn
 
 pip-log.txt
-# redis dumps
-*.rdb

@@ -57,17 +57,6 @@ export const Scripts: ModdedBattleScriptsData = {
 			}
 			return changed;
 		},
-		clearBoosts() {
-			let i: BoostID;
-			for (i in this.boosts) {
-				this.boosts[i] = 0;
-				// Recalculate the modified stat
-				if (i === 'evasion' || i === 'accuracy') continue;
-				let stat = this.species.baseStats[i];
-				stat = Math.floor(Math.floor(2 * stat + this.set.ivs[i] + Math.floor(this.set.evs[i] / 4)) * this.level / 100 + 5);
-				this.modifiedStats![i] = this.storedStats[i] = Math.floor(stat);
-			}
-		},
 	},
 	actions: {
 		// This function is the main one when running a move.
@@ -247,7 +236,7 @@ export const Scripts: ModdedBattleScriptsData = {
 			// First, check if the target is semi-invulnerable
 			let hitResult = this.battle.runEvent('Invulnerability', target, pokemon, move);
 			if (hitResult === false) {
-				this.battle.attrLastMove('[miss]');
+				if (!move.spreadHit) this.battle.attrLastMove('[miss]');
 				this.battle.add('-miss', pokemon);
 				return false;
 			}
@@ -590,7 +579,7 @@ export const Scripts: ModdedBattleScriptsData = {
 			return damage;
 		},
 		// This calculates the damage pokemon does to target with move.
-		getDamage(source, target, move, suppressMessages) {
+		getDamage(pokemon, target, move, suppressMessages) {
 			// First of all, we get the move.
 			if (typeof move === 'string') {
 				move = this.battle.dex.getActiveMove(move);
@@ -618,12 +607,12 @@ export const Scripts: ModdedBattleScriptsData = {
 
 			// We edit the damage through move's damage callback if necessary.
 			if (move.damageCallback) {
-				return move.damageCallback.call(this.battle, source, target);
+				return move.damageCallback.call(this.battle, pokemon, target);
 			}
 
 			// We take damage from damage=level moves (seismic toss).
 			if (move.damage === 'level') {
-				return source.level;
+				return pokemon.level;
 			}
 
 			// If there's a fix move damage, we return that.
@@ -637,12 +626,13 @@ export const Scripts: ModdedBattleScriptsData = {
 			}
 
 			// Let's check if we are in middle of a partial trap sequence to return the previous damage.
-			if (source.volatiles['partialtrappinglock'] && (target === source.volatiles['partialtrappinglock'].locked)) {
-				return source.volatiles['partialtrappinglock'].damage;
+			if (pokemon.volatiles['partialtrappinglock'] && (target === pokemon.volatiles['partialtrappinglock'].locked)) {
+				return pokemon.volatiles['partialtrappinglock'].damage;
 			}
 
 			// We check the category and typing to calculate later on the damage.
 			if (!move.category) move.category = 'Physical';
+			if (!move.defensiveCategory) move.defensiveCategory = move.category;
 			// '???' is typeless damage: used for Struggle and Confusion etc
 			if (!move.type) move.type = '???';
 			const type = move.type;
@@ -650,7 +640,7 @@ export const Scripts: ModdedBattleScriptsData = {
 			// We get the base power and apply basePowerCallback if necessary.
 			let basePower: number | false | null = move.basePower;
 			if (move.basePowerCallback) {
-				basePower = move.basePowerCallback.call(this.battle, source, target, move);
+				basePower = move.basePowerCallback.call(this.battle, pokemon, target, move);
 			}
 			if (!basePower) {
 				return basePower === 0 ? undefined : basePower;
@@ -662,10 +652,10 @@ export const Scripts: ModdedBattleScriptsData = {
 			if (!isCrit) {
 				// In gen 1, the critical chance is based on speed.
 				// First, we get the base speed, divide it by 2 and floor it. This is our current crit chance.
-				let critChance = Math.floor(source.species.baseStats['spe'] / 2);
+				let critChance = Math.floor(pokemon.species.baseStats['spe'] / 2);
 
 				// Now we check for focus energy volatile.
-				if (source.volatiles['focusenergy']) {
+				if (pokemon.volatiles['focusenergy']) {
 					// If it exists, crit chance is divided by 2 again and floored.
 					critChance = Math.floor(critChance / 2);
 				} else {
@@ -693,7 +683,7 @@ export const Scripts: ModdedBattleScriptsData = {
 
 			// Happens after crit calculation.
 			if (basePower) {
-				basePower = this.battle.runEvent('BasePower', source, target, move, basePower);
+				basePower = this.battle.runEvent('BasePower', pokemon, target, move, basePower);
 				if (basePower && move.basePowerModifier) {
 					basePower *= move.basePowerModifier;
 				}
@@ -702,17 +692,14 @@ export const Scripts: ModdedBattleScriptsData = {
 			basePower = this.battle.clampIntRange(basePower, 1);
 
 			// We now check attacker's and defender's stats.
-			let level = source.level;
-			const attacker = move.overrideOffensivePokemon === 'target' ? target : source;
-			const defender = move.overrideDefensivePokemon === 'source' ? source : target;
-
-			const isPhysical = move.category === 'Physical';
-			const atkType: StatIDExceptHP = move.overrideOffensiveStat || (isPhysical ? 'atk' : 'spa');
-			const defType: StatIDExceptHP = move.overrideDefensiveStat || (isPhysical ? 'def' : 'spd');
-
-			let attack = attacker.getStat(atkType);
+			let level = pokemon.level;
+			let attacker = pokemon;
+			const defender = target;
+			if (move.useTargetOffensive) attacker = target;
+			const atkType: StatIDExceptHP = (move.category === 'Physical') ? 'atk' : 'spa';
+			const defType: StatIDExceptHP = (move.defensiveCategory === 'Physical') ? 'def' : 'spd';
+			let attack = attacker.getStat(move.useSourceDefensiveAsOffensive ? defType : atkType);
 			let defense = defender.getStat(defType);
-
 			// In gen 1, screen effect is applied here.
 			if ((defType === 'def' && defender.volatiles['reflect']) || (defType === 'spd' && defender.volatiles['lightscreen'])) {
 				this.battle.debug('Screen doubling (Sp)Def');
@@ -729,12 +716,10 @@ export const Scripts: ModdedBattleScriptsData = {
 				level *= 2;
 				if (!suppressMessages) this.battle.add('-crit', target);
 			}
-
 			if (move.ignoreOffensive) {
 				this.battle.debug('Negating (sp)atk boost/penalty.');
 				attack = attacker.getStat(atkType, true);
 			}
-
 			if (move.ignoreDefensive) {
 				this.battle.debug('Negating (sp)def boost/penalty.');
 				// No screens
@@ -766,7 +751,7 @@ export const Scripts: ModdedBattleScriptsData = {
 			damage += 2;
 
 			// STAB damage bonus, the "???" type never gets STAB
-			if (type !== '???' && source.hasType(type)) {
+			if (type !== '???' && pokemon.hasType(type)) {
 				damage += Math.floor(damage / 2);
 			}
 

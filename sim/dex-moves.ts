@@ -25,7 +25,7 @@ export type MoveTarget =
 
 /** Possible move flags. */
 interface MoveFlags {
-	bypasssub?: 1; // Ignores a target's substitute.
+	authentic?: 1; // Ignores a target's substitute.
 	bite?: 1; // Power is multiplied by 1.5 when used by a Pokemon with the Ability Strong Jaw.
 	bullet?: 1; // Has no effect on Pokemon with the Ability Bulletproof.
 	charge?: 1; // The user is unable to make a move between turns.
@@ -36,7 +36,7 @@ interface MoveFlags {
 	gravity?: 1; // Prevented from being executed or selected during Gravity's effect.
 	heal?: 1; // Prevented from being executed or selected during Heal Block's effect.
 	mirror?: 1; // Can be copied by Mirror Move.
-	allyanim?: 1; // The move has an animation when used on an ally.
+	mystery?: 1; // Unknown effect.
 	nonsky?: 1; // Prevented from being executed or selected in a Sky Battle.
 	powder?: 1; // Has no effect on Pokemon which are Grass-type, have the Ability Overcoat, or hold Safety Goggles.
 	protect?: 1; // Blocked by Detect, Protect, Spiky Shield, and if not a Status move, King's Shield.
@@ -131,7 +131,7 @@ export interface MoveData extends EffectData, MoveEventMethods, HitEffect {
 	name: string;
 	/** move index number, used for Metronome rolls */
 	num?: number;
-	condition?: ConditionData;
+	condition?: Partial<ConditionData>;
 	basePower: number;
 	accuracy: true | number;
 	pp: number;
@@ -203,22 +203,7 @@ export interface MoveData extends EffectData, MoveEventMethods, HitEffect {
 	basePowerModifier?: number;
 	critModifier?: number;
 	critRatio?: number;
-	/**
-	 * Pokemon for the attack stat. Ability and Item damage modifiers still come from the real attacker.
-	 */
-	overrideOffensivePokemon?: 'target' | 'source';
-	/**
-	 * Physical moves use attack stat modifiers, special moves use special attack stat modifiers.
-	 */
-	overrideOffensiveStat?: StatIDExceptHP;
-	/**
-	 * Pokemon for the defense stat. Ability and Item damage modifiers still come from the real defender.
-	 */
-	overrideDefensivePokemon?: 'target' | 'source';
-	/**
-	 * uses modifiers that match the new stat
-	 */
-	overrideDefensiveStat?: StatIDExceptHP;
+	defensiveCategory?: 'Physical' | 'Special' | 'Status';
 	forceSTAB?: boolean;
 	ignoreAbility?: boolean;
 	ignoreAccuracy?: boolean;
@@ -246,6 +231,8 @@ export interface MoveData extends EffectData, MoveEventMethods, HitEffect {
 	 * situations, rather than just targeting a slot. (Stalwart, Snipe Shot)
 	 */
 	tracksTarget?: boolean;
+	useTargetOffensive?: boolean;
+	useSourceDefensiveAsOffensive?: boolean;
 	willCrit?: boolean;
 
 	// Mechanics flags
@@ -334,7 +321,7 @@ export interface ActiveMove extends MutableMove {
 type MoveCategory = 'Physical' | 'Special' | 'Status';
 
 export class DataMove extends BasicEffect implements Readonly<BasicEffect & MoveData> {
-	declare readonly effectType: 'Move';
+	readonly effectType: 'Move';
 	/** Move type. */
 	readonly type: string;
 	/** Move target. */
@@ -346,9 +333,9 @@ export class DataMove extends BasicEffect implements Readonly<BasicEffect & Move
 	/** Critical hit ratio. Defaults to 1. */
 	readonly critRatio: number;
 	/** Will this move always or never be a critical hit? */
-	declare readonly willCrit?: boolean;
+	readonly willCrit?: boolean;
 	/** Can this move OHKO foes? */
-	declare readonly ohko?: boolean | string;
+	readonly ohko?: boolean | string;
 	/**
 	 * Base move type. This is the move type as specified by the games,
 	 * tracked because it often differs from the real move type.
@@ -373,21 +360,14 @@ export class DataMove extends BasicEffect implements Readonly<BasicEffect & Move
 	/** Move category. */
 	readonly category: MoveCategory;
 	/**
-	 * Pokemon for the attack stat. Ability and Item damage modifiers still come from the real attacker.
+	 * Category that changes which defense to use when calculating
+	 * move damage.
 	 */
-	 readonly overrideOffensivePokemon?: 'target' | 'source';
-	/**
-	 * Physical moves use attack stat modifiers, special moves use special attack stat modifiers.
-	 */
-	 readonly overrideOffensiveStat?: StatIDExceptHP;
-	/**
-	 * Pokemon for the defense stat. Ability and Item damage modifiers still come from the real defender.
-	 */
-	 readonly overrideDefensivePokemon?: 'target' | 'source';
-	/**
-	 * uses modifiers that match the new stat
-	 */
-	 readonly overrideDefensiveStat?: StatIDExceptHP;
+	readonly defensiveCategory?: MoveCategory;
+	/** Uses the target's Atk/SpA as the attacking stat, instead of the user's. */
+	readonly useTargetOffensive: boolean;
+	/** Use the user's Def/SpD as the attacking stat, instead of Atk/SpA. */
+	readonly useSourceDefensiveAsOffensive: boolean;
 	/** Whether or not this move ignores negative attack boosts. */
 	readonly ignoreNegativeOffensive: boolean;
 	/** Whether or not this move ignores positive defense boosts. */
@@ -406,11 +386,11 @@ export class DataMove extends BasicEffect implements Readonly<BasicEffect & Move
 	/** Whether or not this move can receive PP boosts. */
 	readonly noPPBoosts: boolean;
 	/** How many times does this move hit? */
-	declare readonly multihit?: number | number[];
+	readonly multihit?: number | number[];
 	/** Is this move a Z-Move? */
 	readonly isZ: boolean | string;
 	/* Z-Move fields */
-	declare readonly zMove?: {
+	readonly zMove?: {
 		basePower?: number,
 		effect?: string,
 		boost?: SparseBoostsTable,
@@ -418,7 +398,7 @@ export class DataMove extends BasicEffect implements Readonly<BasicEffect & Move
 	/** Is this move a Max move? */
 	readonly isMax: boolean | string;
 	/** Max/G-Max move fields */
-	declare readonly maxMove?: {
+	readonly maxMove?: {
 		basePower: number,
 	};
 	readonly flags: MoveFlags;
@@ -440,9 +420,9 @@ export class DataMove extends BasicEffect implements Readonly<BasicEffect & Move
 	/** Whether or not this move hit multiple targets. */
 	readonly spreadHit: boolean;
 	/** Modifier that affects damage when multiple targets are hit. */
-	declare readonly spreadModifier?: number;
+	readonly spreadModifier?: number;
 	/**  Modifier that affects damage when this move is a critical hit. */
-	declare readonly critModifier?: number;
+	readonly critModifier?: number;
 	/** Forces the move to get STAB even if the type doesn't match. */
 	readonly forceSTAB: boolean;
 	/** True if it can't be copied with Sketch. */
@@ -468,10 +448,9 @@ export class DataMove extends BasicEffect implements Readonly<BasicEffect & Move
 		this.secondaries = data.secondaries || (this.secondary && [this.secondary]) || null;
 		this.priority = Number(data.priority) || 0;
 		this.category = data.category!;
-		this.overrideOffensiveStat = data.overrideOffensiveStat || undefined;
-		this.overrideOffensivePokemon = data.overrideOffensivePokemon || undefined;
-		this.overrideDefensiveStat = data.overrideDefensiveStat || undefined;
-		this.overrideDefensivePokemon = data.overrideDefensivePokemon || undefined;
+		this.defensiveCategory = data.defensiveCategory || undefined;
+		this.useTargetOffensive = !!data.useTargetOffensive;
+		this.useSourceDefensiveAsOffensive = !!data.useSourceDefensiveAsOffensive;
 		this.ignoreNegativeOffensive = !!data.ignoreNegativeOffensive;
 		this.ignorePositiveDefensive = !!data.ignorePositiveDefensive;
 		this.ignoreOffensive = !!data.ignoreOffensive;

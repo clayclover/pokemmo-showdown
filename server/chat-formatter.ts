@@ -112,7 +112,8 @@ class TextFormatter {
 		this.replaceLinebreaks = this.isTrusted || replaceLinebreaks;
 		this.offset = 0;
 	}
-	// debugAt(i=0, j=i+1) { console.log(`${this.slice(0, i)}[${this.slice(i, j)}]${this.slice(j, this.str.length)}`); }
+	// eslint-disable-next-line max-len
+	// debugAt(i=0, j=i+1) { console.log(this.slice(0, i) + '[' + this.slice(i, j) + ']' + this.slice(j, this.str.length)); }
 
 	slice(start: number, end: number) {
 		return this.str.slice(start, end);

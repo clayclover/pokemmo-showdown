@@ -109,52 +109,51 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	articuno: {
 		inherit: true,
-		unreleasedHidden: true,
+		abilities: {0: "Pressure"},
 	},
 	zapdos: {
 		inherit: true,
-		abilities: {0: "Pressure", H: "Lightning Rod"},
-		unreleasedHidden: true,
+		abilities: {0: "Pressure"},
 	},
 	moltres: {
 		inherit: true,
-		unreleasedHidden: true,
+		abilities: {0: "Pressure"},
 	},
 	chikorita: {
 		inherit: true,
-		unreleasedHidden: true,
+		abilities: {0: "Overgrow"},
 	},
 	bayleef: {
 		inherit: true,
-		unreleasedHidden: true,
+		abilities: {0: "Overgrow"},
 	},
 	meganium: {
 		inherit: true,
-		unreleasedHidden: true,
+		abilities: {0: "Overgrow"},
 	},
 	cyndaquil: {
 		inherit: true,
-		unreleasedHidden: true,
+		abilities: {0: "Blaze"},
 	},
 	quilava: {
 		inherit: true,
-		unreleasedHidden: true,
+		abilities: {0: "Blaze"},
 	},
 	typhlosion: {
 		inherit: true,
-		unreleasedHidden: true,
+		abilities: {0: "Blaze"},
 	},
 	totodile: {
 		inherit: true,
-		unreleasedHidden: true,
+		abilities: {0: "Torrent"},
 	},
 	croconaw: {
 		inherit: true,
-		unreleasedHidden: true,
+		abilities: {0: "Torrent"},
 	},
 	feraligatr: {
 		inherit: true,
-		unreleasedHidden: true,
+		abilities: {0: "Torrent"},
 	},
 	igglybuff: {
 		inherit: true,
@@ -217,6 +216,18 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	hitmontop: {
 		inherit: true,
 		maleOnlyHidden: true,
+	},
+	raikou: {
+		inherit: true,
+		abilities: {0: "Pressure"},
+	},
+	entei: {
+		inherit: true,
+		abilities: {0: "Pressure"},
+	},
+	suicune: {
+		inherit: true,
+		abilities: {0: "Pressure"},
 	},
 	treecko: {
 		inherit: true,
@@ -312,15 +323,15 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	regirock: {
 		inherit: true,
-		unreleasedHidden: true,
+		abilities: {0: "Clear Body"},
 	},
 	regice: {
 		inherit: true,
-		unreleasedHidden: true,
+		abilities: {0: "Clear Body"},
 	},
 	registeel: {
 		inherit: true,
-		unreleasedHidden: true,
+		abilities: {0: "Clear Body"},
 	},
 	turtwig: {
 		inherit: true,
@@ -382,41 +393,45 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 		inherit: true,
 		abilities: {0: "Pressure"},
 	},
+	heatran: {
+		inherit: true,
+		abilities: {0: "Flash Fire"},
+	},
 	snivy: {
 		inherit: true,
-		unreleasedHidden: true,
+		abilities: {0: "Overgrow"},
 	},
 	servine: {
 		inherit: true,
-		unreleasedHidden: true,
+		abilities: {0: "Overgrow"},
 	},
 	serperior: {
 		inherit: true,
-		unreleasedHidden: true,
+		abilities: {0: "Overgrow"},
 	},
 	tepig: {
 		inherit: true,
-		unreleasedHidden: true,
+		abilities: {0: "Blaze"},
 	},
 	pignite: {
 		inherit: true,
-		unreleasedHidden: true,
+		abilities: {0: "Blaze"},
 	},
 	emboar: {
 		inherit: true,
-		unreleasedHidden: true,
+		abilities: {0: "Blaze"},
 	},
 	oshawott: {
 		inherit: true,
-		unreleasedHidden: true,
+		abilities: {0: "Torrent"},
 	},
 	dewott: {
 		inherit: true,
-		unreleasedHidden: true,
+		abilities: {0: "Torrent"},
 	},
 	samurott: {
 		inherit: true,
-		unreleasedHidden: true,
+		abilities: {0: "Torrent"},
 	},
 	stoutland: {
 		inherit: true,
@@ -459,17 +474,13 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 		inherit: true,
 		types: ["Grass"],
 	},
-	basculinbluestriped: {
-		inherit: true,
-		abilities: {0: "Rock Head", 1: "Adaptability", H: "Mold Breaker", S: "Reckless"},
-	},
 	krookodile: {
 		inherit: true,
 		baseStats: {hp: 95, atk: 117, def: 70, spa: 65, spd: 70, spe: 92},
 	},
 	gothita: {
 		inherit: true,
-		unreleasedHidden: true,
+		abilities: {0: "Frisk"},
 	},
 	gothorita: {
 		inherit: true,
@@ -487,33 +498,30 @@ export const Pokedex: {[k: string]: ModdedSpeciesData} = {
 	},
 	klink: {
 		inherit: true,
-		unreleasedHidden: true,
+		abilities: {0: "Plus", 1: "Minus"},
 	},
 	litwick: {
 		inherit: true,
-		abilities: {0: "Flash Fire", 1: "Flame Body", H: "Shadow Tag"},
-		unreleasedHidden: true,
+		abilities: {0: "Flash Fire", 1: "Flame Body"},
 	},
 	lampent: {
 		inherit: true,
-		abilities: {0: "Flash Fire", 1: "Flame Body", H: "Shadow Tag"},
-		unreleasedHidden: true,
+		abilities: {0: "Flash Fire", 1: "Flame Body"},
 	},
 	chandelure: {
 		inherit: true,
-		abilities: {0: "Flash Fire", 1: "Flame Body", H: "Shadow Tag"},
-		unreleasedHidden: true,
+		abilities: {0: "Flash Fire", 1: "Flame Body"},
 	},
 	rufflet: {
 		inherit: true,
-		unreleasedHidden: true,
+		abilities: {0: "Keen Eye", 1: "Sheer Force"},
 	},
 	larvesta: {
 		inherit: true,
-		unreleasedHidden: true,
+		abilities: {0: "Flame Body"},
 	},
 	volcarona: {
 		inherit: true,
-		unreleasedHidden: true,
+		abilities: {0: "Flame Body"},
 	},
 };

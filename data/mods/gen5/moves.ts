@@ -19,9 +19,8 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 		inherit: true,
 		onHit(target, source) {
 			this.add('-activate', source, 'move: Aromatherapy');
-			const allies = [...target.side.pokemon, ...target.side.allySide?.pokemon || []];
-			for (const ally of allies) {
-				ally.cureStatus();
+			for (const pokemon of source.side.pokemon) {
+				pokemon.cureStatus();
 			}
 		},
 	},
@@ -66,20 +65,20 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 			noCopy: true, // doesn't get copied by Baton Pass
 			onStart(pokemon) {
 				if (pokemon.species.weighthg > 1) {
-					this.effectState.multiplier = 1;
+					this.effectData.multiplier = 1;
 					this.add('-start', pokemon, 'Autotomize');
 				}
 			},
 			onRestart(pokemon) {
-				if (pokemon.species.weighthg - (this.effectState.multiplier * 1000) > 1) {
-					this.effectState.multiplier++;
+				if (pokemon.species.weighthg - (this.effectData.multiplier * 1000) > 1) {
+					this.effectData.multiplier++;
 					this.add('-start', pokemon, 'Autotomize');
 				}
 			},
 			onModifyWeightPriority: 2,
 			onModifyWeight(weighthg, pokemon) {
-				if (this.effectState.multiplier) {
-					weighthg -= this.effectState.multiplier * 1000;
+				if (this.effectData.multiplier) {
+					weighthg -= this.effectData.multiplier * 1000;
 					if (weighthg < 1) weighthg = 1;
 					return weighthg;
 				}
@@ -267,13 +266,13 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 		condition: {
 			duration: 2,
 			onStart() {
-				this.effectState.multiplier = 1;
+				this.effectData.multiplier = 1;
 			},
 			onRestart() {
-				if (this.effectState.multiplier < 8) {
-					this.effectState.multiplier <<= 1;
+				if (this.effectData.multiplier < 8) {
+					this.effectData.multiplier <<= 1;
 				}
-				this.effectState.duration = 2;
+				this.effectData.duration = 2;
 			},
 		},
 	},
@@ -353,9 +352,8 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 		flags: {snatch: 1, sound: 1},
 		onHit(target, source) {
 			this.add('-activate', source, 'move: Heal Bell');
-			const allies = [...target.side.pokemon, ...target.side.allySide?.pokemon || []];
-			for (const ally of allies) {
-				ally.cureStatus();
+			for (const pokemon of source.side.pokemon) {
+				pokemon.cureStatus();
 			}
 		},
 	},
@@ -501,7 +499,7 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 				return 5;
 			},
 			onAnyModifyDamage(damage, source, target, move) {
-				if (target !== source && this.effectState.target.hasAlly(target) && this.getCategory(move) === 'Special') {
+				if (target !== source && this.effectData.target.hasAlly(target) && this.getCategory(move) === 'Special') {
 					if (!target.getMoveHitData(move).crit && !move.infiltrates) {
 						this.debug('Light Screen weaken');
 						if (this.activePerHalf > 1) return this.chainModify([2703, 4096]);
@@ -509,12 +507,12 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 					}
 				}
 			},
-			onSideStart(side) {
+			onStart(side) {
 				this.add('-sidestart', side, 'move: Light Screen');
 			},
-			onSideResidualOrder: 26,
-			onSideResidualSubOrder: 2,
-			onSideEnd(side) {
+			onResidualOrder: 21,
+			onResidualSubOrder: 1,
+			onEnd(side) {
 				this.add('-sideend', side, 'move: Light Screen');
 			},
 		},
@@ -664,7 +662,7 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 		},
 		condition: {
 			duration: 1,
-			onSideStart(target, source) {
+			onStart(target, source) {
 				this.add('-singleturn', source, 'Quick Guard');
 			},
 			onTryHitPriority: 4,
@@ -702,7 +700,7 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 				return 5;
 			},
 			onAnyModifyDamage(damage, source, target, move) {
-				if (target !== source && this.effectState.target.hasAlly(target) && this.getCategory(move) === 'Physical') {
+				if (target !== source && this.effectData.target.hasAlly(target) && this.getCategory(move) === 'Physical') {
 					if (!target.getMoveHitData(move).crit && !move.infiltrates) {
 						this.debug('Reflect weaken');
 						if (this.activePerHalf > 1) return this.chainModify([2703, 4096]);
@@ -710,12 +708,11 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 					}
 				}
 			},
-			onSideStart(side) {
+			onStart(side) {
 				this.add('-sidestart', side, 'Reflect');
 			},
-			onSideResidualOrder: 26,
-			onSideResidualSubOrder: 1,
-			onSideEnd(side) {
+			onResidualOrder: 21,
+			onEnd(side) {
 				this.add('-sideend', side, 'Reflect');
 			},
 		},
@@ -727,7 +724,7 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 	roar: {
 		inherit: true,
 		accuracy: 100,
-		flags: {protect: 1, reflectable: 1, mirror: 1, sound: 1, bypasssub: 1},
+		flags: {protect: 1, reflectable: 1, mirror: 1, sound: 1, authentic: 1},
 	},
 	rocktomb: {
 		inherit: true,
@@ -868,12 +865,12 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 		condition: {
 			onStart(target) {
 				this.add('-start', target, 'Substitute');
-				this.effectState.hp = Math.floor(target.maxhp / 4);
+				this.effectData.hp = Math.floor(target.maxhp / 4);
 				delete target.volatiles['partiallytrapped'];
 			},
 			onTryPrimaryHitPriority: -1,
 			onTryPrimaryHit(target, source, move) {
-				if (target === source || move.flags['bypasssub']) {
+				if (target === source || move.flags['authentic']) {
 					return;
 				}
 				let damage = this.actions.getDamage(source, target, move);
@@ -1022,7 +1019,7 @@ export const Moves: {[k: string]: ModdedMoveData} = {
 	whirlwind: {
 		inherit: true,
 		accuracy: 100,
-		flags: {protect: 1, reflectable: 1, mirror: 1, bypasssub: 1},
+		flags: {protect: 1, reflectable: 1, mirror: 1, authentic: 1},
 	},
 	wideguard: {
 		inherit: true,

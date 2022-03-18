@@ -19,7 +19,7 @@ const HOSTS_FILE = 'config/hosts.csv';
 const PROXIES_FILE = 'config/proxies.csv';
 
 import * as dns from 'dns';
-import {FS, Net, Utils} from '../lib';
+import {FS, Net} from '../lib';
 
 export interface AddressRange {
 	minIP: number;
@@ -44,12 +44,16 @@ export const IPTools = new class {
 
 	readonly connectionTestCache = new Map<string, boolean>();
 
-	readonly ipRegex = /^(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])$/;
+	// eslint-disable-next-line max-len
+	readonly ipRegex = /\b(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\b/;
+	// eslint-disable-next-line max-len
 	readonly ipRangeRegex = /^(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9]|\*)){0,2}\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9]|\*)$/;
 	readonly hostRegex = /^.+\..{2,}$/;
 
 	async lookup(ip: string) {
-		const [dnsbl, host] = await Promise.all([
+		// known TypeScript bug
+		// https://github.com/microsoft/TypeScript/issues/33752
+		const [dnsbl, host] = await Promise.all<string | null, string>([
 			IPTools.queryDnsbl(ip),
 			IPTools.getHost(ip),
 		]);
@@ -106,34 +110,27 @@ export const IPTools = new class {
 	ipToNumber(ip: string) {
 		ip = ip.trim();
 		if (ip.includes(':') && !ip.includes('.')) {
-			// IPv6, which PS does not support
-			return null;
+			// IPv6
+			return -1;
 		}
 		if (ip.startsWith('::ffff:')) ip = ip.slice(7);
 		else if (ip.startsWith('::')) ip = ip.slice(2);
 		let num = 0;
 		const parts = ip.split('.');
-		if (parts.length !== 4) return null;
 		for (const part of parts) {
 			num *= 256;
-
-			const partAsInt = Utils.parseExactInt(part);
-			if (isNaN(partAsInt) || partAsInt < 0 || partAsInt > 255) return null;
-			num += partAsInt;
+			num += parseInt(part);
 		}
 		return num;
 	}
 
 	numberToIP(num: number) {
 		const ipParts: string[] = [];
-		if (num < 0 || num >= 256 ** 4 || num !== Math.trunc(num)) return null;
 		while (num) {
 			const part = num % 256;
 			num = (num - part) / 256;
 			ipParts.unshift(part.toString());
 		}
-		while (ipParts.length < 4) ipParts.unshift('0');
-		if (ipParts.length !== 4) return null;
 		return ipParts.join('.');
 	}
 
@@ -141,57 +138,60 @@ export const IPTools = new class {
 		if (!cidr) return null;
 		const index = cidr.indexOf('/');
 		if (index <= 0) {
-			const ip = IPTools.ipToNumber(cidr);
-			if (ip === null) return null;
-			return {minIP: ip, maxIP: ip};
+			return {
+				minIP: IPTools.ipToNumber(cidr),
+				maxIP: IPTools.ipToNumber(cidr),
+			};
 		}
 		const low = IPTools.ipToNumber(cidr.slice(0, index));
-		const bits = Utils.parseExactInt(cidr.slice(index + 1));
+		const bits = parseInt(cidr.slice(index + 1));
 		// fun fact: IPTools fails if bits <= 1 because JavaScript
 		// does << with signed int32s.
-		if (low === null || !bits || bits < 2 || bits > 32) return null;
 		const high = low + (1 << (32 - bits)) - 1;
 		return {minIP: low, maxIP: high};
 	}
-	/** Is this an IP range supported by `stringToRange`? Note that exact IPs are also valid IP ranges. */
-	isValidRange(range: string): boolean {
-		return IPTools.stringToRange(range) !== null;
-	}
-	stringToRange(range: string | null): AddressRange | null {
+	stringToRange(range: string): AddressRange | null {
 		if (!range) return null;
 		if (range.endsWith('*')) {
-			const parts = range.replace('.*', '').split('.');
-			if (parts.length > 3) return null;
-			const [a, b, c] = parts;
-			const minIP = IPTools.ipToNumber(`${a || '0'}.${b || '0'}.${c || '0'}.0`);
-			const maxIP = IPTools.ipToNumber(`${a || '255'}.${b || '255'}.${c || '255'}.255`);
-			if (minIP === null || maxIP === null) return null;
-			return {minIP, maxIP};
+			const [a, b, c] = range.replace('*', '').split('.');
+			return {
+				minIP: IPTools.ipToNumber(`${a || '0'}.${b || '0'}.${c || '0'}.0`),
+				maxIP: IPTools.ipToNumber(`${a || '255'}.${b || '255'}.${c || '255'}.255`),
+			};
 		}
 		const index = range.indexOf('-');
 		if (index <= 0) {
-			if (range.includes('/')) return IPTools.getCidrRange(range);
-			const ip = IPTools.ipToNumber(range);
-			if (ip === null) return null;
-
-			return {maxIP: ip, minIP: ip};
+			return range.includes('/') ? IPTools.getCidrRange(range) : {
+				minIP: IPTools.ipToNumber(range),
+				maxIP: IPTools.ipToNumber(range),
+			};
 		}
 		const minIP = IPTools.ipToNumber(range.slice(0, index));
 		const maxIP = IPTools.ipToNumber(range.slice(index + 1));
-
-		if (minIP === null || maxIP === null || maxIP < minIP) return null;
 		return {minIP, maxIP};
 	}
-	rangeToString(range: AddressRange, sep = '-') {
-		return `${this.numberToIP(range.minIP)}${sep}${this.numberToIP(range.maxIP)}`;
+
+	ipSort(a: string, b: string) {
+		let i = 0;
+		let diff = 0;
+		const aParts = a.split('.');
+		const bParts = b.split('.');
+		while (diff === 0) {
+			const aPart = parseInt(aParts[i]);
+			const bPart = parseInt(bParts[i]);
+			if (isNaN(aPart) || isNaN(bPart)) throw new Error("Invalid IP passed to IPTools.ipSort.");
+			diff = aPart - bPart;
+			i++;
+		}
+		return diff;
 	}
 
 	/******************************
 	 * Range management functions *
 	 ******************************/
 
-	checkPattern(patterns: AddressRange[], num: number | null) {
-		if (num === null) return false;
+
+	checkPattern(patterns: AddressRange[], num: number) {
 		for (const pattern of patterns) {
 			if (num >= pattern.minIP && num <= pattern.maxIP) {
 				return true;
@@ -205,7 +205,7 @@ export const IPTools = new class {
 	 * ranges. The checker function returns true if its passed IP is
 	 * in the range.
 	 */
-	checker(rangeString: string | string[]): (ip: string) => boolean {
+	checker(rangeString: string | string[]) {
 		if (!rangeString?.length) return () => false;
 		let ranges: AddressRange[] = [];
 		if (typeof rangeString === 'string') {
@@ -214,10 +214,7 @@ export const IPTools = new class {
 		} else {
 			ranges = rangeString.map(IPTools.stringToRange).filter(x => x) as AddressRange[];
 		}
-		return (ip: string) => {
-			const ipNumber = IPTools.ipToNumber(ip);
-			return IPTools.checkPattern(ranges, ipNumber);
-		};
+		return (ip: string) => IPTools.checkPattern(ranges, IPTools.ipToNumber(ip));
 	}
 
 	/**
@@ -257,19 +254,11 @@ export const IPTools = new class {
 				break;
 			case 'RANGE':
 				if (!host) continue;
-
-				const minIP = IPTools.ipToNumber(hostOrLowIP);
-				if (minIP === null) {
-					Monitor.error(`Bad IP address in host or proxy file: '${hostOrLowIP}'`);
-					continue;
-				}
-				const maxIP = IPTools.ipToNumber(highIP);
-				if (maxIP === null) {
-					Monitor.error(`Bad IP address in host or proxy file: '${highIP}'`);
-					continue;
-				}
-
-				const range = {host: IPTools.urlToHost(host), maxIP, minIP};
+				const range = {
+					minIP: IPTools.ipToNumber(hostOrLowIP),
+					maxIP: IPTools.ipToNumber(highIP),
+					host: IPTools.urlToHost(host),
+				};
 				if (range.maxIP < range.minIP) throw new Error(`Bad range at ${hostOrLowIP}.`);
 				ranges.push(range);
 				break;
@@ -296,7 +285,7 @@ export const IPTools = new class {
 		}
 		IPTools.sortRanges();
 		for (const range of IPTools.ranges) {
-			const data = `RANGE,${IPTools.rangeToString(range, ',')}${range.host ? `,${range.host}` : ``}\n`;
+			const data = `RANGE,${IPTools.numberToIP(range.minIP)},${IPTools.numberToIP(range.maxIP)}${range.host ? `,${range.host}` : ``}\n`;
 			if (range.host?.endsWith('/proxy')) {
 				proxiesData += data;
 			} else {
@@ -363,19 +352,10 @@ export const IPTools = new class {
 		return IPTools.saveHostsAndRanges();
 	}
 
-	rangeIntersects(a: AddressRange, b: AddressRange) {
-		try {
-			this.checkRangeConflicts(a, [b]);
-		} catch {
-			return true;
-		}
-		return false;
-	}
-
 	checkRangeConflicts(insertion: AddressRange, sortedRanges: AddressRange[], widen?: boolean) {
 		if (insertion.maxIP < insertion.minIP) {
 			throw new Error(
-				`Invalid data for address range ${IPTools.rangeToString(insertion)} (${insertion.host})`
+				`Invalid data for address range ${IPTools.numberToIP(insertion.minIP)}-${IPTools.numberToIP(insertion.maxIP)} (${insertion.host})`
 			);
 		}
 
@@ -392,7 +372,7 @@ export const IPTools = new class {
 		if (iMin < sortedRanges.length) {
 			const next = sortedRanges[iMin];
 			if (insertion.minIP === next.minIP && insertion.maxIP === next.maxIP) {
-				throw new Error(`The address range ${IPTools.rangeToString(insertion)} (${insertion.host}) already exists`);
+				throw new Error(`The address range ${IPTools.numberToIP(insertion.minIP)}-${IPTools.numberToIP(insertion.maxIP)} (${insertion.host}) already exists`);
 			}
 			if (insertion.minIP <= next.minIP && insertion.maxIP >= next.maxIP) {
 				if (widen) {
@@ -402,14 +382,14 @@ export const IPTools = new class {
 					return iMin;
 				}
 				throw new Error(
-					`Too wide: ${IPTools.rangeToString(insertion)} (${insertion.host})\n` +
-					`Intersects with: ${IPTools.rangeToString(next)} (${next.host})`
+					`Too wide: ${IPTools.numberToIP(insertion.minIP)}-${IPTools.numberToIP(insertion.maxIP)} (${insertion.host})\n` +
+					`Intersects with: ${IPTools.numberToIP(next.minIP)}-${IPTools.numberToIP(next.maxIP)} (${next.host})`
 				);
 			}
 			if (insertion.maxIP >= next.minIP) {
 				throw new Error(
-					`Could not insert: ${IPTools.rangeToString(insertion)} ${insertion.host}\n` +
-					`Intersects with: ${IPTools.rangeToString(next)} (${next.host})`
+					`Could not insert: ${IPTools.numberToIP(insertion.minIP)}-${IPTools.numberToIP(insertion.maxIP)} ${insertion.host}\n` +
+					`Intersects with: ${IPTools.numberToIP(next.minIP)}-${IPTools.numberToIP(next.maxIP)} (${next.host})`
 				);
 			}
 		}
@@ -417,14 +397,14 @@ export const IPTools = new class {
 			const prev = sortedRanges[iMin - 1];
 			if (insertion.minIP >= prev.minIP && insertion.maxIP <= prev.maxIP) {
 				throw new Error(
-					`Too narrow: ${IPTools.rangeToString(insertion)} (${insertion.host})\n` +
-					`Intersects with: ${IPTools.rangeToString(prev)} (${prev.host})`
+					`Too narrow: ${IPTools.numberToIP(insertion.minIP)}-${IPTools.numberToIP(insertion.maxIP)} (${insertion.host})\n` +
+					`Intersects with: ${IPTools.numberToIP(prev.minIP)}-${IPTools.numberToIP(prev.maxIP)} (${prev.host})`
 				);
 			}
 			if (insertion.minIP <= prev.maxIP) {
 				throw new Error(
-					`Could not insert: ${IPTools.rangeToString(insertion)} (${insertion.host})\n` +
-					`Intersects with: ${IPTools.rangeToString(prev)} (${prev.host})`
+					`Could not insert: ${IPTools.numberToIP(insertion.minIP)}-${IPTools.numberToIP(insertion.maxIP)} (${insertion.host})\n` +
+					`Intersects with: ${IPTools.numberToIP(prev.minIP)}-${IPTools.numberToIP(prev.maxIP)} (${prev.host})`
 				);
 			}
 		}
@@ -444,8 +424,9 @@ export const IPTools = new class {
 	}
 
 	sortRanges() {
-		Utils.sortBy(IPTools.ranges, range => range.minIP);
+		IPTools.ranges.sort((a, b) => a.minIP - b.minIP);
 	}
+
 
 	getRange(minIP: number, maxIP: number) {
 		for (const range of IPTools.ranges) {
@@ -478,7 +459,6 @@ export const IPTools = new class {
 			}
 
 			const ipNumber = IPTools.ipToNumber(ip);
-			if (ipNumber === null) throw new Error(`Bad IP address: '${ip}'`);
 			for (const range of IPTools.ranges) {
 				if (ipNumber >= range.minIP && ipNumber <= range.maxIP) {
 					resolve(range.host);
@@ -578,7 +558,7 @@ export const IPTools = new class {
 	 * - 'unknown' - no rdns entry, treat with suspicion
 	 */
 	getHostType(host: string, ip: string) {
-		if (Punishments.isSharedIp(ip)) {
+		if (Punishments.sharedIps.has(ip)) {
 			return 'shared';
 		}
 		if (this.singleIPOpenProxies.has(ip) || this.torProxyIps.has(ip)) {
@@ -634,13 +614,13 @@ export const IPTools = new class {
 					this.torProxyIps.add(ip);
 				}
 			}
-		} catch {}
+		} catch (e) {}
 	}
 };
 
 const telstraRange: AddressRange & {host: string} = {
-	minIP: IPTools.ipToNumber("101.160.0.0")!,
-	maxIP: IPTools.ipToNumber("101.191.255.255")!,
+	minIP: IPTools.ipToNumber("101.160.0.0"),
+	maxIP: IPTools.ipToNumber("101.191.255.255"),
 	host: 'telstra.net?/res',
 };
 

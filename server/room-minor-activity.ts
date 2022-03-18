@@ -79,6 +79,7 @@ export abstract class MinorActivity {
 		room.minorActivity?.destroy();
 		if (room.minorActivityQueue?.length) {
 			const pollData = room.minorActivityQueue.shift()!;
+			room.settings.minorActivityQueue!.shift();
 			if (!room.minorActivityQueue.length) room.clearMinorActivityQueue();
 			if (!room.settings.minorActivityQueue?.length) {
 				delete room.settings.minorActivityQueue;

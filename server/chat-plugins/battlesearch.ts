@@ -31,7 +31,7 @@ export async function runBattleSearch(userids: ID[], month: string, tierid: ID, 
 	let files = [];
 	try {
 		files = await FS(pathString).readdir();
-	} catch (err: any) {
+	} catch (err) {
 		if (err.code === 'ENOENT') {
 			return results;
 		}
@@ -47,7 +47,7 @@ export async function runBattleSearch(userids: ID[], month: string, tierid: ID, 
 		let output;
 		try {
 			output = await ProcessManager.exec(['rg', '-i', regexString, '--no-line-number', '-P', '-tjson', ...files]);
-		} catch {
+		} catch (error) {
 			return results;
 		}
 		for (const line of output.stdout.split('\n').reverse()) {
@@ -242,7 +242,7 @@ async function getBattleSearch(
 	connection.send(buildResults(response, userids as ID[], month, tierid, turnLimit));
 }
 
-export const pages: Chat.PageTable = {
+export const pages: PageTable = {
 	async battlesearch(args, user, connection) {
 		if (!user.named) return Rooms.RETRY_AFTER_LOGIN;
 		this.checkCan('forcewin');
@@ -261,10 +261,12 @@ export const pages: Chat.PageTable = {
 		}
 		buf += `</p>`;
 
-		const months = Utils.sortBy(
-			(await FS('logs/').readdir()).filter(f => f.length === 7 && f.includes('-')),
-			name => ({reverse: name})
-		);
+		const months = (await FS('logs/').readdir()).filter(f => f.length === 7 && f.includes('-')).sort((aKey, bKey) => {
+			const a = aKey.split('-').map(n => parseInt(n));
+			const b = bKey.split('-').map(n => parseInt(n));
+			if (a[0] !== b[0]) return b[0] - a[0];
+			return b[1] - a[1];
+		});
 		if (!month) {
 			buf += `<p>Please select a month:</p><ul style="list-style: none; display: block; padding: 0">`;
 			for (const i of months) {
@@ -279,12 +281,20 @@ export const pages: Chat.PageTable = {
 		}
 
 		const tierid = toID(formatid);
-		const tiers = Utils.sortBy(await FS(`logs/${month}/`).readdir(), tier => [
+		const tiers = (await FS(`logs/${month}/`).readdir()).sort((a, b) => {
 			// First sort by gen with the latest being first
-			tier.startsWith('gen') ? -parseInt(tier.charAt(3)) : -6,
-			// Then sort alphabetically
-			tier,
-		]).map(tier => {
+			let aGen = 6;
+			let bGen = 6;
+			if (a.startsWith('gen')) aGen = parseInt(a.substring(3, 4));
+			if (b.startsWith('gen')) bGen = parseInt(b.substring(3, 4));
+			if (aGen !== bGen) return bGen - aGen;
+			// Sort alphabetically
+			const aTier = a.substring(4);
+			const bTier = b.substring(4);
+			if (aTier < bTier) return -1;
+			if (aTier > bTier) return 1;
+			return 0;
+		}).map(tier => {
 			// Use the official tier name
 			const format = Dex.formats.get(tier);
 			if (format?.exists) tier = format.name;
@@ -331,7 +341,7 @@ export const pages: Chat.PageTable = {
 	},
 };
 
-export const commands: Chat.ChatCommands = {
+export const commands: ChatCommands = {
 	battlesearch(target, room, user, connection) {
 		if (!target.trim()) return this.parse('/help battlesearch');
 		this.checkCan('forcewin');

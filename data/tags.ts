@@ -34,18 +34,6 @@ export const Tags: {[id: string]: TagData} = {
 		name: "Mega",
 		speciesFilter: species => !!species.isMega,
 	},
-	mythical: {
-		name: "Mythical",
-		speciesFilter: species => species.tags.includes("Mythical"),
-	},
-	sublegendary: {
-		name: "Sub-Legendary",
-		speciesFilter: species => species.tags.includes("Sub-Legendary"),
-	},
-	restrictedlegendary: {
-		name: "Restricted Legendary",
-		speciesFilter: species => species.tags.includes("Restricted Legendary"),
-	},
 
 	// Move tags
 	// ---------
@@ -115,7 +103,7 @@ export const Tags: {[id: string]: TagData} = {
 	bypasssubstitute: {
 		name: "Bypass Substitute",
 		desc: "Bypasses but does not break a Substitute.",
-		moveFilter: move => 'bypasssub' in move.flags,
+		moveFilter: move => 'authentic' in move.flags,
 	},
 	gmaxmove: {
 		name: "G-Max Move",
@@ -126,43 +114,43 @@ export const Tags: {[id: string]: TagData} = {
 	// -----
 	uber: {
 		name: "Uber",
-		speciesFilter: species => species.tier === 'Uber' || species.tier === '(Uber)' || species.tier === 'AG',
+		speciesFilter: species => toID(species.tier) === 'uber' || species.tier === 'AG',
 	},
 	ou: {
 		name: "OU",
-		speciesFilter: species => species.tier === 'OU' || species.tier === '(OU)',
+		speciesFilter: species => toID(species.tier) === 'ou',
 	},
 	uubl: {
 		name: "UUBL",
-		speciesFilter: species => species.tier === 'UUBL',
+		speciesFilter: species => toID(species.tier) === 'uubl',
 	},
 	uu: {
 		name: "UU",
-		speciesFilter: species => species.tier === 'UU',
+		speciesFilter: species => toID(species.tier) === 'uu',
 	},
 	rubl: {
 		name: "RUBL",
-		speciesFilter: species => species.tier === 'RUBL',
+		speciesFilter: species => toID(species.tier) === 'rubl',
 	},
 	ru: {
 		name: "RU",
-		speciesFilter: species => species.tier === 'RU',
+		speciesFilter: species => toID(species.tier) === 'ru',
 	},
 	nubl: {
 		name: "NUBL",
-		speciesFilter: species => species.tier === 'NUBL',
+		speciesFilter: species => toID(species.tier) === 'nubl',
 	},
 	nu: {
 		name: "NU",
-		speciesFilter: species => species.tier === 'NU',
+		speciesFilter: species => toID(species.tier) === 'nu',
 	},
 	publ: {
 		name: "PUBL",
-		speciesFilter: species => species.tier === 'PUBL',
+		speciesFilter: species => toID(species.tier) === 'publ',
 	},
 	pu: {
 		name: "PU",
-		speciesFilter: species => species.tier === 'PU' || species.tier === '(NU)',
+		speciesFilter: species => species.tier === 'PU',
 	},
 	zu: {
 		name: "ZU",
@@ -195,10 +183,9 @@ export const Tags: {[id: string]: TagData} = {
 	nduubl: {
 		name: "ND UUBL",
 		speciesFilter: species => [
-			'Aerodactyl-Mega', 'Alakazam', 'Blacephalon', 'Diancie-Mega', 'Gallade-Mega', 'Gardevoir-Mega', 'Gengar', 'Gyarados', 'Gyarados-Mega',
-			'Hawlucha', 'Heracross-Mega', 'Hoopa-Unbound', 'Hydreigon', 'Jirachi', 'Latias', 'Latias-Mega', 'Latios', 'Latios-Mega', 'Manaphy',
-			'Medicham-Mega', 'Mew', 'Pinsir-Mega', 'Sableye-Mega', 'Slowbro-Mega', 'Slowking-Galar', 'Thundurus', 'Thundurus-Therian', 'Venusaur-Mega',
-			'Xurkitree', 'Zapdos-Galar',
+			'Aerodactyl-Mega', 'Azumarill', 'Blacephalon', 'Diancie-Mega', 'Gallade-Mega', 'Gardevoir-Mega', 'Gengar', 'Gyarados', 'Hawlucha',
+			'Heracross-Mega', 'Hydreigon', 'Latias', 'Latias-Mega', 'Latios', 'Manaphy', 'Pinsir-Mega', 'Slowbro-Mega', 'Thundurus',
+			'Venusaur-Mega', 'Xurkitree', 'Zapdos-Galar',
 		].includes(species.name),
 	},
 
@@ -206,11 +193,11 @@ export const Tags: {[id: string]: TagData} = {
 	// -------------
 	duber: {
 		name: "DUber",
-		speciesFilter: species => species.doublesTier === 'DUber' || species.doublesTier === '(DUber)',
+		speciesFilter: species => species.doublesTier === 'DUber',
 	},
 	dou: {
 		name: "DOU",
-		speciesFilter: species => species.doublesTier === 'DOU' || species.doublesTier === '(DOU)',
+		speciesFilter: species => species.doublesTier === 'DOU',
 	},
 	dbl: {
 		name: "DBL",

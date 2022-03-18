@@ -58,7 +58,9 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 	},
 	parentalbond: {
 		inherit: true,
-		// Damage modifier implemented in BattleActions#modifyDamage()
+		onBasePower(basePower, pokemon, target, move) {
+			if (move.multihitType === 'parentalbond' && move.hit > 1) return this.chainModify(0.5);
+		},
 		rating: 5,
 	},
 	pixilate: {
@@ -97,11 +99,11 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 	symbiosis: {
 		inherit: true,
 		onAllyAfterUseItem(item, pokemon) {
-			const source = this.effectState.target;
+			const source = this.effectData.target;
 			const myItem = source.takeItem();
 			if (!myItem) return;
 			if (
-				!this.singleEvent('TakeItem', myItem, source.itemState, pokemon, source, this.effect, myItem) ||
+				!this.singleEvent('TakeItem', myItem, source.itemData, pokemon, source, this.effect, myItem) ||
 				!pokemon.setItem(myItem)
 			) {
 				source.item = myItem.id;

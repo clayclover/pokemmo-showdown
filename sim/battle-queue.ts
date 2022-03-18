@@ -201,7 +201,9 @@ export class BattleQueue {
 						choice: 'beforeTurnMove', pokemon: action.pokemon, move: action.move, targetLoc: action.targetLoc,
 					}));
 				}
-				if (action.mega && !action.pokemon.isSkyDropped()) {
+				if (action.mega) {
+					// TODO: Check that the Pokémon is not affected by Sky Drop.
+					// (This is currently being done in `runMegaEvo`).
 					actions.unshift(...this.resolveAction({
 						choice: 'megaEvo',
 						pokemon: action.pokemon,
@@ -345,27 +347,13 @@ export class BattleQueue {
 			choice.pokemon.updateSpeed();
 		}
 		const actions = this.resolveAction(choice, midTurn);
-
-		let firstIndex = null;
-		let lastIndex = null;
 		for (const [i, curAction] of this.list.entries()) {
-			const compared = this.battle.comparePriority(actions[0], curAction);
-			if (compared <= 0 && firstIndex === null) {
-				firstIndex = i;
-			}
-			if (compared < 0) {
-				lastIndex = i;
-				break;
+			if (this.battle.comparePriority(actions[0], curAction) < 0) {
+				this.list.splice(i, 0, ...actions);
+				return;
 			}
 		}
-
-		if (firstIndex === null) {
-			this.list.push(...actions);
-		} else {
-			if (lastIndex === null) lastIndex = this.list.length;
-			const index = firstIndex === lastIndex ? firstIndex : this.battle.random(firstIndex, lastIndex + 1);
-			this.list.splice(index, 0, ...actions);
-		}
+		this.list.push(...actions);
 	}
 
 	clear() {

@@ -83,9 +83,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 		eventData: [
 			{generation: 2, level: 5, shiny: 1, moves: ["tackle", "growl", "ancientpower"]},
 		],
-		encounters: [
-			{generation: 1, level: 5},
-		],
 	},
 	ivysaur: {
 		learnset: {
@@ -249,9 +246,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 		},
 		eventData: [
 			{generation: 2, level: 5, shiny: 1, moves: ["scratch", "growl", "crunch"]},
-		],
-		encounters: [
-			{generation: 1, level: 5},
 		],
 	},
 	charmeleon: {
@@ -445,9 +439,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 		eventData: [
 			{generation: 2, level: 5, shiny: 1, moves: ["tackle", "tailwhip", "zapcannon"]},
 		],
-		encounters: [
-			{generation: 1, level: 5},
-		],
 	},
 	wartortle: {
 		learnset: {
@@ -575,20 +566,11 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			stringshot: ["2L1", "1L1"],
 			tackle: ["2L1", "1L1"],
 		},
-		encounters: [
-			{generation: 1, level: 3},
-			{generation: 2, level: 3},
-		],
 	},
 	metapod: {
 		learnset: {
 			harden: ["2L7", "2L1", "1L7", "1L1"],
 		},
-		encounters: [
-			{generation: 1, level: 4},
-			{generation: 2, level: 4},
-			{generation: 3, level: 4},
-		],
 	},
 	butterfree: {
 		learnset: {
@@ -635,28 +617,17 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			toxic: ["2M", "1M"],
 			whirlwind: ["2L23", "1M", "1L23", "1L26"],
 		},
-		encounters: [
-			{generation: 2, level: 7},
-		],
 	},
 	weedle: {
 		learnset: {
 			poisonsting: ["2L1", "1L1"],
 			stringshot: ["2L1", "1L1"],
 		},
-		encounters: [
-			{generation: 1, level: 3},
-			{generation: 2, level: 3},
-		],
 	},
 	kakuna: {
 		learnset: {
 			harden: ["2L7", "2L1", "1L1"],
 		},
-		encounters: [
-			{generation: 1, level: 4},
-			{generation: 2, level: 4},
-		],
 	},
 	beedrill: {
 		learnset: {
@@ -698,9 +669,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			toxic: ["2M", "1M"],
 			twineedle: ["2L20", "1L20"],
 		},
-		encounters: [
-			{generation: 2, level: 7},
-		],
 	},
 	pidgey: {
 		learnset: {
@@ -745,10 +713,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			whirlwind: ["2L21", "1M", "1L19"],
 			wingattack: ["2L29", "1L28"],
 		},
-		encounters: [
-			{generation: 1, level: 2},
-			{generation: 2, level: 2},
-		],
 	},
 	pidgeotto: {
 		learnset: {
@@ -790,10 +754,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			whirlwind: ["2L23", "1M", "1L21"],
 			wingattack: ["2L33", "1L31"],
 		},
-		encounters: [
-			{generation: 1, level: 9},
-			{generation: 2, level: 7},
-		],
 	},
 	pidgeot: {
 		learnset: {
@@ -890,10 +850,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			toxic: ["2M", "1M"],
 			watergun: ["1M"],
 		},
-		encounters: [
-			{generation: 1, level: 2},
-			{generation: 2, level: 2},
-		],
 	},
 	raticate: {
 		learnset: {
@@ -948,10 +904,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			toxic: ["2M", "1M"],
 			watergun: ["1M"],
 		},
-		encounters: [
-			{generation: 1, level: 15},
-			{generation: 2, level: 6},
-		],
 	},
 	spearow: {
 		learnset: {
@@ -1002,10 +954,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 		eventData: [
 			{generation: 2, level: 5, shiny: 1, moves: ["peck", "growl", "sonicboom"]},
 		],
-		encounters: [
-			{generation: 1, level: 3},
-			{generation: 2, level: 2},
-		],
 	},
 	fearow: {
 		learnset: {
@@ -1051,10 +999,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 		},
 		eventData: [
 			{generation: 1, level: 20, moves: ["growl", "leer", "furyattack", "payday"], japan: true},
-		],
-		encounters: [
-			{generation: 1, level: 19},
-			{generation: 2, level: 7},
 		],
 	},
 	ekans: {
@@ -1150,9 +1094,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			toxic: ["2M", "1M"],
 			wrap: ["2L1", "1L1"],
 		},
-		encounters: [
-			{generation: 2, level: 10},
-		],
 	},
 	pichu: {
 		learnset: {
@@ -1262,10 +1203,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			{generation: 1, level: 5, moves: ["surf"]},
 			{generation: 1, level: 5, moves: ["fly"], japan: true},
 			{generation: 1, level: 5, moves: ["thundershock", "growl", "surf"]},
-		],
-		encounters: [
-			{generation: 1, level: 3},
-			{generation: 2, level: 4},
 		],
 	},
 	raichu: {
@@ -1377,9 +1314,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			thief: ["2M"],
 			toxic: ["2M", "1M"],
 		},
-		encounters: [
-			{generation: 1, level: 6},
-		],
 	},
 	sandslash: {
 		learnset: {
@@ -1433,9 +1367,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			thief: ["2M"],
 			toxic: ["2M", "1M"],
 		},
-		encounters: [
-			{generation: 2, level: 10},
-		],
 	},
 	nidoranf: {
 		learnset: {
@@ -1494,9 +1425,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			{generation: 2, level: 5, shiny: 1, moves: ["growl", "tackle", "lovelykiss"]},
 			{generation: 2, level: 5, shiny: 1, moves: ["growl", "tackle", "moonlight"]},
 			{generation: 2, level: 5, shiny: 1, moves: ["growl", "tackle", "sweetkiss"]},
-		],
-		encounters: [
-			{generation: 1, level: 2},
 		],
 	},
 	nidorina: {
@@ -1677,9 +1605,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			{generation: 2, level: 5, shiny: 1, moves: ["leer", "tackle", "lovelykiss"]},
 			{generation: 2, level: 5, shiny: 1, moves: ["leer", "tackle", "morningsun"]},
 			{generation: 2, level: 5, shiny: 1, moves: ["leer", "tackle", "sweetkiss"]},
-		],
-		encounters: [
-			{generation: 1, level: 2},
 		],
 	},
 	nidorino: {
@@ -1931,9 +1856,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			watergun: ["1M"],
 			zapcannon: ["2M"],
 		},
-		encounters: [
-			{generation: 1, level: 8},
-		],
 	},
 	clefable: {
 		learnset: {
@@ -2049,10 +1971,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			takedown: ["1M"],
 			toxic: ["2M", "1M"],
 		},
-		encounters: [
-			{generation: 1, level: 18},
-			{generation: 1, level: 15},
-		],
 	},
 	ninetales: {
 		learnset: {
@@ -2213,10 +2131,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			watergun: ["1M"],
 			zapcannon: ["2M"],
 		},
-		encounters: [
-			{generation: 1, level: 3},
-			{generation: 2, level: 3},
-		],
 	},
 	wigglytuff: {
 		learnset: {
@@ -2284,10 +2198,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			watergun: ["1M"],
 			zapcannon: ["2M"],
 		},
-		encounters: [
-			{generation: 1, level: 22},
-			{generation: 1, level: 3},
-		],
 	},
 	zubat: {
 		learnset: {
@@ -2335,10 +2245,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 		eventData: [
 			{generation: 2, level: 5, shiny: 1, moves: ["leechlife", "flail"]},
 		],
-		encounters: [
-			{generation: 1, level: 6},
-			{generation: 2, level: 2},
-		],
 	},
 	golbat: {
 		learnset: {
@@ -2380,9 +2286,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			whirlwind: ["1M"],
 			wingattack: ["2L30", "1L32"],
 		},
-		encounters: [
-			{generation: 2, level: 13},
-		],
 	},
 	crobat: {
 		learnset: {
@@ -2463,9 +2366,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 		eventData: [
 			{generation: 2, level: 5, shiny: 1, moves: ["absorb", "leechseed"]},
 		],
-		encounters: [
-			{generation: 1, level: 12},
-		],
 	},
 	gloom: {
 		learnset: {
@@ -2506,9 +2406,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			takedown: ["1M"],
 			toxic: ["2M", "1M"],
 		},
-		encounters: [
-			{generation: 2, level: 14},
-		],
 	},
 	vileplume: {
 		learnset: {
@@ -2607,9 +2504,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 		eventData: [
 			{generation: 2, level: 5, shiny: 1, moves: ["scratch", "synthesis"]},
 		],
-		encounters: [
-			{generation: 1, level: 8},
-		],
 	},
 	parasect: {
 		learnset: {
@@ -2657,10 +2551,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			thief: ["2M"],
 			toxic: ["2M", "1M"],
 		},
-		encounters: [
-			{generation: 1, level: 13},
-			{generation: 2, level: 5},
-		],
 	},
 	venonat: {
 		learnset: {
@@ -2708,9 +2598,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			thief: ["2M"],
 			toxic: ["2M", "1M"],
 		},
-		encounters: [
-			{generation: 1, level: 13},
-		],
 	},
 	venomoth: {
 		learnset: {
@@ -2761,10 +2648,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			toxic: ["2M", "1M"],
 			whirlwind: ["1M"],
 		},
-		encounters: [
-			{generation: 1, level: 30},
-			{generation: 2, level: 10},
-		],
 	},
 	diglett: {
 		learnset: {
@@ -2809,10 +2692,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			thief: ["2M"],
 			toxic: ["2M", "1M"],
 		},
-		encounters: [
-			{generation: 1, level: 15},
-			{generation: 2, level: 2},
-		],
 	},
 	dugtrio: {
 		learnset: {
@@ -2854,10 +2733,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			toxic: ["2M", "1M"],
 			triattack: ["2L1"],
 		},
-		encounters: [
-			{generation: 1, level: 15},
-			{generation: 2, level: 5},
-		],
 	},
 	meowth: {
 		learnset: {
@@ -2913,9 +2788,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			watergun: ["1M"],
 			zapcannon: ["2M"],
 		},
-		encounters: [
-			{generation: 1, level: 10},
-		],
 	},
 	persian: {
 		learnset: {
@@ -2969,9 +2841,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			watergun: ["1M"],
 			zapcannon: ["2M"],
 		},
-		encounters: [
-			{generation: 2, level: 18},
-		],
 	},
 	psyduck: {
 		learnset: {
@@ -3045,9 +2914,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			{generation: 2, level: 5, shiny: 1, moves: ["scratch", "tailwhip", "petaldance"]},
 			{generation: 2, level: 5, shiny: 1, moves: ["scratch", "tailwhip", "triattack"]},
 		],
-		encounters: [
-			{generation: 1, level: 15},
-		],
 	},
 	golduck: {
 		learnset: {
@@ -3108,10 +2974,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			watergun: ["1M"],
 			whirlpool: ["2M"],
 		},
-		encounters: [
-			{generation: 1, level: 15},
-			{generation: 2, level: 10},
-		],
 	},
 	mankey: {
 		learnset: {
@@ -3176,9 +3038,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			thunderpunch: ["2M"],
 			toxic: ["2M", "1M"],
 		},
-		encounters: [
-			{generation: 1, level: 3},
-		],
 	},
 	primeape: {
 		learnset: {
@@ -3240,9 +3099,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			thunderpunch: ["2M"],
 			toxic: ["2M", "1M"],
 		},
-		encounters: [
-			{generation: 2, level: 15},
-		],
 	},
 	growlithe: {
 		learnset: {
@@ -3289,9 +3145,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			thrash: ["2E"],
 			toxic: ["2M", "1M"],
 		},
-		encounters: [
-			{generation: 1, level: 15},
-		],
 	},
 	arcanine: {
 		learnset: {
@@ -3392,10 +3245,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			{generation: 2, level: 5, shiny: 1, moves: ["bubble", "lovelykiss"]},
 			{generation: 2, level: 5, shiny: 1, moves: ["bubble", "sweetkiss"]},
 		],
-		encounters: [
-			{generation: 1, level: 5},
-			{generation: 2, level: 3},
-		],
 	},
 	poliwhirl: {
 		learnset: {
@@ -3454,10 +3303,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			watergun: ["2L13", "2L1", "1M", "1L19", "1L1"],
 			whirlpool: ["2M"],
 		},
-		encounters: [
-			{generation: 1, level: 15},
-			{generation: 2, level: 10},
-		],
 	},
 	poliwrath: {
 		learnset: {
@@ -3573,9 +3418,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 		eventData: [
 			{generation: 2, level: 5, shiny: 1, moves: ["teleport", "foresight"]},
 		],
-		encounters: [
-			{generation: 1, level: 6},
-		],
 	},
 	kadabra: {
 		learnset: {
@@ -3634,9 +3476,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			triattack: ["1M"],
 			zapcannon: ["2M"],
 		},
-		encounters: [
-			{generation: 2, level: 15},
-		],
 	},
 	alakazam: {
 		learnset: {
@@ -3762,9 +3601,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			{generation: 2, level: 5, shiny: 1, moves: ["lowkick", "leer", "falseswipe"]},
 			{generation: 2, level: 5, shiny: 1, moves: ["lowkick", "leer", "thrash"]},
 		],
-		encounters: [
-			{generation: 1, level: 15},
-		],
 	},
 	machoke: {
 		learnset: {
@@ -3821,9 +3657,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			toxic: ["2M", "1M"],
 			vitalthrow: ["2L34"],
 		},
-		encounters: [
-			{generation: 2, level: 14},
-		],
 	},
 	machamp: {
 		learnset: {
@@ -3881,10 +3714,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			toxic: ["2M", "1M"],
 			vitalthrow: ["2L34"],
 		},
-		encounters: [
-			{generation: 1, level: 16},
-			{generation: 2, level: 5},
-		],
 	},
 	bellsprout: {
 		learnset: {
@@ -3936,10 +3765,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			{generation: 2, level: 5, shiny: 1, moves: ["vinewhip", "lovelykiss"]},
 			{generation: 2, level: 5, shiny: 1, moves: ["vinewhip", "sweetkiss"]},
 		],
-		encounters: [
-			{generation: 1, level: 12},
-			{generation: 2, level: 3},
-		],
 	},
 	weepinbell: {
 		learnset: {
@@ -3982,9 +3807,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			vinewhip: ["2L1", "1L1"],
 			wrap: ["2L11", "2L1", "1L13", "1L1"],
 		},
-		encounters: [
-			{generation: 2, level: 12},
-		],
 	},
 	victreebel: {
 		learnset: {
@@ -4082,9 +3904,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 		eventData: [
 			{generation: 2, level: 5, shiny: 1, moves: ["poisonsting", "confuseray"]},
 		],
-		encounters: [
-			{generation: 1, level: 5},
-		],
 	},
 	tentacruel: {
 		learnset: {
@@ -4132,10 +3951,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			whirlpool: ["2M"],
 			wrap: ["2L30", "1L13", "1L1"],
 		},
-		encounters: [
-			{generation: 1, level: 20},
-			{generation: 2, level: 20},
-		],
 	},
 	geodude: {
 		learnset: {
@@ -4191,10 +4006,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 		eventData: [
 			{generation: 2, level: 5, shiny: 1, moves: ["tackle", "rapidspin"]},
 		],
-		encounters: [
-			{generation: 1, level: 7},
-			{generation: 2, level: 2},
-		],
 	},
 	graveler: {
 		learnset: {
@@ -4246,9 +4057,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			takedown: ["1M"],
 			toxic: ["2M", "1M"],
 		},
-		encounters: [
-			{generation: 2, level: 23},
-		],
 	},
 	golem: {
 		learnset: {
@@ -4304,9 +4112,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			takedown: ["1M"],
 			toxic: ["2M", "1M"],
 		},
-		encounters: [
-			{generation: 1, level: 16},
-		],
 	},
 	ponyta: {
 		learnset: {
@@ -4357,9 +4162,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 		eventData: [
 			{generation: 2, level: 5, shiny: 1, moves: ["tackle", "growl", "lowkick"]},
 		],
-		encounters: [
-			{generation: 1, level: 28},
-		],
 	},
 	rapidash: {
 		learnset: {
@@ -4405,9 +4207,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 		},
 		eventData: [
 			{generation: 1, level: 40, moves: ["ember", "firespin", "stomp", "payday"], japan: true},
-		],
-		encounters: [
-			{generation: 2, level: 14, gender: "M"},
 		],
 	},
 	slowpoke: {
@@ -4474,9 +4273,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			watergun: ["2L15", "1M", "1L33"],
 			zapcannon: ["2M"],
 		},
-		encounters: [
-			{generation: 1, level: 15},
-		],
 	},
 	slowbro: {
 		learnset: {
@@ -4549,11 +4345,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			withdraw: ["2L37", "1L37"],
 			zapcannon: ["2M"],
 		},
-		encounters: [
-			{generation: 1, level: 15},
-			{generation: 1, level: 23},
-			{generation: 2, level: 20},
-		],
 	},
 	magnemite: {
 		learnset: {
@@ -4596,9 +4387,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 		eventData: [
 			{generation: 2, level: 5, shiny: 1, moves: ["tackle", "agility"]},
 		],
-		encounters: [
-			{generation: 1, level: 16},
-		],
 	},
 	magneton: {
 		learnset: {
@@ -4639,9 +4427,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			triattack: ["2L35"],
 			zapcannon: ["2M", "2L53"],
 		},
-		encounters: [
-			{generation: 2, level: 5},
-		],
 	},
 	farfetchd: {
 		learnset: {
@@ -4700,9 +4485,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			{generation: 2, level: 5, moves: ["batonpass", "swordsdance", "agility", "slash"]},
 			{generation: 2, level: 5, shiny: 1, moves: ["peck", "furycutter"]},
 		],
-		encounters: [
-			{generation: 1, level: 3},
-		],
 	},
 	doduo: {
 		learnset: {
@@ -4753,10 +4535,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 		eventData: [
 			{generation: 2, level: 5, shiny: 1, moves: ["peck", "growl", "lowkick"]},
 		],
-		encounters: [
-			{generation: 1, level: 18},
-			{generation: 2, level: 4},
-		],
 	},
 	dodrio: {
 		learnset: {
@@ -4799,11 +4577,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			triattack: ["2L21", "1M", "1L45"],
 			whirlwind: ["1M"],
 		},
-		encounters: [
-			{generation: 1, level: 29},
-			{generation: 2, level: 10, gender: "F"},
-			{generation: 2, level: 30},
-		],
 	},
 	seel: {
 		learnset: {
@@ -4855,9 +4628,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 		eventData: [
 			{generation: 2, level: 5, shiny: 1, moves: ["headbutt", "growl", "flail"]},
 		],
-		encounters: [
-			{generation: 1, level: 22},
-		],
 	},
 	dewgong: {
 		learnset: {
@@ -4900,10 +4670,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			watergun: ["1M"],
 			whirlpool: ["2M"],
 		},
-		encounters: [
-			{generation: 1, level: 15},
-			{generation: 2, level: 5},
-		],
 	},
 	grimer: {
 		learnset: {
@@ -4954,9 +4720,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			toxic: ["2M", "1M"],
 			zapcannon: ["2M"],
 		},
-		encounters: [
-			{generation: 1, level: 23},
-		],
 	},
 	muk: {
 		learnset: {
@@ -5005,11 +4768,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			toxic: ["2M", "1M"],
 			zapcannon: ["2M"],
 		},
-		encounters: [
-			{generation: 1, level: 25},
-			{generation: 1, level: 15, japan: true},
-			{generation: 2, level: 5},
-		],
 	},
 	shellder: {
 		learnset: {
@@ -5056,9 +4814,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			whirlpool: ["2M"],
 			withdraw: ["2L1", "1L1"],
 		},
-		encounters: [
-			{generation: 1, level: 10},
-		],
 	},
 	cloyster: {
 		learnset: {
@@ -5149,9 +4904,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			toxic: ["2M", "1M"],
 			zapcannon: ["2M"],
 		},
-		encounters: [
-			{generation: 1, level: 18},
-		],
 	},
 	haunter: {
 		learnset: {
@@ -5196,10 +4948,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			toxic: ["2M", "1M"],
 			zapcannon: ["2M"],
 		},
-		encounters: [
-			{generation: 1, level: 20},
-			{generation: 2, level: 15},
-		],
 	},
 	gengar: {
 		learnset: {
@@ -5312,9 +5060,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 		eventData: [
 			{generation: 2, level: 5, shiny: 1, moves: ["tackle", "screech", "sharpen"]},
 		],
-		encounters: [
-			{generation: 1, level: 13},
-		],
 	},
 	drowzee: {
 		learnset: {
@@ -5378,9 +5123,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 		eventData: [
 			{generation: 2, level: 5, shiny: 1, moves: ["pound", "hypnosis", "amnesia"]},
 		],
-		encounters: [
-			{generation: 1, level: 9},
-		],
 	},
 	hypno: {
 		learnset: {
@@ -5439,10 +5181,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			triattack: ["1M"],
 			zapcannon: ["2M"],
 		},
-		encounters: [
-			{generation: 2, level: 16},
-			{generation: 4, level: 16},
-		],
 	},
 	krabby: {
 		learnset: {
@@ -5498,9 +5236,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 		eventData: [
 			{generation: 2, level: 5, shiny: 1, moves: ["bubble", "leer", "metalclaw"]},
 		],
-		encounters: [
-			{generation: 1, level: 10},
-		],
 	},
 	kingler: {
 		learnset: {
@@ -5548,9 +5283,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			watergun: ["1M"],
 			whirlpool: ["2M"],
 		},
-		encounters: [
-			{generation: 1, level: 15},
-		],
 	},
 	voltorb: {
 		learnset: {
@@ -5594,10 +5326,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 		eventData: [
 			{generation: 2, level: 5, shiny: 1, moves: ["tackle", "agility"]},
 		],
-		encounters: [
-			{generation: 1, level: 14},
-			{generation: 1, level: 40},
-		],
 	},
 	electrode: {
 		learnset: {
@@ -5639,10 +5367,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			toxic: ["2M", "1M"],
 			zapcannon: ["2M"],
 		},
-		encounters: [
-			{generation: 1, level: 3},
-			{generation: 2, level: 23},
-		],
 	},
 	exeggcute: {
 		learnset: {
@@ -5698,9 +5422,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 		},
 		eventData: [
 			{generation: 2, level: 5, shiny: 1, moves: ["barrage", "hypnosis", "sweetscent"]},
-		],
-		encounters: [
-			{generation: 1, level: 20},
 		],
 	},
 	exeggutor: {
@@ -5821,9 +5542,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 		eventData: [
 			{generation: 2, level: 5, shiny: 1, moves: ["growl", "tailwhip", "furyattack"]},
 		],
-		encounters: [
-			{generation: 1, level: 16},
-		],
 	},
 	marowak: {
 		learnset: {
@@ -5886,10 +5604,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			toxic: ["2M", "1M"],
 			watergun: ["1M"],
 		},
-		encounters: [
-			{generation: 1, level: 24},
-			{generation: 2, level: 12},
-		],
 	},
 	tyrogue: {
 		learnset: {
@@ -5936,7 +5650,7 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			curse: ["2M"],
 			detect: ["2M"],
 			doubleedge: ["1M"],
-			doublekick: ["2L1", "1L1", "1S0"],
+			doublekick: ["2L1", "1L1"],
 			doubleteam: ["2M", "1M"],
 			dynamicpunch: ["2M"],
 			endure: ["2M", "2L41"],
@@ -5947,7 +5661,7 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			hiddenpower: ["2M"],
 			highjumpkick: ["2L26", "1L48"],
 			jumpkick: ["2L16", "1L38"],
-			meditate: ["2L6", "1L1", "1S0"],
+			meditate: ["2L6", "1L1"],
 			megakick: ["2L46", "1M", "1L53"],
 			megapunch: ["1M"],
 			metronome: ["1M"],
@@ -5975,20 +5689,14 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			thief: ["2M"],
 			toxic: ["2M", "1M"],
 		},
-		eventData: [
-			{generation: 1, level: 20, moves: ["doublekick", "meditate"]},
-		],
-		encounters: [
-			{generation: 1, level: 30},
-		],
 	},
 	hitmonchan: {
 		learnset: {
-			agility: ["2L7", "1L1", "1S0"],
+			agility: ["2L7", "1L1"],
 			attract: ["2M"],
 			bide: ["1M"],
 			bodyslam: ["1M"],
-			cometpunch: ["2L1", "1L1", "1S0"],
+			cometpunch: ["2L1", "1L1"],
 			counter: ["2L50", "1M", "1L53"],
 			curse: ["2M"],
 			detect: ["2M", "2L44"],
@@ -6028,12 +5736,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			thunderpunch: ["2M", "2L26", "1L43"],
 			toxic: ["2M", "1M"],
 		},
-		eventData: [
-			{generation: 1, level: 20, moves: ["cometpunch", "agility"]},
-		],
-		encounters: [
-			{generation: 1, level: 30},
-		],
 	},
 	hitmontop: {
 		learnset: {
@@ -6145,9 +5847,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 		eventData: [
 			{generation: 2, level: 5, shiny: 1, moves: ["lick", "doubleslap"]},
 		],
-		encounters: [
-			{generation: 1, level: 15},
-		],
 	},
 	koffing: {
 		learnset: {
@@ -6191,9 +5890,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			toxic: ["2M", "1M"],
 			zapcannon: ["2M"],
 		},
-		encounters: [
-			{generation: 1, level: 30},
-		],
 	},
 	weezing: {
 		learnset: {
@@ -6234,9 +5930,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			toxic: ["2M", "1M"],
 			zapcannon: ["2M"],
 		},
-		encounters: [
-			{generation: 2, level: 16},
-		],
 	},
 	rhyhorn: {
 		learnset: {
@@ -6296,9 +5989,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			toxic: ["2M", "1M"],
 			zapcannon: ["2M"],
 		},
-		encounters: [
-			{generation: 1, level: 20},
-		],
 	},
 	rhydon: {
 		learnset: {
@@ -6366,10 +6056,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			watergun: ["1M"],
 			zapcannon: ["2M"],
 		},
-		encounters: [
-			{generation: 1, level: 15},
-			{generation: 2, level: 10},
-		],
 	},
 	chansey: {
 		learnset: {
@@ -6448,9 +6134,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 		},
 		eventData: [
 			{generation: 2, level: 5, shiny: 1, moves: ["pound", "sweetscent"]},
-		],
-		encounters: [
-			{generation: 1, level: 7},
 		],
 	},
 	blissey: {
@@ -6558,9 +6241,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 		eventData: [
 			{generation: 2, level: 5, shiny: 1, moves: ["constrict", "sleeppowder", "synthesis"]},
 		],
-		encounters: [
-			{generation: 1, level: 13},
-		],
 	},
 	kangaskhan: {
 		learnset: {
@@ -6636,10 +6316,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 		eventData: [
 			{generation: 2, level: 5, shiny: 1, moves: ["cometpunch", "feintattack"]},
 		],
-		encounters: [
-			{generation: 1, level: 25},
-			{generation: 1, level: 15, japan: true},
-		],
 	},
 	horsea: {
 		learnset: {
@@ -6692,9 +6368,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 		eventData: [
 			{generation: 2, level: 5, shiny: 1, moves: ["bubble", "haze"]},
 		],
-		encounters: [
-			{generation: 1, level: 5},
-		],
 	},
 	seadra: {
 		learnset: {
@@ -6738,10 +6411,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			watergun: ["2L22", "2L1", "1M", "1L30"],
 			whirlpool: ["2M"],
 		},
-		encounters: [
-			{generation: 1, level: 20},
-			{generation: 2, level: 20},
-		],
 	},
 	kingdra: {
 		learnset: {
@@ -6825,9 +6494,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 		eventData: [
 			{generation: 2, level: 5, shiny: 1, moves: ["peck", "tailwhip", "swordsdance"]},
 		],
-		encounters: [
-			{generation: 1, level: 5},
-		],
 	},
 	seaking: {
 		learnset: {
@@ -6870,10 +6536,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			waterfall: ["2M", "2L41", "1L39"],
 			watergun: ["1M"],
 		},
-		encounters: [
-			{generation: 1, level: 23},
-			{generation: 2, level: 10},
-		],
 	},
 	staryu: {
 		learnset: {
@@ -6930,9 +6592,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 		eventData: [
 			{generation: 2, level: 5, shiny: 1, moves: ["tackle", "harden", "twister"]},
 		],
-		encounters: [
-			{generation: 1, level: 5},
-		],
 	},
 	starmie: {
 		learnset: {
@@ -6986,9 +6645,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			whirlpool: ["2M"],
 			zapcannon: ["2M"],
 		},
-		encounters: [
-			{generation: 1, level: 6},
-		],
 	},
 	mrmime: {
 		learnset: {
@@ -7110,10 +6766,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 		},
 		eventData: [
 			{generation: 2, level: 5, shiny: 1, moves: ["quickattack", "leer", "sonicboom"]},
-		],
-		encounters: [
-			{generation: 1, level: 15},
-			{generation: 1, level: 25},
 		],
 	},
 	scizor: {
@@ -7261,10 +6913,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			toxic: ["2M", "1M"],
 			watergun: ["1M"],
 		},
-		encounters: [
-			{generation: 1, level: 15},
-			{generation: 2, level: 10},
-		],
 	},
 	elekid: {
 		learnset: {
@@ -7371,10 +7019,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			toxic: ["2M", "1M"],
 			zapcannon: ["2M"],
 		},
-		encounters: [
-			{generation: 1, level: 33},
-			{generation: 2, level: 15},
-		],
 	},
 	magby: {
 		learnset: {
@@ -7473,10 +7117,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			thunderpunch: ["2M"],
 			toxic: ["2M", "1M"],
 		},
-		encounters: [
-			{generation: 1, level: 34},
-			{generation: 2, level: 14},
-		],
 	},
 	pinsir: {
 		learnset: {
@@ -7523,10 +7163,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 		},
 		eventData: [
 			{generation: 2, level: 5, shiny: 1, moves: ["visegrip", "rockthrow"]},
-		],
-		encounters: [
-			{generation: 1, level: 15},
-			{generation: 1, level: 20},
 		],
 	},
 	tauros: {
@@ -7583,9 +7219,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 		eventData: [
 			{generation: 2, level: 5, shiny: 1, moves: ["tackle", "tailwhip", "quickattack"]},
 		],
-		encounters: [
-			{generation: 1, level: 21},
-		],
 	},
 	magikarp: {
 		learnset: {
@@ -7600,9 +7233,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			{generation: 1, level: 5, moves: ["dragonrage"], japan: true},
 			{generation: 2, level: 5, shiny: 1, moves: ["splash", "bubble"]},
 			{generation: 2, level: 5, shiny: 1, moves: ["splash", "reversal"]},
-		],
-		encounters: [
-			{generation: 1, level: 5},
 		],
 	},
 	gyarados: {
@@ -7658,10 +7288,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			whirlpool: ["2M"],
 			zapcannon: ["2M"],
 		},
-		encounters: [
-			{generation: 1, level: 15},
-			{generation: 2, level: 15},
-		],
 	},
 	lapras: {
 		learnset: {
@@ -7727,18 +7353,11 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			{generation: 2, level: 5, shiny: 1, moves: ["watergun", "growl", "sing", "bite"]},
 			{generation: 2, level: 5, shiny: 1, moves: ["watergun", "growl", "sing", "futuresight"]},
 		],
-		encounters: [
-			{generation: 1, level: 15},
-		],
 	},
 	ditto: {
 		learnset: {
 			transform: ["2L1", "1L1"],
 		},
-		encounters: [
-			{generation: 1, level: 12},
-			{generation: 2, level: 10},
-		],
 	},
 	eevee: {
 		learnset: {
@@ -7787,10 +7406,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 		eventData: [
 			{generation: 2, level: 5, shiny: 1, moves: ["tackle", "tailwhip", "growth"]},
 		],
-		encounters: [
-			{generation: 1, level: 25},
-		],
-
 	},
 	vaporeon: {
 		learnset: {
@@ -8081,9 +7696,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 		eventData: [
 			{generation: 2, level: 5, shiny: 1, moves: ["tackle", "conversion", "barrier"]},
 		],
-		encounters: [
-			{generation: 1, level: 18},
-		],
 	},
 	porygon2: {
 		learnset: {
@@ -8172,16 +7784,12 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			takedown: ["1M"],
 			thief: ["2M"],
 			toxic: ["2M", "1M"],
-			watergun: ["2L19", "1M", "1L1", "1S1"],
+			watergun: ["2L19", "1M", "1L1"],
 			whirlpool: ["2M"],
-			withdraw: ["2L1", "2S0", "1L1", "1S1"],
+			withdraw: ["2L1", "2S0", "1L1"],
 		},
 		eventData: [
 			{generation: 2, level: 5, shiny: 1, moves: ["constrict", "withdraw", "rockthrow"]},
-			{generation: 1, level: 20, moves: ["watergun", "withdraw"]},
-		],
-		encounters: [
-			{generation: 1, level: 30},
 		],
 	},
 	omastar: {
@@ -8253,7 +7861,7 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			flail: ["2E"],
 			frustration: ["2M"],
 			gigadrain: ["2M"],
-			harden: ["2L1", "2S0", "1L1", "1S1"],
+			harden: ["2L1", "2S0", "1L1"],
 			hiddenpower: ["2M"],
 			hydropump: ["1L49"],
 			icebeam: ["2T", "1M"],
@@ -8273,7 +7881,7 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			rollout: ["2M"],
 			sandattack: ["2L28"],
 			sandstorm: ["2M"],
-			scratch: ["2L1", "2S0", "1L1", "1S1"],
+			scratch: ["2L1", "2S0", "1L1"],
 			slash: ["1L39"],
 			sleeptalk: ["2M"],
 			snore: ["2M"],
@@ -8287,10 +7895,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 		},
 		eventData: [
 			{generation: 2, level: 5, shiny: 1, moves: ["scratch", "harden", "rockthrow"]},
-			{generation: 1, level: 20, moves: ["scratch", "harden"]},
-		],
-		encounters: [
-			{generation: 1, level: 30},
 		],
 	},
 	kabutops: {
@@ -8404,9 +8008,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 		eventData: [
 			{generation: 2, level: 5, shiny: 1, moves: ["wingattack", "rockthrow"]},
 		],
-		encounters: [
-			{generation: 1, level: 30},
-		],
 	},
 	snorlax: {
 		learnset: {
@@ -8487,9 +8088,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			{generation: 2, level: 5, shiny: 1, moves: ["tackle", "splash"]},
 			{generation: 2, level: 5, shiny: 1, moves: ["tackle", "sweetkiss"]},
 		],
-		encounters: [
-			{generation: 1, level: 30},
-		],
 	},
 	articuno: {
 		learnset: {
@@ -8541,9 +8139,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 		eventData: [
 			{generation: 2, level: 50, shiny: true, moves: ["mist", "agility", "mindreader", "icebeam"]},
 		],
-		encounters: [
-			{generation: 1, level: 50},
-		],
 	},
 	zapdos: {
 		learnset: {
@@ -8594,9 +8189,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 		eventData: [
 			{generation: 2, level: 50, shiny: true, moves: ["thunderwave", "agility", "detect", "drillpeck"]},
 		],
-		encounters: [
-			{generation: 1, level: 50},
-		],
 	},
 	moltres: {
 		learnset: {
@@ -8645,9 +8237,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 		},
 		eventData: [
 			{generation: 2, level: 50, shiny: true, moves: ["firespin", "agility", "endure", "flamethrower"]},
-		],
-		encounters: [
-			{generation: 1, level: 50},
 		],
 	},
 	dratini: {
@@ -8713,9 +8302,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			{generation: 2, level: 5, shiny: 1, moves: ["wrap", "leer", "hydropump"]},
 			{generation: 2, level: 15, shiny: 1, moves: ["wrap", "thunderwave", "twister", "extremespeed"]},
 		],
-		encounters: [
-			{generation: 1, level: 10},
-		],
 	},
 	dragonair: {
 		learnset: {
@@ -8771,10 +8357,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			wrap: ["2L1", "1L1"],
 			zapcannon: ["2M"],
 		},
-		encounters: [
-			{generation: 1, level: 15},
-			{generation: 2, level: 10},
-		],
 	},
 	dragonite: {
 		learnset: {
@@ -8922,9 +8504,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 		},
 		eventData: [
 			{generation: 2, level: 70, shiny: true, moves: ["psychup", "futuresight", "mist", "psychic"]},
-		],
-		encounters: [
-			{generation: 1, level: 70},
 		],
 	},
 	mew: {
@@ -9483,9 +9062,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 		eventData: [
 			{generation: 2, level: 5, shiny: 1, moves: ["tackle", "defensecurl", "dizzypunch"]},
 		],
-		encounters: [
-			{generation: 2, level: 2},
-		],
 	},
 	furret: {
 		learnset: {
@@ -9528,9 +9104,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			thunderpunch: ["2M"],
 			toxic: ["2M"],
 		},
-		encounters: [
-			{generation: 2, level: 6},
-		],
 	},
 	hoothoot: {
 		learnset: {
@@ -9576,9 +9149,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 		eventData: [
 			{generation: 2, level: 5, shiny: 1, moves: ["tackle", "growl", "nightshade"]},
 		],
-		encounters: [
-			{generation: 2, level: 2},
-		],
 	},
 	noctowl: {
 		learnset: {
@@ -9615,9 +9185,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			thief: ["2M"],
 			toxic: ["2M"],
 		},
-		encounters: [
-			{generation: 2, level: 7},
-		],
 	},
 	ledyba: {
 		learnset: {
@@ -9663,9 +9230,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 		eventData: [
 			{generation: 2, level: 5, shiny: 1, moves: ["tackle", "barrier"]},
 		],
-		encounters: [
-			{generation: 2, level: 3},
-		],
 	},
 	ledian: {
 		learnset: {
@@ -9706,9 +9270,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			thunderpunch: ["2M"],
 			toxic: ["2M"],
 		},
-		encounters: [
-			{generation: 2, level: 7},
-		],
 	},
 	spinarak: {
 		learnset: {
@@ -9753,9 +9314,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 		eventData: [
 			{generation: 2, level: 5, shiny: 1, moves: ["poisonsting", "stringshot", "growth"]},
 		],
-		encounters: [
-			{generation: 2, level: 3},
-		],
 	},
 	ariados: {
 		learnset: {
@@ -9792,9 +9350,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			thief: ["2M"],
 			toxic: ["2M"],
 		},
-		encounters: [
-			{generation: 2, level: 7},
-		],
 	},
 	chinchou: {
 		learnset: {
@@ -10042,9 +9597,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			thief: ["2M"],
 			toxic: ["2M"],
 		},
-		encounters: [
-			{generation: 2, level: 15},
-		],
 	},
 	mareep: {
 		learnset: {
@@ -10407,9 +9959,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 		eventData: [
 			{generation: 2, level: 5, shiny: 1, moves: ["splash", "synthesis", "tailwhip", "agility"]},
 		],
-		encounters: [
-			{generation: 2, level: 3},
-		],
 	},
 	skiploom: {
 		learnset: {
@@ -10687,9 +10236,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			{generation: 2, level: 5, shiny: 1, moves: ["watergun", "tailwhip", "bellydrum"]},
 			{generation: 2, level: 5, shiny: 1, moves: ["watergun", "tailwhip", "scaryface"]},
 		],
-		encounters: [
-			{generation: 2, level: 4},
-		],
 	},
 	quagsire: {
 		learnset: {
@@ -10732,9 +10278,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			watergun: ["2L1"],
 			whirlpool: ["2M"],
 		},
-		encounters: [
-			{generation: 2, level: 15},
-		],
 	},
 	murkrow: {
 		learnset: {
@@ -10881,9 +10424,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 		learnset: {
 			hiddenpower: ["2L1"],
 		},
-		encounters: [
-			{generation: 2, level: 5},
-		],
 	},
 	wobbuffet: {
 		learnset: {
@@ -10895,9 +10435,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 		},
 		eventData: [
 			{generation: 2, level: 5, shiny: 1, moves: ["mirrorcoat", "safeguard", "destinybond", "mimic"]},
-		],
-		encounters: [
-			{generation: 2, level: 5},
 		],
 	},
 	girafarig: {
@@ -11261,9 +10798,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			toxic: ["2M"],
 			zapcannon: ["2M"],
 		},
-		encounters: [
-			{generation: 2, level: 15},
-		],
 	},
 	qwilfish: {
 		learnset: {
@@ -11499,9 +11033,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 		eventData: [
 			{generation: 2, level: 5, shiny: 1, moves: ["scratch", "leer", "sweetscent"]},
 		],
-		encounters: [
-			{generation: 2, level: 2},
-		],
 	},
 	ursaring: {
 		learnset: {
@@ -11546,9 +11077,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			toxic: ["2M"],
 			zapcannon: ["2M"],
 		},
-		encounters: [
-			{generation: 2, level: 25},
-		],
 	},
 	slugma: {
 		learnset: {
@@ -12064,9 +11592,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 			{generation: 2, level: 5, shiny: 1, moves: ["tackle", "growl", "absorb"]},
 			{generation: 2, level: 5, moves: ["tackle", "growl", "encore"], japan: true},
 		],
-		encounters: [
-			{generation: 2, level: 2},
-		],
 	},
 	donphan: {
 		learnset: {
@@ -12254,9 +11779,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 		eventData: [
 			{generation: 2, level: 40, shiny: true, moves: ["leer", "thundershock", "roar", "quickattack"]},
 		],
-		encounters: [
-			{generation: 2, level: 40},
-		],
 	},
 	entei: {
 		learnset: {
@@ -12299,9 +11821,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 		},
 		eventData: [
 			{generation: 2, level: 40, shiny: true, moves: ["leer", "ember", "roar", "firespin"]},
-		],
-		encounters: [
-			{generation: 2, level: 40},
 		],
 	},
 	suicune: {
@@ -12350,9 +11869,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 		},
 		eventData: [
 			{generation: 2, level: 40, shiny: true, moves: ["leer", "watergun", "roar", "gust"]},
-		],
-		encounters: [
-			{generation: 2, level: 40},
 		],
 	},
 	larvitar: {
@@ -12535,9 +12051,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 		eventData: [
 			{generation: 2, level: 40, shiny: true, moves: ["aeroblast", "safeguard", "gust", "recover"]},
 		],
-		encounters: [
-			{generation: 2, level: 40},
-		],
 	},
 	hooh: {
 		learnset: {
@@ -12591,9 +12104,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 		eventData: [
 			{generation: 2, level: 40, shiny: true, moves: ["sacredfire", "safeguard", "gust", "recover"]},
 		],
-		encounters: [
-			{generation: 2, level: 40},
-		],
 	},
 	celebi: {
 		learnset: {
@@ -12638,9 +12148,6 @@ export const Learnsets: {[k: string]: ModdedLearnsetData} = {
 		},
 		eventData: [
 			{generation: 2, level: 5, shiny: 1, moves: ["leechseed", "confusion", "healbell", "recover"]},
-		],
-		encounters: [
-			{generation: 2, level: 40},
 		],
 		eventOnly: true,
 	},

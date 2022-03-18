@@ -13,7 +13,7 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 			if (target.hasType('Grass') && source && target !== source && effect && effect.id !== 'yawn') {
 				this.debug('interrupting setStatus with Flower Veil');
 				if (effect.id.endsWith('synchronize') || (effect.effectType === 'Move' && !effect.secondaries)) {
-					const effectHolder = this.effectState.target;
+					const effectHolder = this.effectData.target;
 					this.add('-block', target, 'ability: Flower Veil', '[of] ' + effectHolder);
 				}
 				return null;
@@ -55,7 +55,7 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 				if (sourceAbility.isPermanent || sourceAbility.id === 'mummy') {
 					return;
 				}
-				if (move.flags['contact']) {
+				if (this.checkMoveMakesContact(move, source, target)) {
 					const oldAbility = source.setAbility('mummy', target);
 					if (oldAbility) {
 						this.add('-activate', target, 'ability: Mummy', this.dex.abilities.get(oldAbility).name, '[of] ' + source);
@@ -65,7 +65,7 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 				const possibleAbilities = [source.ability, ...(source.m.innates || [])]
 					.filter(val => !this.dex.abilities.get(val).isPermanent && val !== 'mummy');
 				if (!possibleAbilities.length) return;
-				if (move.flags['contact']) {
+				if (this.checkMoveMakesContact(move, source, target)) {
 					const abil = this.sample(possibleAbilities);
 					if (abil === source.ability) {
 						const oldAbility = source.setAbility('mummy', target);
@@ -85,7 +85,7 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 		// Ability suppression implemented in sim/pokemon.ts:Pokemon#ignoringAbility
 		onPreStart(pokemon) {
 			this.add('-ability', pokemon, 'Neutralizing Gas');
-			pokemon.abilityState.ending = false;
+			pokemon.abilityData.ending = false;
 			// Remove setter's innates before the ability starts
 			if (pokemon.m.innates) {
 				for (const innate of pokemon.m.innates) {
@@ -95,7 +95,7 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 			}
 			for (const target of this.getAllActive()) {
 				if (target.illusion) {
-					this.singleEvent('End', this.dex.abilities.get('Illusion'), target.abilityState, target, pokemon, 'neutralizinggas');
+					this.singleEvent('End', this.dex.abilities.get('Illusion'), target.abilityData, target, pokemon, 'neutralizinggas');
 				}
 				if (target.volatiles['slowstart']) {
 					delete target.volatiles['slowstart'];
@@ -118,14 +118,14 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 			// (If you're tackling this, do note extreme weathers have the same issue)
 
 			// Mark this pokemon's ability as ending so Pokemon#ignoringAbility skips it
-			if (source.abilityState.ending) return;
-			source.abilityState.ending = true;
+			if (source.abilityData.ending) return;
+			source.abilityData.ending = true;
 			const sortedActive = this.getAllActive();
 			this.speedSort(sortedActive);
 			for (const pokemon of sortedActive) {
 				if (pokemon !== source) {
 					// Will be suppressed by Pokemon#ignoringAbility if needed
-					this.singleEvent('Start', pokemon.getAbility(), pokemon.abilityState, pokemon);
+					this.singleEvent('Start', pokemon.getAbility(), pokemon.abilityData, pokemon);
 					if (pokemon.m.innates) {
 						for (const innate of pokemon.m.innates) {
 							// permanent abilities
@@ -158,7 +158,7 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 	powerofalchemy: {
 		inherit: true,
 		onAllyFaint(ally) {
-			const pokemon = this.effectState.target;
+			const pokemon = this.effectData.target;
 			if (!pokemon.hp) return;
 			const isAbility = pokemon.ability === 'powerofalchemy';
 			let possibleAbilities = [ally.ability];
@@ -175,7 +175,7 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 				pokemon.setAbility(ability);
 			} else {
 				pokemon.removeVolatile("ability:powerofalchemy");
-				pokemon.addVolatile("ability:" + ability, pokemon);
+				pokemon.addVolatile("ability:" + ability.id, pokemon);
 			}
 		},
 	},
@@ -190,7 +190,7 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 	receiver: {
 		inherit: true,
 		onAllyFaint(ally) {
-			const pokemon = this.effectState.target;
+			const pokemon = this.effectData.target;
 			if (!pokemon.hp) return;
 			const isAbility = pokemon.ability === 'receiver';
 			let possibleAbilities = [ally.ability];
@@ -207,7 +207,7 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 				pokemon.setAbility(ability);
 			} else {
 				pokemon.removeVolatile("ability:receiver");
-				pokemon.addVolatile("ability:" + ability, pokemon);
+				pokemon.addVolatile("ability:" + ability.id, pokemon);
 			}
 		},
 	},
@@ -223,14 +223,9 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 	trace: {
 		inherit: true,
 		onUpdate(pokemon) {
-			if (!pokemon.isStarted) return;
+			if (!pokemon.isStarted || this.effectData.gaveUp) return;
 			const isAbility = pokemon.ability === 'trace';
-			const possibleTargets: Pokemon[] = [];
-			for (const target of pokemon.side.foe.active) {
-				if (target && !target.fainted) {
-					possibleTargets.push(target);
-				}
-			}
+			const possibleTargets: Pokemon[] = pokemon.adjacentFoes();
 			while (possibleTargets.length) {
 				const rand = this.random(possibleTargets.length);
 				const target = possibleTargets[rand];
@@ -252,7 +247,7 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 					pokemon.setAbility(ability);
 				} else {
 					pokemon.removeVolatile("ability:trace");
-					pokemon.addVolatile("ability:" + ability, pokemon);
+					pokemon.addVolatile("ability:" + ability.id, pokemon);
 				}
 				return;
 			}
@@ -270,7 +265,7 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 					return;
 				}
 
-				if (move.flags['contact']) {
+				if (this.checkMoveMakesContact(move, source, target)) {
 					const sourceAbility = source.setAbility('wanderingspirit', target);
 					if (!sourceAbility) return;
 					if (target.isAlly(source)) {
@@ -285,7 +280,7 @@ export const Abilities: {[k: string]: ModdedAbilityData} = {
 				const possibleAbilities = [source.ability, ...(source.m.innates || [])]
 					.filter(val => !this.dex.abilities.get(val).isPermanent && !additionalBannedAbilities.includes(val));
 				if (!possibleAbilities.length || target.volatiles['dynamax']) return;
-				if (move.flags['contact']) {
+				if (this.checkMoveMakesContact(move, source, target)) {
 					const sourceAbility = this.sample(possibleAbilities);
 					if (sourceAbility === source.ability) {
 						if (!source.setAbility('wanderingspirit', target)) return;

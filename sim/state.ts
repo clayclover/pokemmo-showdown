@@ -2,10 +2,6 @@
  * Simulator State
  * Pokemon Showdown - http://pokemonshowdown.com/
  *
- * Helper functions for serializing Battle instances to JSON and back.
- *
- * (You might also consider using input logs instead.)
- *
  * @license MIT
  */
 
@@ -142,7 +138,7 @@ export const State = new class {
 		// states we wouldnt be using, but also because battle.getRequests will mutate
 		// state on occasion (eg. `pokemon.getMoves` sets `pokemon.trapped = true` if locked).
 		if (activeRequests) {
-			const requests = battle.getRequests(battle.requestState);
+			const requests = battle.getRequests(battle.requestState, battle.getMaxTeamSize());
 			for (const [i, side] of state.sides.entries()) {
 				battle.sides[i].activeRequest = side.activeRequest === null ? null : requests[i];
 			}

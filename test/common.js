@@ -3,7 +3,7 @@
 const path = require('path');
 const fs = require('fs');
 const assert = require('./assert');
-const Sim = require('./../sim');
+const Sim = require('./../.sim-dist');
 const Dex = Sim.Dex;
 
 const cache = new Map();
@@ -59,7 +59,7 @@ class TestTools {
 
 		let basicFormat = this.currentMod === 'base' && gameType === 'singles' ? 'Anything Goes' : 'Custom Game';
 		if (this.currentMod === 'gen1stadium') basicFormat = 'OU';
-		if (gameType === 'freeforall' || gameType === 'multi') basicFormat = 'randombattle';
+		if (gameType === 'freeforall') basicFormat = 'randombattle';
 		const gameTypePrefix = gameType === 'singles' ? '' : capitalize(gameType) + ' ';
 		const formatName = `${this.modPrefix}${gameTypePrefix}${basicFormat}${customRulesID}`;
 
@@ -129,14 +129,6 @@ class TestTools {
 			);
 			out.end();
 		});
-	}
-	hasModule(mod) {
-		try {
-			require(mod);
-			return true;
-		} catch {
-			return false;
-		}
 	}
 }
 

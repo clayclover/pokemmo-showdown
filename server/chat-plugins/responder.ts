@@ -9,16 +9,17 @@
 
 import {FS, Utils} from '../../lib';
 import {LogViewer} from './chatlog';
-import {roomFaqs, visualizeFaq} from './room-faqs';
+import {roomFaqs} from './room-faqs';
 
-const DATA_PATH = 'config/chat-plugins/responder.json';
-const LOG_PATH = 'logs/responder.jsonl';
+const PATH = 'config/chat-plugins/responder.json';
+// 4: filters out conveniently short aliases
+const MINIMUM_LENGTH = 4;
 
 export let answererData: {[roomid: string]: PluginData} = {};
 
 try {
-	answererData = JSON.parse(FS(DATA_PATH).readSync());
-} catch {}
+	answererData = JSON.parse(FS(PATH).readSync());
+} catch (e) {}
 
 /**
  * A message caught by the filter.
@@ -30,9 +31,16 @@ interface LoggedMessage {
 	faqName: string;
 	/** The regex that it's matched to. */
 	regex: string;
-	date: string;
 }
+/** Object of stats for that day. */
+interface DayStats {
+	matches?: LoggedMessage[];
+	total?: number;
+}
+
 interface PluginData {
+	/** Stats - filter match and faq that was matched - done day by day. */
+	stats?: {[k: string]: DayStats};
 	/** Word pairs that have been marked as a match for a specific FAQ. */
 	pairs: {[k: string]: string[]};
 	/** Common terms to be ignored in question parsing. */
@@ -43,29 +51,8 @@ export class AutoResponder {
 	data: PluginData;
 	room: Room;
 	constructor(room: Room, data?: PluginData) {
+		this.data = data || {pairs: {}, stats: {}};
 		this.room = room;
-		this.data = data || {pairs: {}, ignore: []};
-		AutoResponder.migrateStats(this.data, this);
-	}
-	static migrateStats(data: any, responder: AutoResponder) {
-		if (!data.stats) return data;
-		for (const date in data.stats) {
-			for (const entry of data.stats[date].matches) {
-				void this.logMessage(responder.room.roomid, {...entry, date});
-			}
-		}
-		delete data.stats;
-		responder.data = data;
-		responder.writeState();
-		return data;
-	}
-	static logStream = FS(LOG_PATH).createAppendStream();
-	static logMessage(roomid: RoomID, entry: LoggedMessage) {
-		return this.logStream.writeLine(JSON.stringify({
-			...entry,
-			room: roomid,
-			regex: entry.regex.toString(),
-		}));
 	}
 	find(question: string, user?: User) {
 		// sanity slice, APPARENTLY people are dumb.
@@ -79,7 +66,8 @@ export class AutoResponder {
 				return null;
 			}
 		}
-		const faqs = Object.keys(helpFaqs).filter(item => !helpFaqs[item].alias);
+		const faqs = Object.keys(helpFaqs)
+			.filter(item => item.length >= MINIMUM_LENGTH && !helpFaqs[item].startsWith('>'));
 		for (const faq of faqs) {
 			const match = this.test(normalized, faq);
 			if (match) {
@@ -98,7 +86,7 @@ export class AutoResponder {
 		if (response) {
 			let buf = '';
 			buf += Utils.html`<strong>You said:</strong> ${question}<br />`;
-			buf += `<strong>Our automated reply:</strong> ${Chat.collapseLineBreaksHTML(visualizeFaq(response))}`;
+			buf += `<strong>Our automated reply:</strong> ${Chat.collapseLineBreaksHTML(Chat.formatText(response, true))}`;
 			if (!hideButton) {
 				buf += Utils.html`<hr /><button class="button" name="send" value="A: ${question}">`;
 				buf += `Send to ${this.room.title} if you weren't answered correctly. </button>`;
@@ -112,38 +100,12 @@ export class AutoResponder {
 		faq = faq.trim();
 		if (!faq) throw new Chat.ErrorMessage(`Your FAQ ID can't be empty.`);
 		const room = this.room;
-		const entry = roomFaqs[room.roomid][faq];
+		const entry: string = roomFaqs[room.roomid][faq];
 		if (!entry) throw new Chat.ErrorMessage(`FAQ ID "${faq}" not found.`);
 
-		if (!entry.alias) return faq; // not an alias
-		return entry.source;
+		if (!entry.startsWith('>')) return faq; // not an alias
+		return entry.slice(1);
 	}
-	async getStatsFor(date: string) {
-		const stream = FS(LOG_PATH).createReadStream();
-		const buf: LoggedMessage[] = [];
-		for await (const raw of stream.byLine()) {
-			try {
-				const data = JSON.parse(raw);
-				if (data.date !== date || data.room !== this.room.roomid) continue;
-				buf.push(data);
-			} catch {}
-		}
-		return buf;
-	}
-
-	async listDays() {
-		const stream = FS(LOG_PATH).createReadStream();
-		const buf = new Utils.Multiset<string>();
-		for await (const raw of stream.byLine()) {
-			try {
-				const data = JSON.parse(raw);
-				if (!data.date || data.room !== this.room.roomid) continue;
-				buf.add(data.date);
-			} catch {}
-		}
-		return buf;
-	}
-
 	/**
 	 * Checks if the FAQ exists. If not, deletes all references to it.
 	 */
@@ -188,20 +150,30 @@ export class AutoResponder {
 	test(question: string, faq: string) {
 		if (!this.data.pairs[faq]) this.data.pairs[faq] = [];
 		const regexes = this.data.pairs[faq].map(item => new RegExp(item, "i"));
-		if (!regexes.length) return;
+		if (!regexes) return;
 		for (const regex of regexes) {
 			if (regex.test(question)) return {faq, regex: regex.toString()};
 		}
-		return null;
+		return;
 	}
 	log(entry: string, faq: string, expression: string) {
+		if (!this.data.stats) this.data.stats = {};
 		const [day] = Utils.splitFirst(Chat.toTimestamp(new Date), ' ');
-		void AutoResponder.logMessage(this.room.roomid, {
+		if (!this.data.stats[day]) this.data.stats[day] = {};
+		const today = this.data.stats[day];
+		const log: LoggedMessage = {
 			message: entry,
 			faqName: faq,
 			regex: expression,
-			date: day,
-		});
+		};
+		const stats = {
+			matches: today.matches || [],
+			total: today.matches ? today.matches.length : 0,
+		};
+		const dayLog = Object.assign(this.data.stats[day], stats);
+		dayLog.matches.push(log);
+		dayLog.total++;
+		return this.writeState();
 	}
 	writeState() {
 		for (const faq in this.data.pairs) {
@@ -210,7 +182,7 @@ export class AutoResponder {
 			this.updateFaqData(faq);
 		}
 		answererData[this.room.roomid] = this.data;
-		return FS(DATA_PATH).writeUpdate(() => JSON.stringify(answererData));
+		return FS(PATH).writeUpdate(() => JSON.stringify(answererData));
 	}
 	tryAddRegex(inputString: string, raw?: boolean) {
 		let [args, faq] = inputString.split('=>').map(item => item.trim()) as [string, string | undefined];
@@ -236,7 +208,11 @@ export class AutoResponder {
 	}
 	static canOverride(user: User, room: Room) {
 		const devAuth = Rooms.get('development')?.auth;
-		return (devAuth?.atLeast(user, '%') && devAuth?.has(user.id) && room.auth.atLeast(user, '@')) || user.can('rangeban');
+		return (
+			devAuth?.atLeast(user, '%') && devAuth?.has(user.id) &&
+			room.auth.has(user.id) && room.auth.atLeast(user, '@') ||
+			user.can('rangeban')
+		);
 	}
 	destroy() {
 		this.writeState();
@@ -244,7 +220,7 @@ export class AutoResponder {
 		// @ts-ignore deallocating
 		this.room = null;
 	}
-	ignore(terms: string[], context: Chat.CommandContext) {
+	ignore(terms: string[], context: CommandContext) {
 		const filtered = terms.map(t => context.filter(t)).filter(Boolean);
 		if (filtered.length !== terms.length) {
 			throw new Chat.ErrorMessage(`Invalid terms.`);
@@ -277,7 +253,7 @@ for (const room of Rooms.rooms.values()) {
 
 const BYPASS_TERMS = ['a:', 'A:', '!', '/'];
 
-export const chatfilter: Chat.ChatFilter = function (message, user, room) {
+export const chatfilter: ChatFilter = function (message, user, room) {
 	if (BYPASS_TERMS.some(t => message.startsWith(t))) {
 		// do not return `message` or it will bypass all filters
 		// including super important filters like against `/html`
@@ -299,7 +275,7 @@ export const chatfilter: Chat.ChatFilter = function (message, user, room) {
 	}
 };
 
-export const commands: Chat.ChatCommands = {
+export const commands: ChatCommands = {
 	question(target, room, user) {
 		room = this.requireRoom();
 		const responder = room.responder;
@@ -431,8 +407,8 @@ export const commands: Chat.ChatCommands = {
 	},
 };
 
-export const pages: Chat.PageTable = {
-	async autoresponder(args, user) {
+export const pages: PageTable = {
+	autoresponder(args, user) {
 		const room = this.requireRoom();
 		if (!room.responder) {
 			return this.errorReply(`${room.title} does not have a configured autoresponder.`);
@@ -459,14 +435,15 @@ export const pages: Chat.PageTable = {
 			}
 			buf = `<div class="pad"><strong>Stats for the ${room.title} auto-response filter${date ? ` on ${date}` : ''}.</strong>`;
 			buf += `${back}${refresh('stats', [date])}<hr />`;
+			const stats = roomData.stats;
+			if (!stats) return `<h2>No stats.</h2>`;
+			this.title = `[Autoresponder Stats] ${date ? date : ''}`;
 			if (date) {
-				const stats = await room.responder.getStatsFor(date);
-				if (!stats) return `<h2>No stats.</h2>`;
-				this.title = `[Autoresponder Stats] ${date ? date : ''}`;
-				if (!stats.length) return `<h2>No stats for ${date}.</h2>`;
-				buf += `<strong>Total messages answered: ${stats.length}</strong><hr />`;
+				if (!stats[date]) return `<h2>No stats for ${date}.</h2>`;
+				buf += `<strong>Total messages answered: ${stats[date].total}</strong><hr />`;
 				buf += `<details><summary>All messages and the corresponding answers (FAQs):</summary>`;
-				for (const entry of stats) {
+				if (!stats[date].matches) return `<h2>No logs.</h2>`;
+				for (const entry of stats[date].matches!) {
 					buf += `<small>Message:</small>${LogViewer.renderLine(entry.message)}`;
 					buf += `<small>FAQ: ${entry.faqName}</small><br />`;
 					buf += `<small>Regex: <code>${entry.regex}</code></small> <hr />`;
@@ -474,14 +451,13 @@ export const pages: Chat.PageTable = {
 				return LogViewer.linkify(buf);
 			}
 			buf += `<strong> No date specified.<br />`;
+			let total = 0;
 			const days: string[] = [];
-			let totalCount = 0;
-			const dayKeys = await room.responder.listDays();
-			for (const [dateKey, total] of dayKeys) {
-				totalCount += total;
-				days.push(`- <a roomid="view-autoresponder-${room.roomid}-stats-${dateKey}">${dateKey}</a> (${total})`);
+			for (const key of Object.keys(stats).reverse()) {
+				total += stats[key].total || 0;
+				days.push(`- <a roomid="view-autoresponder-${room.roomid}-stats-${key}">${key}</a> (${stats[key].total})`);
 			}
-			buf += `Dates with stats:</strong><small>(total matches: ${totalCount})</small><br /><br />`;
+			buf += `Dates with stats:</strong> <br /><small>(total matches: ${total})</small><br />`;
 			buf += days.join('<br />');
 			break;
 		case 'pairs':
@@ -489,7 +465,8 @@ export const pages: Chat.PageTable = {
 			this.title = '[Autoresponder Regexes]';
 			this.checkCan('show', null, room);
 			buf = `<div class="pad"><h2>${room.title} responder regexes and responses:</h2>${back}${refresh('keys')}<hr />`;
-			buf += Object.entries(roomData.pairs).map(([item, regexes]) => {
+			buf += Object.keys(roomData.pairs).map(item => {
+				const regexes = roomData.pairs[item];
 				if (regexes.length < 1) return null;
 				let buffer = `<details><summary>${item}</summary>`;
 				buffer += `<div class="ladder pad"><table><tr><th>Index</th><th>Regex</th>`;
@@ -529,13 +506,11 @@ export const pages: Chat.PageTable = {
 	},
 };
 
-export const handlers: Chat.Handlers = {
-	onRenameRoom(oldID, newID) {
-		if (answererData[oldID]) {
-			if (!answererData[newID]) answererData[newID] = {pairs: {}};
-			Object.assign(answererData[newID], answererData[oldID]);
-			delete answererData[oldID];
-			FS(DATA_PATH).writeUpdate(() => JSON.stringify(answererData));
-		}
-	},
+export const onRenameRoom: Rooms.RenameHandler = (oldID, newID) => {
+	if (answererData[oldID]) {
+		if (!answererData[newID]) answererData[newID] = {pairs: {}};
+		Object.assign(answererData[newID], answererData[oldID]);
+		delete answererData[oldID];
+		FS(PATH).writeUpdate(() => JSON.stringify(answererData));
+	}
 };
