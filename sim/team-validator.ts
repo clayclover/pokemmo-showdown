@@ -1344,7 +1344,7 @@ export class TeamValidator {
 		for (const ruleid of ruleTable.tagRules) {
 			if (ruleid.startsWith('*')) continue;
 			const tagid = ruleid.slice(12);
-			try{
+			try {
 				const tag = Tags[tagid];
 				if ((tag.speciesFilter || tag.genericFilter)(tierSpecies)) {
 					const existenceTag = EXISTENCE_TAG.includes(tagid);
@@ -1372,7 +1372,7 @@ export class TeamValidator {
 					}
 					return `${species.name} is tagged ${tag.name}, which is ${banReason}.`;
 				}
-			}catch(e){
+			} catch(e) {
 				continue;
 				return null;
 			}
