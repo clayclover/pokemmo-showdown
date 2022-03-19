@@ -4159,6 +4159,7 @@ export const Learnsets: {[speciesid: string]: LearnsetData} = {
 			megakick: ["8M", "7V", "3T"],
 			megapunch: ["8M", "7V", "3T"],
 			mimic: ["7V", "3T"],
+			moonlight: ["8M"],
 			mudshot: ["8M"],
 			mudslap: ["7V", "4T", "3T"],
 			naturalgift: ["4M"],
