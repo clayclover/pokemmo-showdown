@@ -1354,7 +1354,10 @@ export class TeamValidator {
 						return null;
 					}
 					if (existenceTag) {
-						if (tierSpecies.isNonstandard === 'Past' || tierSpecies.isNonstandard === 'Future') {
+						if (tierSpecies.isNonstandard === 'Past') {
+							return null;
+						}
+						if (tierSpecies.isNonstandard === 'Future') {
 							return `${tierSpecies.name} does not exist in Gen ${dex.gen}.`;
 						}
 						if (tierSpecies.isNonstandard === 'LGPE') {
