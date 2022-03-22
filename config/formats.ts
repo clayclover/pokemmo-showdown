@@ -35,8 +35,7 @@ export const Formats: FormatList = [
 		forcedLevel: 50,
 		ruleset: ['Standard', 'Dynamax Clause'],
 		banlist: [
-			'Uber', 'AG', 'Arena Trap', 'Moody', 'Power Construct', 'Sand Veil', 'Shadow Tag', 'Snow Cloak',
-			'Bright Powder', 'Lax Incense', 'Baton Pass',
+			'Uber', 'AG', 'Moody', 'Power Construct', 'Shadow Tag', 'Snow Cloak', 'Bright Powder', 'Lax Incense', 'Baton Pass',
 		],
 	},
 	{
