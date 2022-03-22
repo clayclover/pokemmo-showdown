@@ -10,7 +10,7 @@ export const Rulesets: {[k: string]: FormatData} = {
 		name: 'Standard',
 		desc: "The standard ruleset for all offical Smogon singles tiers (Ubers, OU, etc.)",
 		ruleset: [
-			'Obtainable', 'Team Preview', 'Sleep Clause Mod', 'Species Clause', 'Nickname Clause', 'OHKO Clause', 'Endless Battle Clause', 'HP Percentage Mod', 'Cancel Mod',
+			'Obtainable', 'Team Preview', 'Sleep Clause Mod', 'Species Clause', 'Nickname Clause', 'OHKO Clause', 'Evasion Moves Clause', 'Endless Battle Clause', 'HP Percentage Mod', 'Cancel Mod',
 		],
 	},
 	standardnext: {
@@ -126,7 +126,7 @@ export const Rulesets: {[k: string]: FormatData} = {
 		name: 'Standard Doubles',
 		desc: "The standard ruleset for all official Smogon doubles tiers",
 		ruleset: [
-			'Obtainable', 'Team Preview', 'Species Clause', 'Nickname Clause', 'OHKO Clause', 'Gravity Sleep Clause', 'Endless Battle Clause', 'HP Percentage Mod', 'Cancel Mod',
+			'Obtainable', 'Team Preview', 'Species Clause', 'Nickname Clause', 'OHKO Clause', 'Evasion Moves Clause', 'Gravity Sleep Clause', 'Endless Battle Clause', 'HP Percentage Mod', 'Cancel Mod',
 		],
 	},
 	standardnatdex: {
@@ -593,12 +593,30 @@ export const Rulesets: {[k: string]: FormatData} = {
 			return problems;
 		},
 	},
+	evasionabilitiesclause: {
+		effectType: 'ValidatorRule',
+		name: 'Evasion Abilities Clause',
+		desc: "Bans abilities that boost Evasion under certain weather conditions",
+		banlist: ['Sand Veil', 'Snow Cloak'],
+		onBegin() {
+			this.add('rule', 'Evasion Abilities Clause: Evasion abilities are banned');
+		},
+	},
+	evasionmovesclause: {
+		effectType: 'ValidatorRule',
+		name: 'Evasion Moves Clause',
+		desc: "Bans moves that consistently raise the user's evasion when used",
+		banlist: ['Minimize', 'Double Team'],
+		onBegin() {
+			this.add('rule', 'Evasion Moves Clause: Evasion moves are banned');
+		},
+	},
 	accuracymovesclause: {
 		effectType: 'ValidatorRule',
 		name: 'Accuracy Moves Clause',
 		desc: "Bans moves that have a chance to lower the target's accuracy when used",
 		banlist: [
-			'Flash'
+			'Flash', 'Kinesis', 'Leaf Tornado', 'Mirror Shot', 'Mud Bomb', 'Mud-Slap', 'Muddy Water', 'Night Daze', 'Octazooka', 'Sand Attack', 'Smokescreen',
 		],
 		onBegin() {
 			this.add('rule', 'Accuracy Moves Clause: Accuracy-lowering moves are banned');
