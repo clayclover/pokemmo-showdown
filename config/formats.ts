@@ -79,7 +79,7 @@ export const Formats: FormatList = [
 			`don't expect anything here`,
 		],
 		mod: 'mmo',
-		forcedLevel: 5,
+		maxLevel: 5,
 		ruleset: ['Little Cup', 'Standard', 'Dynamax Clause'],
 		banlist: ['UU', 'NUBL'],
 	},
