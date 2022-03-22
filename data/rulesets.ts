@@ -593,24 +593,6 @@ export const Rulesets: {[k: string]: FormatData} = {
 			return problems;
 		},
 	},
-	evasionabilitiesclause: {
-		effectType: 'ValidatorRule',
-		name: 'Evasion Abilities Clause',
-		desc: "Bans abilities that boost Evasion under certain weather conditions",
-		banlist: ['Snow Cloak'],
-		onBegin() {
-			this.add('rule', 'Evasion Abilities Clause: Evasion abilities are banned');
-		},
-	},
-	evasionmovesclause: {
-		effectType: 'ValidatorRule',
-		name: 'Evasion Moves Clause',
-		desc: "Bans moves that consistently raise the user's evasion when used",
-		banlist: ['Minimize', 'Double Team'],
-		onBegin() {
-			this.add('rule', 'Evasion Moves Clause: Evasion moves are banned');
-		},
-	},
 	accuracymovesclause: {
 		effectType: 'ValidatorRule',
 		name: 'Accuracy Moves Clause',
