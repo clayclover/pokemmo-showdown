@@ -15109,7 +15109,7 @@ export const Learnsets: {[speciesid: string]: LearnsetData} = {
 			protect: ["8M", "8V", "7M", "7V", "6M", "5M", "4M", "3M"],
 			psychic: ["8M", "8V", "7M", "7V", "6M", "5M", "4M", "3M"],
 			psychup: ["7M", "7V", "6M", "5M", "4M", "3T"],
-			psywave: ["7V"],
+			psywave: ["7M"],
 			rage: ["7V"],
 			raindance: ["8M", "7M", "7V", "6M", "5M", "4M", "3M"],
 			recycle: ["7T", "6T", "5T", "4M"],
