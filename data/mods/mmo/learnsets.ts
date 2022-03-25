@@ -10731,6 +10731,7 @@ export const Learnsets: {[speciesid: string]: LearnsetData} = {
 	},
 	magnemite: {
 		learnset: {
+			agility: ["8M"],
 			bide: ["7V"],
 			chargebeam: ["7M", "6M", "5M", "4M"],
 			confide: ["7M", "6M"],
